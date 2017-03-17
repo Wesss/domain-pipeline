@@ -1,0 +1,31 @@
+##
+# Rename this to .gitignore and move into git repository
+##
+
+# General
+bin/
+tmp/
+dist/
+*.tmp
+
+# Maven
+target/
+
+# Java
+*.class
+*.jar
+
+# Intellij
+out/
+.idea/
+*.iml
+*.iws
+
+# Eclipse
+.settings/
+.classpath
+.project
+*.jardesc
+
+# Local to Project
+sandbox/
