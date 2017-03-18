@@ -4,4 +4,7 @@ import org.wesss.domain_pipeline.DomainObj;
 
 public abstract class Generator<T extends DomainObj> {
 
+    public void start() {
+
+    }
 }

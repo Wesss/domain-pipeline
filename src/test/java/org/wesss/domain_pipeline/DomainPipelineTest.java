@@ -1,11 +1,13 @@
 package org.wesss.domain_pipeline;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.wesss.domain_pipeline.pipeline_workers.Consumer;
 import org.wesss.domain_pipeline.pipeline_workers.Generator;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.wesss.test_utils.MockUtils.genericMock;
 
 public class DomainPipelineTest {
 
@@ -14,8 +16,8 @@ public class DomainPipelineTest {
     private DomainPipeline domainPipeline;
 
     public DomainPipelineTest() {
-        mockConsumer = genericMock(Consumer.class);
         mockGenerator = genericMock(Generator.class);
+        mockConsumer = genericMock(Consumer.class);
         domainPipeline = new DomainPipeline(mockGenerator, mockConsumer);
     }
 
@@ -24,7 +26,10 @@ public class DomainPipelineTest {
         reset(mockGenerator, mockConsumer);
     }
 
-    // TODO move to test utils
-    @SuppressWarnings("unchecked")
-    static <T> T genericMock(Class<? super T> classToMock) { return (T)mock(classToMock); }
+    @Test
+    public void startStartsGenerator() {
+        domainPipeline.start();
+
+        verify(mockGenerator).start();
+    }
 }

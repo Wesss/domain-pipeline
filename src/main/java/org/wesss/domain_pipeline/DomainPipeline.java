@@ -8,12 +8,16 @@ import org.wesss.domain_pipeline.pipeline_workers.Generator;
  * until consumption.
  */
 public class DomainPipeline {
-    private final Generator generator;
-    private final Consumer consumer;
+    private final Generator<?> generator;
+    private final Consumer<?> consumer;
 
     // Only to be called by builder
     DomainPipeline(Generator generator, Consumer consumer) {
         this.generator = generator;
         this.consumer = consumer;
+    }
+
+    public void start() {
+
     }
 }
