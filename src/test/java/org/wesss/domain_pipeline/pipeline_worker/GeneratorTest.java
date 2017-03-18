@@ -2,8 +2,9 @@ package org.wesss.domain_pipeline.pipeline_worker;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.Emitter;
+import test_instantiation.TestGenerator;
+import test_instantiation.TestIntDomainObj;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -14,7 +15,7 @@ import static org.wesss.test_utils.MockUtils.genericMock;
 public class GeneratorTest {
 
     private TestGenerator testGenerator;
-    private Emitter<DomainObj> mockEmitter;
+    private Emitter<TestIntDomainObj> mockEmitter;
 
     public GeneratorTest() {
         mockEmitter = genericMock(Emitter.class);
@@ -50,26 +51,5 @@ public class GeneratorTest {
         Thread.sleep(10);
 
         assertThat(testGenerator.getRunCalls(), is(1));
-    }
-
-    /********** Test Class Setup **********/
-
-    private class TestGenerator extends Generator<DomainObj> {
-
-        private int runCalls;
-
-        public TestGenerator() {
-            super(DomainObj.class);
-            runCalls = 0;
-        }
-
-        @Override
-        protected void run() {
-            runCalls++;
-        }
-
-        public int getRunCalls() {
-            return runCalls;
-        }
     }
 }

@@ -6,6 +6,8 @@ import org.wesss.domain_pipeline.DomainPipeline;
 import org.wesss.domain_pipeline.DomainPipelineBuilder;
 import org.wesss.domain_pipeline.pipeline_worker.Consumer;
 import org.wesss.domain_pipeline.pipeline_worker.Generator;
+import test_instantiation.TestConsumer;
+import test_instantiation.TestGenerator;
 import test_instantiation.TestIntDomainObj;
 
 import java.util.ArrayList;
@@ -51,42 +53,5 @@ public class GeneratorToConsumerTest {
         }
 
         assertThat(testConsumer.getReceivedDomainObjects(), contains(0, 1, 2, 3, 4, 5, 6));
-    }
-
-    /********** Test Class Setup **********/
-
-    private class TestGenerator extends Generator<TestIntDomainObj> {
-
-        public TestGenerator() {
-            super(TestIntDomainObj.class);
-        }
-
-        @Override
-        protected void run() {
-
-        }
-
-        public void emitDomainObject(int id) {
-            emitter.emit(new TestIntDomainObj(id));
-        }
-    }
-
-    private class TestConsumer extends Consumer<TestIntDomainObj> {
-
-        private List<Integer> receivedDomainObjects;
-
-        public TestConsumer() {
-            super(TestIntDomainObj.class);
-            receivedDomainObjects = new ArrayList<>();
-        }
-
-        @Override
-        public void acceptDomainObject(TestIntDomainObj domainObj) {
-            receivedDomainObjects.add(domainObj.getId());
-        }
-
-        public List<Integer> getReceivedDomainObjects() {
-            return new ArrayList<>(receivedDomainObjects);
-        }
     }
 }

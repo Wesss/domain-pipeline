@@ -15,16 +15,18 @@ import static org.wesss.test_utils.MockUtils.genericMock;
 public class EmitterTest {
 
     private Consumer<TestIntDomainObj> mockConsumer;
+    private Consumer<TestIntDomainObj> mockConsumer2;
     private Emitter<TestIntDomainObj> emitter;
 
     public EmitterTest() {
         mockConsumer = genericMock(Consumer.class);
-        emitter = new Emitter<>(Arrays.asList(mockConsumer));
+        mockConsumer2 = genericMock(Consumer.class);
+        emitter = new Emitter<>(Arrays.asList(mockConsumer, mockConsumer2));
     }
 
     @Before
     public void before() {
-        reset(mockConsumer);
+        reset(mockConsumer, mockConsumer2);
     }
 
     @Test
@@ -33,7 +35,7 @@ public class EmitterTest {
     }
 
     @Test
-    public void emitDomainObjPassesItOn() {
+    public void emittedDomainObjIsPassedOn() {
         TestIntDomainObj domainObj = new TestIntDomainObj(0);
         emitter.emit(domainObj);
 
@@ -41,7 +43,7 @@ public class EmitterTest {
     }
 
     @Test
-    public void emitManyDomainObjPassesThemOnInOrder() {
+    public void manyEmittedDomainObjPassesThemOnInOrder() {
         TestIntDomainObj domainObj0 = new TestIntDomainObj(0);
         TestIntDomainObj domainObj1 = new TestIntDomainObj(1);
         TestIntDomainObj domainObj2 = new TestIntDomainObj(2);
@@ -53,5 +55,14 @@ public class EmitterTest {
         inOrder.verify(mockConsumer).acceptDomainObject(domainObj0);
         inOrder.verify(mockConsumer).acceptDomainObject(domainObj1);
         inOrder.verify(mockConsumer).acceptDomainObject(domainObj2);
+    }
+
+    @Test
+    public void emittedDomainObjsArePassedOntoAllAcceptors() {
+        TestIntDomainObj domainObj = new TestIntDomainObj(0);
+        emitter.emit(domainObj);
+
+        verify(mockConsumer).acceptDomainObject(domainObj);
+        verify(mockConsumer2).acceptDomainObject(domainObj);
     }
 }
