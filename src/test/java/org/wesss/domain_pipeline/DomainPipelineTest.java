@@ -5,8 +5,7 @@ import org.junit.Test;
 import org.wesss.domain_pipeline.pipeline_worker.Consumer;
 import org.wesss.domain_pipeline.pipeline_worker.Generator;
 
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.wesss.test_utils.MockUtils.genericMock;
 
 public class DomainPipelineTest {
@@ -18,7 +17,7 @@ public class DomainPipelineTest {
     public DomainPipelineTest() {
         mockGenerator = genericMock(Generator.class);
         mockConsumer = genericMock(Consumer.class);
-        domainPipeline = DomainPipelineFactory.getDomainPipeline(mockGenerator, mockConsumer);
+        domainPipeline = new DomainPipeline(mockGenerator, mockConsumer);
     }
 
     @Before
@@ -31,5 +30,10 @@ public class DomainPipelineTest {
         domainPipeline.start();
 
         verify(mockGenerator).start();
+    }
+
+    @Test
+    public void noStartDoesNotStartGenerator() {
+        verify(mockGenerator, never()).start();
     }
 }
