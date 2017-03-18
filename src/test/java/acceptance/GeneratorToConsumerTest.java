@@ -7,6 +7,7 @@ import org.wesss.domain_pipeline.DomainPipeline;
 import org.wesss.domain_pipeline.DomainPipelineBuilder;
 import org.wesss.domain_pipeline.pipeline_worker.Consumer;
 import org.wesss.domain_pipeline.pipeline_worker.Generator;
+import test_instantiation.TestDomainObj;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,7 @@ public class GeneratorToConsumerTest {
     public void before() {
         testGenerator = new TestGenerator();
         testConsumer = new TestConsumer();
-        minimalPipeline = new DomainPipelineBuilder().buildDomainPipelineTESTENDPOINT(
-                testGenerator, testConsumer);
+        minimalPipeline = null; // TODO wire in builder
 
         minimalPipeline.start();
     }
@@ -82,18 +82,6 @@ public class GeneratorToConsumerTest {
 
         public List<Integer> getReceivedDomainObjects() {
             return new ArrayList<>(receivedDomainObjects);
-        }
-    }
-
-    private class TestDomainObj extends DomainObj {
-        private Integer id;
-
-        public TestDomainObj(int id) {
-            this.id = id;
-        }
-
-        public int getId() {
-            return id;
         }
     }
 }
