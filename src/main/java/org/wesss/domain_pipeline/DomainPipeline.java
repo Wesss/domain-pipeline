@@ -11,13 +11,12 @@ public class DomainPipeline {
     private final Generator<?> generator;
     private final Consumer<?> consumer;
 
-    // Only to be called by builder
     DomainPipeline(Generator generator, Consumer consumer) {
         this.generator = generator;
         this.consumer = consumer;
     }
 
     public void start() {
-
+        generator.start();
     }
 }
