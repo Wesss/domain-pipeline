@@ -10,7 +10,7 @@ public abstract class Generator<T extends DomainObj> {
     private boolean isInitialized;
 
     public Generator() {
-        this.emitter = EmitterFactory.getStubEmitter();
+        this.emitter = Emitter.getStubEmitter();
         isInitialized = false;
     }
 

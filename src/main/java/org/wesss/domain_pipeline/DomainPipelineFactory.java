@@ -10,6 +10,10 @@ import org.wesss.domain_pipeline.pipeline_worker.Generator;
  */
 public class DomainPipelineFactory {
 
+    private DomainPipelineFactory() {
+
+    }
+
     /**
      * We assume the correctness of the types in the domain object pipeline.
      */

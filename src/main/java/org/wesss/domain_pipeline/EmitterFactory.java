@@ -2,7 +2,17 @@ package org.wesss.domain_pipeline;
 
 public class EmitterFactory {
 
-    public static <T extends DomainObj> Emitter<T> getStubEmitter() {
-        return new Emitter<>();
+    private EmitterFactory() {
+
+    }
+
+    static <T extends DomainObj> Emitter<T> getEmitter() {
+        // TODO
+        return null;
+    }
+
+    static <T extends DomainObj> Emitter<T> getStubEmitter() {
+        // TODO
+        return null;
     }
 }
