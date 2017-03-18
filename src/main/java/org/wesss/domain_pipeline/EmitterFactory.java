@@ -1,5 +1,7 @@
 package org.wesss.domain_pipeline;
 
+import java.util.ArrayList;
+
 public class EmitterFactory {
 
     private EmitterFactory() {
@@ -12,7 +14,6 @@ public class EmitterFactory {
     }
 
     static <T extends DomainObj> Emitter<T> getStubEmitter() {
-        // TODO
-        return null;
+        return new Emitter<>(new ArrayList<>());
     }
 }

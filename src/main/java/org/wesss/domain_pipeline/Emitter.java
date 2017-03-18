@@ -2,19 +2,23 @@ package org.wesss.domain_pipeline;
 
 import org.wesss.domain_pipeline.pipeline_worker.Consumer;
 
+import java.util.List;
+
 /**
  * Responsible for emitting domain objects to the next worker in a domain pipeline
  */
 public class Emitter<T extends DomainObj> {
 
-    private Consumer<T> domainObjectAcceptor;
+    private List<Consumer<T>> domainObjectAcceptors;
 
-    Emitter(Consumer domainObjectAcceptor) {
-        this.domainObjectAcceptor = domainObjectAcceptor;
+    Emitter(List<Consumer<T>> domainObjectAcceptors) {
+        this.domainObjectAcceptors = domainObjectAcceptors;
     }
 
     public void emit(T domainObj) {
-        domainObjectAcceptor.acceptDomainObject(domainObj);
+        for (Consumer<T> domainObjectAcceptor : domainObjectAcceptors) {
+            domainObjectAcceptor.acceptDomainObject(domainObj);
+        }
     }
 
     /********** Static Utils **********/
