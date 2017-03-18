@@ -2,8 +2,8 @@ package org.wesss.domain_pipeline;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.wesss.domain_pipeline.pipeline_workers.Consumer;
-import org.wesss.domain_pipeline.pipeline_workers.Generator;
+import org.wesss.domain_pipeline.pipeline_worker.Consumer;
+import org.wesss.domain_pipeline.pipeline_worker.Generator;
 
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -18,7 +18,7 @@ public class DomainPipelineTest {
     public DomainPipelineTest() {
         mockGenerator = genericMock(Generator.class);
         mockConsumer = genericMock(Consumer.class);
-        domainPipeline = new DomainPipeline(mockGenerator, mockConsumer);
+        domainPipeline = DomainPipelineFactory.getDomainPipeline(mockGenerator, mockConsumer);
     }
 
     @Before
