@@ -3,6 +3,7 @@ package acceptance;
 import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
+import org.wesss.domain_pipeline.DomainPipelineBuilder;
 import org.wesss.domain_pipeline.pipeline_worker.Consumer;
 import org.wesss.domain_pipeline.pipeline_worker.Generator;
 import test_instantiation.TestIntDomainObj;
@@ -23,7 +24,8 @@ public class GeneratorToConsumerTest {
     public void before() {
         testGenerator = new TestGenerator();
         testConsumer = new TestConsumer();
-        minimalPipeline = null; // TODO wire in builder
+        minimalPipeline = new DomainPipelineBuilder()
+                .buildBasicDomainPipeline(testGenerator, testConsumer);
 
         minimalPipeline.start();
     }

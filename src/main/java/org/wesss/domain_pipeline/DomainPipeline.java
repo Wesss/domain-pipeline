@@ -11,7 +11,7 @@ public class DomainPipeline {
     private final Generator<?> generator;
     private final Consumer<?> consumer;
 
-    DomainPipeline(Generator generator, Consumer consumer) {
+    DomainPipeline(Generator<?> generator, Consumer<?> consumer) {
         this.generator = generator;
         this.consumer = consumer;
     }
