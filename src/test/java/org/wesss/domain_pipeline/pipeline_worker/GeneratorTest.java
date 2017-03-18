@@ -59,6 +59,7 @@ public class GeneratorTest {
         private int runCalls;
 
         public TestGenerator() {
+            super(DomainObj.class);
             runCalls = 0;
         }
 

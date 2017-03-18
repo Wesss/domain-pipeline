@@ -2,12 +2,10 @@ package acceptance;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.DomainPipeline;
-import org.wesss.domain_pipeline.DomainPipelineBuilder;
 import org.wesss.domain_pipeline.pipeline_worker.Consumer;
 import org.wesss.domain_pipeline.pipeline_worker.Generator;
-import test_instantiation.TestDomainObj;
+import test_instantiation.TestIntDomainObj;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +53,11 @@ public class GeneratorToConsumerTest {
 
     /********** Test Class Setup **********/
 
-    private class TestGenerator extends Generator<TestDomainObj> {
+    private class TestGenerator extends Generator<TestIntDomainObj> {
+
+        public TestGenerator() {
+            super(TestIntDomainObj.class);
+        }
 
         @Override
         protected void run() {
@@ -63,20 +65,21 @@ public class GeneratorToConsumerTest {
         }
 
         public void emitDomainObject(int id) {
-            emitter.emit(new TestDomainObj(id));
+            emitter.emit(new TestIntDomainObj(id));
         }
     }
 
-    private class TestConsumer extends Consumer<TestDomainObj> {
+    private class TestConsumer extends Consumer<TestIntDomainObj> {
 
         private List<Integer> receivedDomainObjects;
 
         public TestConsumer() {
+            super(TestIntDomainObj.class);
             receivedDomainObjects = new ArrayList<>();
         }
 
         @Override
-        public void acceptDomainObject(TestDomainObj domainObj) {
+        public void acceptDomainObject(TestIntDomainObj domainObj) {
             receivedDomainObjects.add(domainObj.getId());
         }
 

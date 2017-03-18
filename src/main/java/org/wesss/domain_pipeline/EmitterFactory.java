@@ -1,6 +1,9 @@
 package org.wesss.domain_pipeline;
 
+import org.wesss.domain_pipeline.pipeline_worker.Consumer;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class EmitterFactory {
 
@@ -8,9 +11,8 @@ public class EmitterFactory {
 
     }
 
-    static <T extends DomainObj> Emitter<T> getEmitter() {
-        // TODO
-        return null;
+    static <T extends DomainObj> Emitter<T> getEmitter(Consumer<T> consumer) {
+        return new Emitter<>(Arrays.asList(consumer));
     }
 
     static <T extends DomainObj> Emitter<T> getStubEmitter() {
