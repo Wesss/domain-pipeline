@@ -7,11 +7,15 @@ import org.wesss.domain_pipeline.workers.Consumer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InheritSubclassConsumer extends Consumer<DomainObjRoot> {
+public class InheritDomainSubclassConsumer extends Consumer<DomainObjRoot> {
+
+    public static final String ACCEPT_ROOT_METHOD_NAME = "acceptDomain";
+    public static final String ACCEPT_LEAF1_METHOD_NAME = "acceptLeaf1";
 
     private List<DomainConsumption> receivedDomainObjects;
 
-    public InheritSubclassConsumer() {
+    public InheritDomainSubclassConsumer() {
+        super(DomainObjRoot.class);
         receivedDomainObjects = new ArrayList<>();
     }
 
@@ -33,5 +37,4 @@ public class InheritSubclassConsumer extends Consumer<DomainObjRoot> {
     public List<DomainConsumption> getReceivedDomainObjects() {
         return new ArrayList<>(receivedDomainObjects);
     }
-
 }

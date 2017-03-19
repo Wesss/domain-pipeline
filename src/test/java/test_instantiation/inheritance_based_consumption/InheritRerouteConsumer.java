@@ -11,6 +11,7 @@ public class InheritRerouteConsumer extends Consumer<DomainObjRoot> {
     private List<DomainConsumption> receivedDomainObjects;
 
     public InheritRerouteConsumer() {
+        super(DomainObjRoot.class);
         receivedDomainObjects = new ArrayList<>();
     }
 

@@ -5,25 +5,24 @@ import org.junit.Test;
 import org.mockito.InOrder;
 import org.wesss.domain_pipeline.emitter.domain.DomainAcceptorMethod;
 import org.wesss.domain_pipeline.emitter.domain.PostAnalysisDomainAcceptor;
+import org.wesss.general_utils.collection.ArrayUtils;
 import test_instantiation.inheritance_based_consumption.*;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 public class EmitterTest {
 
-    private InheritSubclassConsumer mockConsumer1;
-    private InheritSubclassConsumer mockConsumer2;
+    private InheritDomainSubclassConsumer mockConsumer1;
+    private InheritDomainSubclassConsumer mockConsumer2;
     private Emitter<DomainObjRoot> emitter;
 
     public EmitterTest() {
-        mockConsumer1 = mock(InheritSubclassConsumer.class);
-        mockConsumer2 = mock(InheritSubclassConsumer.class);
+        mockConsumer1 = mock(InheritDomainSubclassConsumer.class);
+        mockConsumer2 = mock(InheritDomainSubclassConsumer.class);
     }
 
     @Before
@@ -56,10 +55,7 @@ public class EmitterTest {
         PostAnalysisDomainAcceptor<DomainObjRoot> postAnalysisConsumer2 =
                 new PostAnalysisDomainAcceptor<>(mockConsumer2, domainAcceptorMethods2);
 
-        Set<PostAnalysisDomainAcceptor<DomainObjRoot>> domainAcceptors =
-                new HashSet<>(Arrays.asList(postAnalysisConsumer1, postAnalysisConsumer2));
-
-        emitter = new Emitter(domainAcceptors);
+        emitter = new Emitter(ArrayUtils.asSet(postAnalysisConsumer1, postAnalysisConsumer2));
     }
 
     @Test

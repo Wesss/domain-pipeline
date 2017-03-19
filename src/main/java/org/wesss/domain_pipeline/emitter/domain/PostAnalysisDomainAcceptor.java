@@ -4,7 +4,6 @@ import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,5 +46,13 @@ public class PostAnalysisDomainAcceptor<T extends DomainObj> {
     @Override
     public int hashCode() {
         return Objects.hash(domainAcceptor, acceptingMethods);
+    }
+
+    @Override
+    public String toString() {
+        return "PostAnalysisDomainAcceptor{" +
+                "domainAcceptor=" + domainAcceptor +
+                ", acceptingMethods=" + acceptingMethods +
+                '}';
     }
 }

@@ -11,6 +11,7 @@ public class InheritRedundantConsumer extends Consumer<DomainObjRoot> {
     private List<DomainConsumption> receivedDomainObjects;
 
     public InheritRedundantConsumer() {
+        super(DomainObjRoot.class);
         receivedDomainObjects = new ArrayList<>();
     }
 

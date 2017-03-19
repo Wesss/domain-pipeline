@@ -10,6 +10,7 @@ public class IntConsumer extends Consumer<IntDomainObj> {
     private List<Integer> receivedDomainObjects;
 
     public IntConsumer() {
+        super(IntDomainObj.class);
         receivedDomainObjects = new ArrayList<>();
     }
 

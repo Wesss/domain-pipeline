@@ -22,7 +22,7 @@ public class InheritanceBasedConsumerTest {
     private InheritProducer producer;
     private InheritRedundantConsumer redundantConsumer;
     private InheritRerouteConsumer rerouteConsumer;
-    private InheritSubclassConsumer subclassConsumer;
+    private InheritDomainSubclassConsumer subclassConsumer;
 
     @Before
     public void before() {
@@ -56,7 +56,7 @@ public class InheritanceBasedConsumerTest {
 
     public void setupSubclassPipeline() {
         producer = new InheritProducer();
-        subclassConsumer = new InheritSubclassConsumer();
+        subclassConsumer = new InheritDomainSubclassConsumer();
         DomainPipeline pipeline = new DomainPipelineBuilder()
                 .startingWith(producer)
                 .thenConsumedBy(subclassConsumer)

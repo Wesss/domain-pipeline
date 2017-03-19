@@ -41,4 +41,12 @@ public class DomainAcceptorMethod<T extends DomainObj> {
     public int hashCode() {
         return Objects.hash(acceptedClazz, method);
     }
+
+    @Override
+    public String toString() {
+        return "DomainAcceptorMethod{" +
+                "acceptedClazz=" + acceptedClazz +
+                ", method=" + method +
+                '}';
+    }
 }
