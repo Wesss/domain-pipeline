@@ -1,10 +1,9 @@
-package org.wesss.domain_pipeline;
+package org.wesss.domain_pipeline.emitter;
 
+import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
 import org.wesss.domain_pipeline.workers.DomainEmitter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Set;
 
 public class EmitterFactory {

@@ -1,16 +1,16 @@
-package org.wesss.domain_pipeline;
+package org.wesss.domain_pipeline.emitter;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
-import org.wesss.domain_pipeline.Emitter.MethodDeterminer;
-import org.wesss.domain_pipeline.workers.DomainAcceptor;
-import test_instantiation.inheritance_based_consumption.DomainObjLeaf1;
-import test_instantiation.inheritance_based_consumption.DomainObjRoot;
-import test_instantiation.inheritance_based_consumption.InheritSubclassConsumer;
+import org.wesss.domain_pipeline.emitter.domain.DomainAcceptorMethod;
+import org.wesss.domain_pipeline.emitter.domain.PostAnalysisDomainAcceptor;
+import test_instantiation.inheritance_based_consumption.*;
 
-import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -30,24 +30,36 @@ public class EmitterTest {
     public void before() throws NoSuchMethodException {
         reset(mockConsumer1, mockConsumer2);
 
-        Set<DomainAcceptor<DomainObjRoot>> domainAcceptors =
-                new HashSet<>(Arrays.asList(mockConsumer1, mockConsumer2));
+        List<DomainAcceptorMethod> domainAcceptorMethods1 = Arrays.asList(
+                new DomainAcceptorMethod(
+                        DomainObjLeaf1.class,
+                        mockConsumer1.getClass().getMethod("acceptLeaf1", DomainObjLeaf1.class)
+                ),
+                new DomainAcceptorMethod(
+                        DomainObjRoot.class,
+                        mockConsumer1.getClass().getMethod("acceptDomain", DomainObjRoot.class)
+                )
+        );
+        List<DomainAcceptorMethod> domainAcceptorMethods2 = Arrays.asList(
+                new DomainAcceptorMethod(
+                        DomainObjLeaf1.class,
+                        mockConsumer2.getClass().getMethod("acceptLeaf1", DomainObjLeaf1.class)
+                ),
+                new DomainAcceptorMethod(
+                        DomainObjRoot.class,
+                        mockConsumer2.getClass().getMethod("acceptDomain", DomainObjRoot.class)
+                )
+        );
 
-        List<Class<? extends DomainObjRoot>> acceptedDomainObjs = new ArrayList<>();
-        acceptedDomainObjs.add()
+        PostAnalysisDomainAcceptor<DomainObjRoot> postAnalysisConsumer1 =
+                new PostAnalysisDomainAcceptor<>(mockConsumer1, domainAcceptorMethods1);
+        PostAnalysisDomainAcceptor<DomainObjRoot> postAnalysisConsumer2 =
+                new PostAnalysisDomainAcceptor<>(mockConsumer2, domainAcceptorMethods2);
 
-        Map<MethodDeterminer<DomainObjRoot, ? extends DomainObjRoot>, Method> methodDeterminerToMethod =
-                new HashMap<>();
-        methodDeterminerToMethod.put(new MethodDeterminer<>(mockConsumer1, DomainObjRoot.class),
-                mockConsumer1.getClass().getMethod("acceptDomain", DomainObjRoot.class));
-        methodDeterminerToMethod.put(new MethodDeterminer<>(mockConsumer1, DomainObjLeaf1.class),
-                mockConsumer1.getClass().getMethod("acceptLeaf1", DomainObjLeaf1.class));
-        methodDeterminerToMethod.put(new MethodDeterminer<>(mockConsumer2, DomainObjRoot.class),
-                mockConsumer2.getClass().getMethod("acceptDomain", DomainObjRoot.class));
-        methodDeterminerToMethod.put(new MethodDeterminer<>(mockConsumer2, DomainObjLeaf1.class),
-                mockConsumer2.getClass().getMethod("acceptLeaf1", DomainObjLeaf1.class));
+        Set<PostAnalysisDomainAcceptor<DomainObjRoot>> domainAcceptors =
+                new HashSet<>(Arrays.asList(postAnalysisConsumer1, postAnalysisConsumer2));
 
-        emitter = new Emitter(domainAcceptors, methodDeterminerToMethod);
+        emitter = new Emitter(domainAcceptors);
     }
 
     @Test
@@ -97,5 +109,16 @@ public class EmitterTest {
 
         verify(mockConsumer1).acceptLeaf1(domainObj);
         verify(mockConsumer1, never()).acceptDomain(domainObj);
+    }
+
+    @Test
+    public void emittedUknownDomainObjsArePassedOnToClosestKnwonSuperclass() {
+        DomainObjLeaf1_1 domainObj1_1 = new DomainObjLeaf1_1();
+        DomainObjLeaf2 domainObj2 = new DomainObjLeaf2();
+        emitter.emit(domainObj1_1);
+        emitter.emit(domainObj2);
+
+        verify(mockConsumer1).acceptLeaf1(domainObj1_1);
+        verify(mockConsumer1).acceptDomain(domainObj2);
     }
 }

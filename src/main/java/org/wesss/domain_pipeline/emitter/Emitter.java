@@ -1,5 +1,7 @@
-package org.wesss.domain_pipeline;
+package org.wesss.domain_pipeline.emitter;
 
+import org.wesss.domain_pipeline.DomainObj;
+import org.wesss.domain_pipeline.emitter.domain.PostAnalysisDomainAcceptor;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
 import org.wesss.general_utils.reflection.RefectionUtils;
 
@@ -11,76 +13,21 @@ import java.util.*;
  */
 public class Emitter<T extends DomainObj> {
 
-    private final Set<DomainAcceptor<T>> domainAcceptors;
-    // Sorted in an order such that each class is to the left of all its ancestors
-    private final List<Class<? extends T>> acceptedDomainObjs;
-    // A complete map of every possible domain acceptor/domain obj class combo to the accepting method
-    private final Map<MethodDeterminer<T, ? extends T>, Method> methodDeterminerToMethod;
+    private final Set<PostAnalysisDomainAcceptor<T>> domainAcceptors;
 
-    public Emitter(Set<DomainAcceptor<T>> domainAcceptors,
-                   List<Class<? extends T>> acceptedDomainObjs,
-                   Map<MethodDeterminer<T, ? extends T>, Method> methodDeterminerToMethod) {
+    public Emitter(Set<PostAnalysisDomainAcceptor<T>> domainAcceptors) {
         this.domainAcceptors = domainAcceptors;
-        this.acceptedDomainObjs = acceptedDomainObjs;
-        this.methodDeterminerToMethod = methodDeterminerToMethod;
     }
 
     public void emit(T domainObj) {
-        for (DomainAcceptor<T> domainAcceptor : domainAcceptors) {
-            MethodDeterminer<T, ? extends T> methodDeterminer =
-                    new MethodDeterminer(domainAcceptor, domainObj.getClass());
+        for (PostAnalysisDomainAcceptor analyzedDomainAcceptor: domainAcceptors) {
+            Method acceptingMethod =
+                    analyzedDomainAcceptor.getMostSpecificAcceptingMethod(domainObj.getClass());
 
-            Method acceptMethod = methodDeterminerToMethod.get(methodDeterminer);
-
-            RefectionUtils.invokeRethrowingInRuntimeException(acceptMethod, domainAcceptor, domainObj);
-        }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Emitter<?> emitter = (Emitter<?>) o;
-        return Objects.equals(domainAcceptors, emitter.domainAcceptors) &&
-                Objects.equals(methodDeterminerToMethod, emitter.methodDeterminerToMethod);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(domainAcceptors, methodDeterminerToMethod);
-    }
-
-    /********** Emitter domain of work **********/
-
-    static class MethodDeterminer<U extends DomainObj, V extends U> {
-        private final DomainAcceptor<U> domainAcceptor;
-        private final Class<V> domainObjClazz;
-
-        public MethodDeterminer(DomainAcceptor<U> domainAcceptor, Class<V> domainObjClazz) {
-            this.domainAcceptor = domainAcceptor;
-            this.domainObjClazz = domainObjClazz;
-        }
-
-        public DomainAcceptor<U> getDomainAcceptor() {
-            return domainAcceptor;
-        }
-
-        public Class<? extends U> getDomainObjClazz() {
-            return domainObjClazz;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            MethodDeterminer that = (MethodDeterminer) o;
-            return Objects.equals(domainAcceptor, that.domainAcceptor) &&
-                    Objects.equals(domainObjClazz, that.domainObjClazz);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(domainAcceptor, domainObjClazz);
+            RefectionUtils.invokeRethrowingInRuntimeException(
+                    acceptingMethod,
+                    analyzedDomainAcceptor.getDomainAcceptor(),
+                    domainObj);
         }
     }
 
