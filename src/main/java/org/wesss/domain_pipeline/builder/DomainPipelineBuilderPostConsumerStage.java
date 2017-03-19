@@ -1,6 +1,7 @@
 package org.wesss.domain_pipeline.builder;
 
 import org.wesss.domain_pipeline.DomainPipeline;
+import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
 
 /**
  * The building stage right after a consumer is given.
