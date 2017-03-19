@@ -1,2 +1,0 @@
-
-TODO Emit domain objects to consumers that accept weaker domain object types

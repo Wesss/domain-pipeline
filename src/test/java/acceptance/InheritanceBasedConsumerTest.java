@@ -14,6 +14,9 @@ import static org.hamcrest.Matchers.is;
 
 public class InheritanceBasedConsumerTest {
 
+    // TODO erroneous cases: double annotation, annotated base accept method w/subclass accept
+    // TODO support consumers that extend each other (super class has conflicting subclass annotations)
+
     private InheritProducer producer;
     private InheritRedundantConsumer redundantConsumer;
     private InheritRerouteConsumer rerouteConsumer;

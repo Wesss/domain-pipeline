@@ -7,6 +7,9 @@ import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
 
 public class DomainPipelineBuilder {
 
+    // TODO Emit domain objects to consumers that accept weaker domain object types
+    // TODO Emit domain objects to multiple consumers
+
     private OneTimeUseToken useToken;
 
     public DomainPipelineBuilder() {

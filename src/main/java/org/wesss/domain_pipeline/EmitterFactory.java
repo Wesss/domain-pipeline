@@ -17,10 +17,12 @@ public class EmitterFactory {
      */
     public static <T extends DomainObj> Emitter<T>
             getEmitter(DomainEmitter<T> domainEmitter, DomainAcceptor<T> domainAcceptor) {
-        return new Emitter<>(Arrays.asList(domainAcceptor));
+        return null; // TODO
     }
 
     static <T extends DomainObj> Emitter<T> getStubEmitter() {
-        return new Emitter<>(new ArrayList<>());
+        // TODO
+        return null;
+        //return new Emitter<>(new ArrayList<>());
     }
 }
