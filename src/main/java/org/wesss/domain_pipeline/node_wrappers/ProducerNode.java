@@ -5,10 +5,10 @@ import org.wesss.domain_pipeline.Emitter;
 import org.wesss.domain_pipeline.EmitterFactory;
 import org.wesss.domain_pipeline.workers.Producer;
 
-public class ProducerNode<T extends DomainObj> implements DomainPipelineNode {
+public class ProducerNode<T extends DomainObj> implements DomainEmitterNode<T> {
 
     private Producer<T> producer;
-    private ConsumerNode<T> consumerNode;
+    private DomainAcceptorNode<T> acceptorNode;
 
     public ProducerNode(Producer<T> producer) {
         this.producer = producer;
@@ -18,14 +18,16 @@ public class ProducerNode<T extends DomainObj> implements DomainPipelineNode {
         producer.start();
     }
 
-    public void setConsumerNode(ConsumerNode<T> consumerNode) {
-        this.consumerNode = consumerNode;
+
+    @Override
+    public void addAcceptorNode(DomainAcceptorNode<T> acceptorNode) {
+        this.acceptorNode = acceptorNode;
     }
 
     @Override
     public void build() {
-        consumerNode.build();
-        Emitter<T> emitter = EmitterFactory.getEmitter(producer, consumerNode.getDomainAcceptor());
+        acceptorNode.build();
+        Emitter<T> emitter = EmitterFactory.getEmitter(producer, acceptorNode.getDomainAcceptor());
         producer.init(emitter);
     }
 }

@@ -4,7 +4,7 @@ import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
 
-public class ConsumerNode<T extends DomainObj> implements DomainPipelineNode {
+public class ConsumerNode<T extends DomainObj> implements DomainAcceptorNode<T> {
 
     private final Consumer<T> consumer;
 
@@ -12,6 +12,7 @@ public class ConsumerNode<T extends DomainObj> implements DomainPipelineNode {
         this.consumer = consumer;
     }
 
+    @Override
     public DomainAcceptor<T> getDomainAcceptor() {
         return consumer;
     }

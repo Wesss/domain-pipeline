@@ -26,7 +26,7 @@ public class DomainPipelineBuilderPostProducerStage<T extends DomainObj> {
         useToken.use();
 
         ConsumerNode<T> consumerNode = new ConsumerNode<>(consumer);
-        producerNode.setConsumerNode(consumerNode);
+        producerNode.addAcceptorNode(consumerNode);
 
         return new DomainPipelineBuilderPostConsumerStage(compiler);
     }
