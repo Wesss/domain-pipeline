@@ -13,19 +13,11 @@ public class EmitterFactory {
     }
 
     /**
-     * Returns
+     * Returns an emitter that will pass objects given to it to given domainAcceptors
      */
-    static <T extends DomainObj, V extends DomainObj> Emitter<T>
-            getEmitter(DomainEmitter<T> domainEmitter, DomainAcceptor<V> domainAcceptor) {
-        // check types are the same
-        Class<T> generatorClazz = domainEmitter.getEmittedDomainClass();
-        Class<V> consumerClazz = domainAcceptor.getAcceptedDomainClass();
-
-        if (!generatorClazz.equals(consumerClazz)) {
-            throw new IllegalArgumentException("producer and consumer DomainObj type mismatch");
-        }
-
-        return (Emitter<T>)new Emitter<>(Arrays.asList(domainAcceptor));
+    public static <T extends DomainObj> Emitter<T>
+            getEmitter(DomainEmitter<T> domainEmitter, DomainAcceptor<T> domainAcceptor) {
+        return new Emitter<>(Arrays.asList(domainAcceptor));
     }
 
     static <T extends DomainObj> Emitter<T> getStubEmitter() {

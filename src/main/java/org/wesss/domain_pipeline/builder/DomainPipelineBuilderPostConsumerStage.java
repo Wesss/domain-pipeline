@@ -1,22 +1,19 @@
 package org.wesss.domain_pipeline.builder;
 
 import org.wesss.domain_pipeline.DomainPipeline;
-import org.wesss.domain_pipeline.DomainPipelineFactory;
-import org.wesss.domain_pipeline.workers.Consumer;
-import org.wesss.domain_pipeline.workers.Producer;
 
+/**
+ * The building stage right after a consumer is given.
+ */
 public class DomainPipelineBuilderPostConsumerStage {
 
-    private final Producer<?> producer;
-    private final Consumer<?> consumer;
+    private DomainPipelineCompiler compiler;
 
-    public DomainPipelineBuilderPostConsumerStage(Producer<?> producer,
-                                                  Consumer<?> consumer) {
-        this.producer = producer;
-        this.consumer = consumer;
+    public DomainPipelineBuilderPostConsumerStage(DomainPipelineCompiler compiler) {
+        this.compiler = compiler;
     }
 
     public DomainPipeline build() {
-        return DomainPipelineFactory.getDomainPipeline(producer, consumer);
+        return compiler.compile();
     }
 }

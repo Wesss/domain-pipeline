@@ -1,22 +1,19 @@
 package org.wesss.domain_pipeline;
 
-import org.wesss.domain_pipeline.workers.Consumer;
-import org.wesss.domain_pipeline.workers.Producer;
+import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 
 /**
  * This class represents the entirety of a domain pipeline that generates domain objects
  * and passes them along until consumption.
  */
 public class DomainPipeline {
-    private final Producer<?> producer;
-    private final Consumer<?> consumer;
+    private final ProducerNode<?> rootNode;
 
-    DomainPipeline(Producer<?> producer, Consumer<?> consumer) {
-        this.producer = producer;
-        this.consumer = consumer;
+    public DomainPipeline(ProducerNode<?> rootNode) {
+        this.rootNode = rootNode;
     }
 
     public void start() {
-        producer.start();
+        rootNode.start();
     }
 }

@@ -2,38 +2,35 @@ package org.wesss.domain_pipeline;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.wesss.domain_pipeline.workers.Consumer;
-import org.wesss.domain_pipeline.workers.Producer;
+import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 
 import static org.mockito.Mockito.*;
 import static org.wesss.test_utils.MockUtils.genericMock;
 
 public class DomainPipelineTest {
 
-    private Producer<DomainObj> mockProducer;
-    private Consumer<DomainObj> mockConsumer;
+    private ProducerNode<DomainObj> mockProducerNode;
     private DomainPipeline domainPipeline;
 
     public DomainPipelineTest() {
-        mockProducer = genericMock(Producer.class);
-        mockConsumer = genericMock(Consumer.class);
-        domainPipeline = new DomainPipeline(mockProducer, mockConsumer);
+        mockProducerNode = genericMock(ProducerNode.class);
+        domainPipeline = new DomainPipeline(mockProducerNode);
     }
 
     @Before
     public void before() {
-        reset(mockProducer, mockConsumer);
+        reset(mockProducerNode);
     }
 
     @Test
     public void startStartsGenerator() {
         domainPipeline.start();
 
-        verify(mockProducer).start();
+        verify(mockProducerNode).start();
     }
 
     @Test
     public void noStartDoesNotStartGenerator() {
-        verify(mockProducer, never()).start();
+        verify(mockProducerNode, never()).start();
     }
 }
