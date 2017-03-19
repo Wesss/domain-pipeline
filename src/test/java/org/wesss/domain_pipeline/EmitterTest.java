@@ -3,7 +3,7 @@ package org.wesss.domain_pipeline;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
-import org.wesss.domain_pipeline.pipeline_worker.Consumer;
+import org.wesss.domain_pipeline.workers.Consumer;
 import test_instantiation.TestIntDomainObj;
 
 import java.util.Arrays;

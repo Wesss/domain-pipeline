@@ -1,6 +1,6 @@
 package test_instantiation;
 
-import org.wesss.domain_pipeline.pipeline_worker.Producer;
+import org.wesss.domain_pipeline.workers.Producer;
 
 public class TestProducer extends Producer<TestIntDomainObj> {
 

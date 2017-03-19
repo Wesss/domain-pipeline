@@ -1,7 +1,7 @@
 package org.wesss.domain_pipeline;
 
-import org.wesss.domain_pipeline.pipeline_worker.Consumer;
-import org.wesss.domain_pipeline.pipeline_worker.Producer;
+import org.wesss.domain_pipeline.workers.Consumer;
+import org.wesss.domain_pipeline.workers.Producer;
 
 /**
  * This class represents the entirety of a domain pipeline that generates domain objects

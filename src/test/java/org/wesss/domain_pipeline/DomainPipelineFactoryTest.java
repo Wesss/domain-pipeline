@@ -2,8 +2,8 @@ package org.wesss.domain_pipeline;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.wesss.domain_pipeline.pipeline_worker.Consumer;
-import org.wesss.domain_pipeline.pipeline_worker.Producer;
+import org.wesss.domain_pipeline.workers.Consumer;
+import org.wesss.domain_pipeline.workers.Producer;
 import test_instantiation.TestCharDomainObj;
 import test_instantiation.TestIntDomainObj;
 

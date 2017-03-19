@@ -1,6 +1,6 @@
 package test_instantiation;
 
-import org.wesss.domain_pipeline.pipeline_worker.Consumer;
+import org.wesss.domain_pipeline.workers.Consumer;
 
 import java.util.ArrayList;
 import java.util.List;

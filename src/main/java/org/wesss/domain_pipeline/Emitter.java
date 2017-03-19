@@ -1,6 +1,6 @@
 package org.wesss.domain_pipeline;
 
-import org.wesss.domain_pipeline.pipeline_worker.Consumer;
+import org.wesss.domain_pipeline.workers.DomainAcceptor;
 
 import java.util.List;
 
@@ -9,15 +9,15 @@ import java.util.List;
  */
 public class Emitter<T extends DomainObj> {
 
-    private List<Consumer<T>> domainObjectAcceptors;
+    private List<DomainAcceptor<T>> domainAcceptors;
 
-    Emitter(List<Consumer<T>> domainObjectAcceptors) {
-        this.domainObjectAcceptors = domainObjectAcceptors;
+    Emitter(List<DomainAcceptor<T>> domainAcceptors) {
+        this.domainAcceptors = domainAcceptors;
     }
 
     public void emit(T domainObj) {
-        for (Consumer<T> domainObjectAcceptor : domainObjectAcceptors) {
-            domainObjectAcceptor.acceptDomain(domainObj);
+        for (DomainAcceptor<T> domainAcceptor : domainAcceptors) {
+            domainAcceptor.acceptDomain(domainObj);
         }
     }
 
