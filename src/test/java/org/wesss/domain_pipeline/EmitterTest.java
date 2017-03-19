@@ -31,7 +31,7 @@ public class EmitterTest {
 
     @Test
     public void emitNothingPassesNothingOn() {
-        verify(mockConsumer, never()).acceptDomainObject(any());
+        verify(mockConsumer, never()).acceptDomain(any());
     }
 
     @Test
@@ -39,7 +39,7 @@ public class EmitterTest {
         TestIntDomainObj domainObj = new TestIntDomainObj(0);
         emitter.emit(domainObj);
 
-        verify(mockConsumer).acceptDomainObject(domainObj);
+        verify(mockConsumer).acceptDomain(domainObj);
     }
 
     @Test
@@ -52,9 +52,9 @@ public class EmitterTest {
         emitter.emit(domainObj2);
 
         InOrder inOrder = inOrder(mockConsumer);
-        inOrder.verify(mockConsumer).acceptDomainObject(domainObj0);
-        inOrder.verify(mockConsumer).acceptDomainObject(domainObj1);
-        inOrder.verify(mockConsumer).acceptDomainObject(domainObj2);
+        inOrder.verify(mockConsumer).acceptDomain(domainObj0);
+        inOrder.verify(mockConsumer).acceptDomain(domainObj1);
+        inOrder.verify(mockConsumer).acceptDomain(domainObj2);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class EmitterTest {
         TestIntDomainObj domainObj = new TestIntDomainObj(0);
         emitter.emit(domainObj);
 
-        verify(mockConsumer).acceptDomainObject(domainObj);
-        verify(mockConsumer2).acceptDomainObject(domainObj);
+        verify(mockConsumer).acceptDomain(domainObj);
+        verify(mockConsumer2).acceptDomain(domainObj);
     }
 }

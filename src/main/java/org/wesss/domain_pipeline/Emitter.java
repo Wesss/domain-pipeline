@@ -17,7 +17,7 @@ public class Emitter<T extends DomainObj> {
 
     public void emit(T domainObj) {
         for (Consumer<T> domainObjectAcceptor : domainObjectAcceptors) {
-            domainObjectAcceptor.acceptDomainObject(domainObj);
+            domainObjectAcceptor.acceptDomain(domainObj);
         }
     }
 

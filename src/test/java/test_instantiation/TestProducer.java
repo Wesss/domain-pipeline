@@ -1,12 +1,12 @@
 package test_instantiation;
 
-import org.wesss.domain_pipeline.pipeline_worker.Generator;
+import org.wesss.domain_pipeline.pipeline_worker.Producer;
 
-public class TestGenerator extends Generator<TestIntDomainObj> {
+public class TestProducer extends Producer<TestIntDomainObj> {
 
     private int runCalls;
 
-    public TestGenerator() {
+    public TestProducer() {
         super(TestIntDomainObj.class);
         runCalls = 0;
     }

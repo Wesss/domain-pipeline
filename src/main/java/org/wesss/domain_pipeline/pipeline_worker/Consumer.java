@@ -2,7 +2,7 @@ package org.wesss.domain_pipeline.pipeline_worker;
 
 import org.wesss.domain_pipeline.DomainObj;
 
-public abstract class Consumer<T extends DomainObj> {
+public abstract class Consumer<T extends DomainObj> implements DomainAcceptor<T> {
 
     private Class<T> domainObjClazz;
 
@@ -10,9 +10,11 @@ public abstract class Consumer<T extends DomainObj> {
         this.domainObjClazz = domainObjClazz;
     }
 
-    public Class<T> getDomainObjClass() {
+    @Override
+    public Class<T> getAcceptedDomainClass() {
         return domainObjClazz;
     }
 
-    public abstract void acceptDomainObject(T domainObj);
+    @Override
+    public abstract void acceptDomain(T domainObj);
 }

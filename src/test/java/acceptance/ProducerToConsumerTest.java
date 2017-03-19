@@ -4,27 +4,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
 import org.wesss.domain_pipeline.DomainPipelineBuilder;
-import org.wesss.domain_pipeline.pipeline_worker.Consumer;
-import org.wesss.domain_pipeline.pipeline_worker.Generator;
 import test_instantiation.TestConsumer;
-import test_instantiation.TestGenerator;
-import test_instantiation.TestIntDomainObj;
-
-import java.util.ArrayList;
-import java.util.List;
+import test_instantiation.TestProducer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class GeneratorToConsumerTest {
+public class ProducerToConsumerTest {
 
-    private TestGenerator testGenerator;
+    private TestProducer testGenerator;
     private TestConsumer testConsumer;
     private DomainPipeline minimalPipeline;
 
     @Before
     public void before() {
-        testGenerator = new TestGenerator();
+        testGenerator = new TestProducer();
         testConsumer = new TestConsumer();
         minimalPipeline = new DomainPipelineBuilder()
                 .buildBasicDomainPipeline(testGenerator, testConsumer);

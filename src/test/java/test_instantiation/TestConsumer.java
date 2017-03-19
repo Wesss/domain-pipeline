@@ -15,7 +15,7 @@ public class TestConsumer extends Consumer<TestIntDomainObj> {
     }
 
     @Override
-    public void acceptDomainObject(TestIntDomainObj domainObj) {
+    public void acceptDomain(TestIntDomainObj domainObj) {
         receivedDomainObjects.add(domainObj.getId());
     }
 

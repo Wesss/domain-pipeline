@@ -8,6 +8,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Retention(RUNTIME)
 @Target({METHOD}) // TODO try without array braces
-public @interface AcceptsDomain {
+public @interface Accepts {
     Class<? extends DomainObj> clazz();
 }

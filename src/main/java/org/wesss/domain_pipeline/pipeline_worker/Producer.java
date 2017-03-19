@@ -3,22 +3,24 @@ package org.wesss.domain_pipeline.pipeline_worker;
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.Emitter;
 
-public abstract class Generator<T extends DomainObj> {
+public abstract class Producer<T extends DomainObj> implements DomainEmitter<T> {
 
     protected Emitter<T> emitter;
     private boolean isInitialized;
-    private Class<T> domainObjClazz;
+    private Class<T> emittedClazz;
 
-    public Generator(Class<T> domainObjClazz) {
-        this.domainObjClazz = domainObjClazz;
+    public Producer(Class<T> emittedClazz) {
+        this.emittedClazz = emittedClazz;
         this.emitter = Emitter.getStubEmitter();
         isInitialized = false;
     }
 
-    public Class<T> getDomainObjClass() {
-        return domainObjClazz;
+    @Override
+    public Class<T> getEmittedDomainClass() {
+        return emittedClazz;
     }
 
+    @Override
     public void init(Emitter<T> emitter) {
         this.emitter = emitter;
         isInitialized = true;
@@ -26,7 +28,7 @@ public abstract class Generator<T extends DomainObj> {
 
     public void start() {
         if (!isInitialized) {
-            throw new IllegalStateException("Generator must be initialized before being started");
+            throw new IllegalStateException("Producer must be initialized before being started");
         }
 
         Thread thread = new Thread(this::run);

@@ -1,7 +1,7 @@
 package org.wesss.domain_pipeline;
 
 import org.wesss.domain_pipeline.pipeline_worker.Consumer;
-import org.wesss.domain_pipeline.pipeline_worker.Generator;
+import org.wesss.domain_pipeline.pipeline_worker.Producer;
 
 /**
  * Responsible for the creation and initialization of DomainPipelines.
@@ -18,22 +18,22 @@ public class DomainPipelineFactory {
      * returns a DomainPipeline with all components fully initialized
      */
     static <T extends DomainObj, V extends DomainObj>
-            DomainPipeline getDomainPipeline(Generator<T> generator,
+            DomainPipeline getDomainPipeline(Producer<T> producer,
                                              Consumer<V> consumer) {
         // TODO extract out type comparisons?
         // check types are the same
-        Class<T> generatorClazz = generator.getDomainObjClass();
-        Class<V> consumerClazz = consumer.getDomainObjClass();
+        Class<T> generatorClazz = producer.getEmittedDomainClass();
+        Class<V> consumerClazz = consumer.getAcceptedDomainClass();
 
         // TODO check for subclassing, not exact classing
         if (!generatorClazz.equals(consumerClazz)) {
-            throw new IllegalArgumentException("generator and consumer DomainObj type mismatch");
+            throw new IllegalArgumentException("producer and consumer DomainObj type mismatch");
         }
 
-        // create emitter and put into generator
+        // create emitter and put into producer
         Emitter<V> emitter = EmitterFactory.getEmitter(consumer);
-        generator.init((Emitter<T>)emitter);
+        producer.init((Emitter<T>)emitter);
 
-        return new DomainPipeline(generator, consumer);
+        return new DomainPipeline(producer, consumer);
     }
 }

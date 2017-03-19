@@ -3,7 +3,7 @@ package org.wesss.domain_pipeline.pipeline_worker;
 import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.Emitter;
-import test_instantiation.TestGenerator;
+import test_instantiation.TestProducer;
 import test_instantiation.TestIntDomainObj;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,19 +12,19 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.reset;
 import static org.wesss.test_utils.MockUtils.genericMock;
 
-public class GeneratorTest {
+public class ProducerTest {
 
-    private TestGenerator testGenerator;
+    private TestProducer testGenerator;
     private Emitter<TestIntDomainObj> mockEmitter;
 
-    public GeneratorTest() {
+    public ProducerTest() {
         mockEmitter = genericMock(Emitter.class);
     }
 
     @Before
     public void before() {
         reset(mockEmitter);
-        testGenerator = new TestGenerator();
+        testGenerator = new TestProducer();
     }
 
     @Test
