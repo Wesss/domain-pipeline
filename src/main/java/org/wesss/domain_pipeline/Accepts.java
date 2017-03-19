@@ -7,7 +7,7 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Retention(RUNTIME)
-@Target({METHOD})
+@Target(METHOD)
 public @interface Accepts {
-    Class<? extends DomainObj> clazz();
+    Class<? extends DomainObj> value();
 }

@@ -13,6 +13,9 @@ public class DomainPipeline {
         this.rootNode = rootNode;
     }
 
+    /**
+     * start the execution of the pipeline.
+     */
     public void start() {
         rootNode.start();
     }

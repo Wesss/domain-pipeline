@@ -3,8 +3,8 @@ package org.wesss.domain_pipeline.workers;
 import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.Emitter;
-import test_instantiation.TestProducer;
-import test_instantiation.TestIntDomainObj;
+import test_instantiation.basic.IntProducer;
+import test_instantiation.basic.IntDomainObj;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -14,8 +14,8 @@ import static org.wesss.test_utils.MockUtils.genericMock;
 
 public class ProducerTest {
 
-    private TestProducer testGenerator;
-    private Emitter<TestIntDomainObj> mockEmitter;
+    private IntProducer testGenerator;
+    private Emitter<IntDomainObj> mockEmitter;
 
     public ProducerTest() {
         mockEmitter = genericMock(Emitter.class);
@@ -24,7 +24,7 @@ public class ProducerTest {
     @Before
     public void before() {
         reset(mockEmitter);
-        testGenerator = new TestProducer();
+        testGenerator = new IntProducer();
     }
 
     @Test

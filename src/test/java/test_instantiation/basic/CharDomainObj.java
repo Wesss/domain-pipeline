@@ -1,11 +1,11 @@
-package test_instantiation;
+package test_instantiation.basic;
 
 import org.wesss.domain_pipeline.DomainObj;
 
-public class TestCharDomainObj extends DomainObj {
+public class CharDomainObj extends DomainObj {
     private char id;
 
-    public TestCharDomainObj(char id) {
+    public CharDomainObj(char id) {
         this.id = id;
     }
 

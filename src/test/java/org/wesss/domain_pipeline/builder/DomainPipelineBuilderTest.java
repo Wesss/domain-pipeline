@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Producer;
-import test_instantiation.TestIntDomainObj;
+import test_instantiation.basic.IntDomainObj;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
@@ -19,8 +19,10 @@ import static org.wesss.test_utils.MockUtils.genericMock;
 
 public class DomainPipelineBuilderTest {
 
-    private Producer<TestIntDomainObj> mockIntProducer;
-    private Consumer<TestIntDomainObj> mockIntConsumer;
+    // TODO error when passing in null
+
+    private Producer<IntDomainObj> mockIntProducer;
+    private Consumer<IntDomainObj> mockIntConsumer;
     private DomainPipelineBuilder builder;
 
     public DomainPipelineBuilderTest() {

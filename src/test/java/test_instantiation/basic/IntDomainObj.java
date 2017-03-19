@@ -1,11 +1,11 @@
-package test_instantiation;
+package test_instantiation.basic;
 
 import org.wesss.domain_pipeline.DomainObj;
 
-public class TestIntDomainObj extends DomainObj {
+public class IntDomainObj extends DomainObj {
     private int id;
 
-    public TestIntDomainObj(int id) {
+    public IntDomainObj(int id) {
         this.id = id;
     }
 
