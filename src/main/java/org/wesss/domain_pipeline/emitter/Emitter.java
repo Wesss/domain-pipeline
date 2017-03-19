@@ -12,12 +12,16 @@ import java.util.*;
 public class Emitter<T extends DomainObj> {
 
     private final Set<DomainAcceptor<T>> domainAcceptors;
+    // Sorted in an order such that each class is to the left of all its ancestors
+    private final List<Class<? extends T>> acceptedDomainObjs;
     // A complete map of every possible domain acceptor/domain obj class combo to the accepting method
     private final Map<MethodDeterminer<T, ? extends T>, Method> methodDeterminerToMethod;
 
     public Emitter(Set<DomainAcceptor<T>> domainAcceptors,
+                   List<Class<? extends T>> acceptedDomainObjs,
                    Map<MethodDeterminer<T, ? extends T>, Method> methodDeterminerToMethod) {
         this.domainAcceptors = domainAcceptors;
+        this.acceptedDomainObjs = acceptedDomainObjs;
         this.methodDeterminerToMethod = methodDeterminerToMethod;
     }
 
@@ -30,6 +34,20 @@ public class Emitter<T extends DomainObj> {
 
             RefectionUtils.invokeRethrowingInRuntimeException(acceptMethod, domainAcceptor, domainObj);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Emitter<?> emitter = (Emitter<?>) o;
+        return Objects.equals(domainAcceptors, emitter.domainAcceptors) &&
+                Objects.equals(methodDeterminerToMethod, emitter.methodDeterminerToMethod);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(domainAcceptors, methodDeterminerToMethod);
     }
 
     /********** Emitter domain of work **********/

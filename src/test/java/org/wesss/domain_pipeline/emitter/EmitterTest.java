@@ -33,6 +33,9 @@ public class EmitterTest {
         Set<DomainAcceptor<DomainObjRoot>> domainAcceptors =
                 new HashSet<>(Arrays.asList(mockConsumer1, mockConsumer2));
 
+        List<Class<? extends DomainObjRoot>> acceptedDomainObjs = new ArrayList<>();
+        acceptedDomainObjs.add()
+
         Map<MethodDeterminer<DomainObjRoot, ? extends DomainObjRoot>, Method> methodDeterminerToMethod =
                 new HashMap<>();
         methodDeterminerToMethod.put(new MethodDeterminer<>(mockConsumer1, DomainObjRoot.class),
