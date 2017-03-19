@@ -11,16 +11,20 @@ import org.wesss.domain_pipeline.workers.Consumer;
  */
 public class DomainPipelineBuilderPostProducerStage<T extends DomainObj> {
 
-    private final DomainPipelineCompiler compiler;
-    private final ProducerNode<T> producerNode;
+    private DomainPipelineCompiler compiler;
+    private ProducerNode<T> producerNode;
+    private OneTimeUseToken useToken;
 
     public DomainPipelineBuilderPostProducerStage(DomainPipelineCompiler compiler,
                                                   ProducerNode<T> producerNode) {
         this.compiler = compiler;
         this.producerNode = producerNode;
+        useToken = new OneTimeUseToken();
     }
 
     public DomainPipelineBuilderPostConsumerStage thenConsumedBy(Consumer<T> consumer) {
+        useToken.use();
+
         ConsumerNode<T> consumerNode = new ConsumerNode<>(consumer);
         producerNode.setConsumerNode(consumerNode);
 

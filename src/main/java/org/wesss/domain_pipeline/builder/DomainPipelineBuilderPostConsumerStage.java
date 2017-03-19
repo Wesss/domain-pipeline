@@ -8,12 +8,16 @@ import org.wesss.domain_pipeline.DomainPipeline;
 public class DomainPipelineBuilderPostConsumerStage {
 
     private DomainPipelineCompiler compiler;
+    private OneTimeUseToken useToken;
 
     public DomainPipelineBuilderPostConsumerStage(DomainPipelineCompiler compiler) {
         this.compiler = compiler;
+        useToken = new OneTimeUseToken();
     }
 
     public DomainPipeline build() {
+        useToken.use();
+
         return compiler.compile();
     }
 }

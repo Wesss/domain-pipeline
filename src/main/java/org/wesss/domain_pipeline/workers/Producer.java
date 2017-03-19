@@ -7,17 +7,10 @@ public abstract class Producer<T extends DomainObj> implements DomainEmitter<T> 
 
     protected Emitter<T> emitter;
     private boolean isInitialized;
-    private Class<T> emittedClazz;
 
-    public Producer(Class<T> emittedClazz) {
-        this.emittedClazz = emittedClazz;
+    public Producer() {
         this.emitter = Emitter.getStubEmitter();
         isInitialized = false;
-    }
-
-    @Override
-    public Class<T> getEmittedDomainClass() {
-        return emittedClazz;
     }
 
     @Override

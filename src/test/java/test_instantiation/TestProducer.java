@@ -7,7 +7,6 @@ public class TestProducer extends Producer<TestIntDomainObj> {
     private int runCalls;
 
     public TestProducer() {
-        super(TestIntDomainObj.class);
         runCalls = 0;
     }
 
