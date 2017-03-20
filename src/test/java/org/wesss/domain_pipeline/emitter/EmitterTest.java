@@ -9,6 +9,7 @@ import org.wesss.domain_pipeline.routing.PostAnalysisDomainAcceptor;
 import org.wesss.general_utils.collection.ArrayUtils;
 import test_instantiation.inheritance_based_consumption.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,37 +27,37 @@ public class EmitterTest {
         mockConsumer2 = mock(InheritDomainSubclassConsumer.class);
     }
 
-    /*@Before
+    @Before
     public void before() throws NoSuchMethodException {
         reset(mockConsumer1, mockConsumer2);
 
-        MethodRoutingTable<DomainObjRoot> methodRoutingTable1 = new MethodRoutingTable<>();
-        List<DomainAcceptorMethod> domainAcceptorMethods1 = Arrays.asList(
-                new DomainAcceptorMethod(
-                        DomainObjLeaf1.class,
-                        mockConsumer1.getClass().getMethod("acceptLeaf1", DomainObjLeaf1.class)
-                ),
-                new DomainAcceptorMethod(
-                        DomainObjRoot.class,
-                        mockConsumer1.getClass().getMethod("acceptDomain", DomainObjRoot.class)
-                )
-        );
-        MethodRoutingTable<DomainObjRoot> methodRoutingTable2 = new MethodRoutingTable<>();
-        List<DomainAcceptorMethod> domainAcceptorMethods2 = Arrays.asList(
-                new DomainAcceptorMethod(
-                        DomainObjLeaf1.class,
-                        mockConsumer2.getClass().getMethod("acceptLeaf1", DomainObjLeaf1.class)
-                ),
-                new DomainAcceptorMethod(
-                        DomainObjRoot.class,
-                        mockConsumer2.getClass().getMethod("acceptDomain", DomainObjRoot.class)
-                )
-        );
+        List<DomainAcceptorMethod<? extends DomainObjRoot>> domainAcceptorMethods1 = new ArrayList<>();
+        domainAcceptorMethods1.add(new DomainAcceptorMethod<>(
+                DomainObjLeaf1.class,
+                mockConsumer1.getClass().getMethod("acceptLeaf1", DomainObjLeaf1.class)
+        ));
+        domainAcceptorMethods1.add(new DomainAcceptorMethod<>(
+                DomainObjRoot.class,
+                mockConsumer1.getClass().getMethod("acceptDomain", DomainObjRoot.class)
+        ));
+
+        List<DomainAcceptorMethod<? extends DomainObjRoot>> domainAcceptorMethods2 = new ArrayList<>();
+        domainAcceptorMethods2.add(new DomainAcceptorMethod<>(
+                DomainObjLeaf1.class,
+                mockConsumer2.getClass().getMethod("acceptLeaf1", DomainObjLeaf1.class)
+        ));
+        domainAcceptorMethods2.add(new DomainAcceptorMethod<>(
+                DomainObjRoot.class,
+                mockConsumer2.getClass().getMethod("acceptDomain", DomainObjRoot.class)
+        ));
+
+        MethodRoutingTable<DomainObjRoot> methodRoutingTable = new MethodRoutingTable<>(domainAcceptorMethods1);
+        MethodRoutingTable<DomainObjRoot> methodRoutingTable2 = new MethodRoutingTable<>(domainAcceptorMethods2);
 
         PostAnalysisDomainAcceptor<DomainObjRoot> postAnalysisConsumer1 =
-                new PostAnalysisDomainAcceptor<>(mockConsumer1, domainAcceptorMethods1);
+                new PostAnalysisDomainAcceptor<>(mockConsumer1, methodRoutingTable);
         PostAnalysisDomainAcceptor<DomainObjRoot> postAnalysisConsumer2 =
-                new PostAnalysisDomainAcceptor<>(mockConsumer2, domainAcceptorMethods2);
+                new PostAnalysisDomainAcceptor<>(mockConsumer2, methodRoutingTable2);
 
         emitter = new Emitter(ArrayUtils.asSet(postAnalysisConsumer1, postAnalysisConsumer2));
     }
@@ -119,5 +120,5 @@ public class EmitterTest {
 
         verify(mockConsumer1).acceptLeaf1(domainObj1_1);
         verify(mockConsumer1).acceptDomain(domainObj2);
-    }*/
+    }
 }

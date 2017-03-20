@@ -9,7 +9,7 @@ import static org.wesss.domain_pipeline.workers.DomainAcceptor.ACCEPT_DOMAIN_MET
 
 /**
  * Represents a method that can accept a domain obj
- * @param <T> the strongest type that can be acceted by the given method
+ * @param <T> the weakest type that can be acceted by the given method
  */
 public class DomainAcceptorMethod<T extends DomainObj> {
 
