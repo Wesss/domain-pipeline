@@ -8,7 +8,7 @@ import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
 
 /**
  * The building stage right after a producer is given
- * @param <T> the domain type currently being omitted at the end of the building pipeline
+ * @param <T> the domain type currently being emitted at the end of the building pipeline
  */
 public class DomainPipelineBuilderPostProducerStage<T extends DomainObj> {
 

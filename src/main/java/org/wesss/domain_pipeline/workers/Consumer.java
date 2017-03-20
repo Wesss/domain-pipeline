@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ *
+ * @param <T> the type of domain obj consumed
+ */
 public abstract class Consumer<T extends DomainObj> implements DomainAcceptor<T> {
 
     private Class<T> acceptedClazz;
@@ -63,7 +67,6 @@ public abstract class Consumer<T extends DomainObj> implements DomainAcceptor<T>
 
                     DomainAcceptorMethod<? extends T> acceptorMethod =
                             new DomainAcceptorMethod<>((Class<? extends T>)annotation.value(), classMethod);
-                    // TODO double check cast here
 
                     // insert into list in order
                     methodRoutingTableBuilder.insertAnnotatedDomainAcceptorMethod(acceptorMethod);

@@ -14,7 +14,7 @@ public class MethodRoutingTable<T extends DomainObj> {
     // Sorted in an order such that each method is to the right of all of other
     // methods that accept a subclass of the method's accepted domain objclass.
     // Must contain a method that accepts T.
-    List<DomainAcceptorMethod<? extends T>> domainAcceptorMethods;
+    private final List<DomainAcceptorMethod<? extends T>> domainAcceptorMethods;
 
     public MethodRoutingTable(List<DomainAcceptorMethod<? extends T>> domainAcceptorMethods) {
         this.domainAcceptorMethods = domainAcceptorMethods;

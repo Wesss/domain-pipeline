@@ -3,6 +3,10 @@ package org.wesss.domain_pipeline.workers;
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.emitter.Emitter;
 
+/**
+ *
+ * @param <T> the type of domain obj produced
+ */
 public abstract class Producer<T extends DomainObj> implements DomainEmitter<T> {
 
     protected Emitter<T> emitter;

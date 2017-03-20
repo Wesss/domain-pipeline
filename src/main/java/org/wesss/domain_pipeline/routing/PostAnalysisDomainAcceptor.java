@@ -25,7 +25,6 @@ public class PostAnalysisDomainAcceptor<T extends DomainObj> {
     public void acceptDomain(T domainObj) {
         Method acceptingMethod =
                 methodRoutingTable.getMethodToAccept((Class<? extends T>)domainObj.getClass());
-        // TODO double check this cast
 
         RefectionUtils.invokeRethrowingInRuntimeException(
                 acceptingMethod,

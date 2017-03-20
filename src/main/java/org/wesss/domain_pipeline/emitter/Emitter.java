@@ -10,7 +10,7 @@ import java.util.Set;
 
 /**
  * Responsible for emitting domain objects to the next worker in a domain pipeline
- * @param <T> the weakest domainObj that can be emitted
+ * @param <T> the type of emitted domain objs
  */
 public class Emitter<T extends DomainObj> {
 

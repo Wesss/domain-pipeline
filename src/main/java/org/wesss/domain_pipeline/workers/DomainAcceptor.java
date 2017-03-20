@@ -3,6 +3,10 @@ package org.wesss.domain_pipeline.workers;
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.routing.MethodRoutingTable;
 
+/**
+ *
+ * @param <T> the type of domain obj accepted
+ */
 public interface DomainAcceptor<T extends DomainObj> {
 
     public static final String ACCEPT_DOMAIN_METHOD_NAME = "acceptDomain";

@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class MethodRoutingTableBuilder<T extends DomainObj> {
 
-    List<DomainAcceptorMethod<? extends T>> domainAcceptorMethods;
+    private final List<DomainAcceptorMethod<? extends T>> domainAcceptorMethods;
 
     public MethodRoutingTableBuilder() {
         domainAcceptorMethods = new ArrayList<>();
