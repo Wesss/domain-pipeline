@@ -1,7 +1,7 @@
 package org.wesss.domain_pipeline.emitter;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.emitter.domain.PostAnalysisDomainAcceptor;
+import org.wesss.domain_pipeline.routing.PostAnalysisDomainAcceptor;
 import org.wesss.general_utils.reflection.RefectionUtils;
 
 import java.lang.reflect.Method;
@@ -10,6 +10,7 @@ import java.util.Set;
 
 /**
  * Responsible for emitting domain objects to the next worker in a domain pipeline
+ * @param <T> the weakest domainObj that can be emitted
  */
 public class Emitter<T extends DomainObj> {
 
@@ -21,13 +22,7 @@ public class Emitter<T extends DomainObj> {
 
     public void emit(T domainObj) {
         for (PostAnalysisDomainAcceptor analyzedDomainAcceptor: domainAcceptors) {
-            Method acceptingMethod =
-                    analyzedDomainAcceptor.getMostSpecificAcceptingMethod(domainObj.getClass());
-
-            RefectionUtils.invokeRethrowingInRuntimeException(
-                    acceptingMethod,
-                    analyzedDomainAcceptor.getDomainAcceptor(),
-                    domainObj);
+            analyzedDomainAcceptor.acceptDomain(domainObj);
         }
     }
 
