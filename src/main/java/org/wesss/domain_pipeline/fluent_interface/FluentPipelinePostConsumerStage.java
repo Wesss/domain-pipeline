@@ -1,4 +1,4 @@
-package org.wesss.domain_pipeline.builder;
+package org.wesss.domain_pipeline.fluent_interface;
 
 import org.wesss.domain_pipeline.DomainPipeline;
 import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
@@ -6,12 +6,12 @@ import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
 /**
  * The building stage right after a consumer is given.
  */
-public class DomainPipelineBuilderPostConsumerStage {
+public class FluentPipelinePostConsumerStage {
 
     private DomainPipelineCompiler compiler;
     private OneTimeUseToken useToken;
 
-    public DomainPipelineBuilderPostConsumerStage(DomainPipelineCompiler compiler) {
+    public FluentPipelinePostConsumerStage(DomainPipelineCompiler compiler) {
         this.compiler = compiler;
         useToken = new OneTimeUseToken();
     }

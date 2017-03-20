@@ -3,7 +3,6 @@ package acceptance;
 import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
-import org.wesss.domain_pipeline.builder.DomainPipelineBuilder;
 import test_instantiation.basic.IntConsumer;
 import test_instantiation.basic.IntProducer;
 
@@ -19,7 +18,7 @@ public class ProducerToConsumerTest {
     public void before() {
         intProducer = new IntProducer();
         intConsumer = new IntConsumer();
-        DomainPipeline minimalPipeline = new DomainPipelineBuilder()
+        DomainPipeline minimalPipeline = DomainPipeline.createPipeline()
                 .startingWith(intProducer)
                 .thenConsumedBy(intConsumer)
                 .build();

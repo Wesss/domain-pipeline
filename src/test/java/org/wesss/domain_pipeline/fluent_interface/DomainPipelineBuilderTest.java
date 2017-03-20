@@ -1,4 +1,4 @@
-package org.wesss.domain_pipeline.builder;
+package org.wesss.domain_pipeline.fluent_interface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class DomainPipelineBuilderTest {
 
     private Producer<IntDomainObj> mockIntProducer;
     private Consumer<IntDomainObj> mockIntConsumer;
-    private DomainPipelineBuilder builder;
+    private FluentPipelinePostInitStage builder;
 
     public DomainPipelineBuilderTest() {
         mockIntProducer = genericMock(Producer.class);
@@ -33,7 +33,7 @@ public class DomainPipelineBuilderTest {
     @Before
     public void before() {
         reset(mockIntProducer, mockIntConsumer);
-        builder = new DomainPipelineBuilder();
+        builder = new FluentPipelinePostInitStage();
     }
 
     @Test
@@ -61,7 +61,7 @@ public class DomainPipelineBuilderTest {
 
     @Test
     public void callingThenConsumedByTwiceThrowsError() {
-        DomainPipelineBuilderPostProducerStage preConsumerStage =
+        FluentPipelinePostProducerStage preConsumerStage =
                 builder.startingWith(mockIntProducer);
         preConsumerStage.thenConsumedBy(mockIntConsumer);
         try {
@@ -74,7 +74,7 @@ public class DomainPipelineBuilderTest {
 
     @Test
     public void callingBuildTwiceThrowsError() {
-        DomainPipelineBuilderPostConsumerStage preBuildStage =
+        FluentPipelinePostConsumerStage preBuildStage =
                 builder.startingWith(mockIntProducer).thenConsumedBy(mockIntConsumer);
         preBuildStage.build();
         try {

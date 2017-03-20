@@ -3,7 +3,7 @@ package acceptance;
 import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
-import org.wesss.domain_pipeline.builder.DomainPipelineBuilder;
+import org.wesss.domain_pipeline.fluent_interface.FluentPipelinePostInitStage;
 import test_instantiation.inheritance_based_consumption.*;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class InheritanceBasedConsumerTest {
 
     public AbstractInheritConsumer setupRedundantPipeline() {
         AbstractInheritConsumer redundantConsumer = new InheritRedundantConsumer();
-        DomainPipeline pipeline = new DomainPipelineBuilder()
+        DomainPipeline pipeline = DomainPipeline.createPipeline()
                 .startingWith(producer)
                 .thenConsumedBy(redundantConsumer)
                 .build();
@@ -38,7 +38,7 @@ public class InheritanceBasedConsumerTest {
 
     public AbstractInheritConsumer setupReroutePipeline() {
         AbstractInheritConsumer rerouteConsumer = new InheritRerouteConsumer();
-        DomainPipeline pipeline = new DomainPipelineBuilder()
+        DomainPipeline pipeline = new FluentPipelinePostInitStage()
                 .startingWith(producer)
                 .thenConsumedBy(rerouteConsumer)
                 .build();
@@ -49,7 +49,7 @@ public class InheritanceBasedConsumerTest {
 
     public AbstractInheritConsumer setupSubclassPipeline() {
         AbstractInheritConsumer subclassConsumer = new InheritDomainSubclassConsumer();
-        DomainPipeline pipeline = new DomainPipelineBuilder()
+        DomainPipeline pipeline = new FluentPipelinePostInitStage()
                 .startingWith(producer)
                 .thenConsumedBy(subclassConsumer)
                 .build();

@@ -1,11 +1,11 @@
-package org.wesss.domain_pipeline.builder;
+package org.wesss.domain_pipeline.fluent_interface;
 
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
 
-public class DomainPipelineBuilder {
+public class FluentPipelinePostInitStage {
 
     // TODO rename to fluent
     // TODO Emit domain objects to consumers that accept weaker domain object types
@@ -13,17 +13,17 @@ public class DomainPipelineBuilder {
 
     private OneTimeUseToken useToken;
 
-    public DomainPipelineBuilder() {
+    public FluentPipelinePostInitStage() {
         useToken = new OneTimeUseToken();
     }
 
-    public <T extends DomainObj> DomainPipelineBuilderPostProducerStage
+    public <T extends DomainObj> FluentPipelinePostProducerStage
             startingWith(Producer<T> producer) {
         useToken.use();
 
         ProducerNode<T> producerNode= new ProducerNode<>(producer);
         DomainPipelineCompiler compiler = new DomainPipelineCompiler(producerNode);
 
-        return new DomainPipelineBuilderPostProducerStage(compiler, producerNode);
+        return new FluentPipelinePostProducerStage(compiler, producerNode);
     }
 }
