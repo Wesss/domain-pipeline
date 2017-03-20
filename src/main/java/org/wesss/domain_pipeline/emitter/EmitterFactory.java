@@ -9,6 +9,7 @@ import org.wesss.domain_pipeline.workers.DomainEmitter;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.wesss.domain_pipeline.workers.DomainAcceptor.ACCEPT_DOMAIN_METHOD_NAME;
 
@@ -39,7 +40,9 @@ public class EmitterFactory {
 
             // for every class this class is or extends
             for (Class<?> clazz : clazzList) {
-                Method[] allClassMethods = clazz.getDeclaredMethods();
+                Method[] allClassMethods = Arrays.stream(clazz.getDeclaredMethods())
+                        .filter(method -> !method.isBridge())
+                        .toArray(Method[]::new);
 
                 // add the acceptDomain(T domainObj) method, overriding as necessary
                 for (Method classMethod : allClassMethods) {
@@ -55,16 +58,6 @@ public class EmitterFactory {
                 for (Method classMethod : allClassMethods) {
                     if (classMethod.isAnnotationPresent(Accepts.class)) {
                         Accepts annotation = classMethod.getAnnotation(Accepts.class);
-
-                        /* TODO temporary bugfix Reflective annotation processing
-                        this is for bug where we receive the seemingly non-existent acceptDomain(DomainObj domainObj)
-                        which is annotated by @Accepts(T). Perhaps change here when we do further checking in the
-                        builder
-                         */
-                        if (!annotation.value().equals(classMethod.getParameterTypes()[0])) {
-                            // skip in case of error
-                            continue;
-                        }
 
                         DomainAcceptorMethod<? extends DomainObj> acceptorMethod =
                                 new DomainAcceptorMethod<>(annotation.value(), classMethod);
