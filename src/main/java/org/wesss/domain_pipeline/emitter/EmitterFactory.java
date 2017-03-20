@@ -40,6 +40,7 @@ public class EmitterFactory {
 
             // for every class this class is or extends
             for (Class<?> clazz : clazzList) {
+                // ignore generated bridge methods
                 Method[] allClassMethods = Arrays.stream(clazz.getDeclaredMethods())
                         .filter(method -> !method.isBridge())
                         .toArray(Method[]::new);
