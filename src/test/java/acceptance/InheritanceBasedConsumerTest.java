@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
 import org.wesss.domain_pipeline.fluent_interface.FluentPipelinePostInitStage;
+import org.wesss.general_utils.exceptions.IllegalUseException;
 import test_instantiation.inheritance_based_consumption.*;
 
 import java.util.ArrayList;
@@ -11,11 +12,11 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.fail;
 
 public class InheritanceBasedConsumerTest {
 
-    // TODO error case: double annotation
-    // TODO error case: annotated method with wrong method signature
+    // TODO error case: illegal class in Accepts clause
     // TODO support consumers that extend each other (super class has conflicting subclass annotations)
 
     private InheritProducer producer;
@@ -142,5 +143,31 @@ public class InheritanceBasedConsumerTest {
         expected.add(new DomainConsumption(DomainObjLeaf1.class, DomainObjLeaf1_1.class));
 
         assertThat(consumer.getReceivedDomainObjects(), is(expected));
+    }
+
+    @Test
+    public void illegalSignatureConsumerThrowsError() {
+        try {
+            DomainPipeline.createPipeline()
+                    .startingWith(producer)
+                    .thenConsumedBy(new InheritIllegalSignatureConsumer())
+                    .build();
+            fail();
+        } catch (IllegalUseException ignored) {
+
+        }
+    }
+
+    @Test
+    public void illegalDuplicationConsumerThrowsError() {
+        try {
+            DomainPipeline.createPipeline()
+                    .startingWith(producer)
+                    .thenConsumedBy(new InheritIllegalDuplicationConsumer())
+                    .build();
+            fail();
+        } catch (IllegalUseException ignored) {
+
+        }
     }
 }

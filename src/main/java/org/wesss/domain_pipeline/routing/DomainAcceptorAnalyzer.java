@@ -24,45 +24,67 @@ public class DomainAcceptorAnalyzer {
 
         MethodRoutingTableBuilder<T> methodRoutingTableBuilder =
                 new MethodRoutingTableBuilder<>();
-        Class<? extends DomainObj> acceptedClazz = domainAcceptor.getAcceptedClass();
+        Class<? extends DomainObj> acceptedDomainClazz = domainAcceptor.getAcceptedClass();
 
         // generate class ancestor list from (Object.class, this.getClass]
-        List<Class<?>> clazzList = new ArrayList<>();
-        Class<?> curClazz = domainAcceptor.getClass();
-        while (!curClazz.equals(Object.class)) {
-            clazzList.add(0, curClazz);
-            curClazz = curClazz.getSuperclass();
-        }
+        List<Class<?>> clazzList = getClassHierarchy(domainAcceptor);
 
         // for every class this class is or extends
         for (Class<?> clazz : clazzList) {
-            // ignore generated bridge methods
-            Method[] allClassMethods = Arrays.stream(clazz.getDeclaredMethods())
-                    .filter(method -> !method.isBridge())
-                    .toArray(Method[]::new);
+            List<DomainAcceptorMethod<? extends T>> domainAcceptorMethods =
+                    getDomainAcceptorMethods(clazz, acceptedDomainClazz);
 
-            // add the acceptDomain(T domainObj) method, overriding as necessary
-            for (Method classMethod : allClassMethods) {
-                if (DomainAcceptorMethod.isUnannotatedAcceptDomainMethod(classMethod, acceptedClazz)) {
-                    methodRoutingTableBuilder.insertUnannotatedDomainAcceptorMethod(
-                            new DomainAcceptorMethod(acceptedClazz, classMethod)
-                    );
-                }
-            }
-            // add annotated methods, overriding as necessary
-            for (Method classMethod : allClassMethods) {
-                if (classMethod.isAnnotationPresent(Accepts.class)) {
-                    Accepts annotation = classMethod.getAnnotation(Accepts.class);
-
-                    DomainAcceptorMethod<? extends T> acceptorMethod =
-                            new DomainAcceptorMethod<>((Class<? extends T>)annotation.value(), classMethod);
-
-                    // insert into list in order
-                    methodRoutingTableBuilder.insertAnnotatedDomainAcceptorMethod(acceptorMethod);
-                }
+            for (DomainAcceptorMethod<? extends T> domainAcceptorMethod : domainAcceptorMethods) {
+                methodRoutingTableBuilder.insertDomainAcceptorMethod(domainAcceptorMethod);
             }
         }
 
         return methodRoutingTableBuilder.build();
+    }
+
+    /**
+     * @return a list containing all of the classes of given object from most ancestral
+     * to most specific. Object.class is excluded from the front of the list
+     */
+    private static List<Class<?>> getClassHierarchy(Object object) {
+        List<Class<?>> clazzList = new ArrayList<>();
+        Class<?> curClazz = object.getClass();
+        while (!curClazz.equals(Object.class)) {
+            clazzList.add(0, curClazz);
+            curClazz = curClazz.getSuperclass();
+        }
+        return clazzList;
+    }
+
+    private static <T extends DomainObj> List<DomainAcceptorMethod<? extends T>>
+    getDomainAcceptorMethods(Class<?> clazz, Class<? extends DomainObj> acceptedDomainClazz) {
+        List<DomainAcceptorMethod<? extends T>> domainAcceptorMethods = new ArrayList<>();
+
+        // ignore generated bridge methods
+        Method[] allClassMethods = Arrays.stream(clazz.getDeclaredMethods())
+                .filter(method -> !method.isBridge())
+                .toArray(Method[]::new);
+
+        // add the acceptDomain(T domainObj) method, overriding as necessary
+        for (Method classMethod : allClassMethods) {
+            if (DomainAcceptorMethod.isUnannotatedAcceptDomainMethod(classMethod, acceptedDomainClazz)) {
+                domainAcceptorMethods.add(new DomainAcceptorMethod(acceptedDomainClazz, classMethod));
+            }
+        }
+
+        // add annotated methods, overriding as necessary
+        for (Method classMethod : allClassMethods) {
+            if (classMethod.isAnnotationPresent(Accepts.class)) {
+                Accepts annotation = classMethod.getAnnotation(Accepts.class);
+
+                domainAcceptorMethods.add(
+                        new DomainAcceptorMethod<>((Class<? extends T>)annotation.value(), classMethod)
+                );
+            }
+        }
+
+        // TODO error checking here
+
+        return domainAcceptorMethods;
     }
 }

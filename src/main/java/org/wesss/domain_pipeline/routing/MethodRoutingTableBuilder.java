@@ -17,14 +17,7 @@ public class MethodRoutingTableBuilder<T extends DomainObj> {
         domainAcceptorMethods = new ArrayList<>();
     }
 
-    public MethodRoutingTableBuilder insertUnannotatedDomainAcceptorMethod(DomainAcceptorMethod<? extends T> method) {
-        domainAcceptorMethods.clear(); // TODO bug prone if called out of order
-        domainAcceptorMethods.add(method);
-
-        return this;
-    }
-
-    public MethodRoutingTableBuilder insertAnnotatedDomainAcceptorMethod(DomainAcceptorMethod<? extends T> method) {
+    public MethodRoutingTableBuilder insertDomainAcceptorMethod(DomainAcceptorMethod<? extends T> method) {
         Class<? extends DomainObj> methodToInsertClazz = method.getAcceptedClazz();
         int i = 0;
 
@@ -34,7 +27,8 @@ public class MethodRoutingTableBuilder<T extends DomainObj> {
             i++;
         }
 
-        if (domainAcceptorMethods.get(i).getAcceptedClazz().equals(methodToInsertClazz)) {
+        if (!domainAcceptorMethods.isEmpty() &&
+                domainAcceptorMethods.get(i).getAcceptedClazz().equals(methodToInsertClazz)) {
             domainAcceptorMethods.remove(i);
         }
         domainAcceptorMethods.add(i, method);
