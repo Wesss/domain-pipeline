@@ -8,8 +8,6 @@ import org.wesss.general_utils.collection.ArrayUtils;
 public class TranslatorNode<T extends DomainObj, V extends DomainObj>
         implements DomainAcceptorNode<T>, DomainEmitterNode<V> {
 
-    // TODO perhaps turn this into emitter/acceptor components to not repeat child logic
-
     private Translator<T, V> translator;
     private DomainAcceptorNode<V> child;
 
