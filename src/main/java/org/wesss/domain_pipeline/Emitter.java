@@ -1,10 +1,7 @@
-package org.wesss.domain_pipeline.emitter;
+package org.wesss.domain_pipeline;
 
-import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.routing.PostAnalysisDomainAcceptor;
-import org.wesss.general_utils.reflection.RefectionUtils;
 
-import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.Set;
 

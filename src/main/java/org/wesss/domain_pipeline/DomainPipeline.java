@@ -9,6 +9,9 @@ import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
  */
 public class DomainPipeline {
 
+    // TODO Emit domain objects to consumers that accept weaker domain object types
+    // TODO Emit domain objects to multiple consumers
+
     private final ProducerNode<?> rootNode;
 
     public DomainPipeline(ProducerNode<?> rootNode) {

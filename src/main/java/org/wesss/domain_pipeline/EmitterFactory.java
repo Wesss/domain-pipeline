@@ -1,6 +1,6 @@
-package org.wesss.domain_pipeline.emitter;
+package org.wesss.domain_pipeline;
 
-import org.wesss.domain_pipeline.DomainObj;
+import org.wesss.domain_pipeline.routing.DomainAcceptorAnalyzer;
 import org.wesss.domain_pipeline.routing.MethodRoutingTable;
 import org.wesss.domain_pipeline.routing.PostAnalysisDomainAcceptor;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
@@ -22,13 +22,10 @@ public class EmitterFactory {
         Set<PostAnalysisDomainAcceptor<T>> analyzedDomainAcceptors = new HashSet<>();
 
         for (DomainAcceptor<T> domainAcceptor : domainAcceptors) {
-            MethodRoutingTable<T> methodRoutingTable =
-                    domainAcceptor.getMethodRoutingTable();
+            PostAnalysisDomainAcceptor<T> analyzedDomainAcceptor =
+                    DomainAcceptorAnalyzer.analyzeDomainAcceptor(domainAcceptor);
 
-            analyzedDomainAcceptors.add(new PostAnalysisDomainAcceptor<>(
-                    domainAcceptor,
-                    methodRoutingTable
-            ));
+            analyzedDomainAcceptors.add(analyzedDomainAcceptor);
         }
 
         return new Emitter<>(analyzedDomainAcceptors);

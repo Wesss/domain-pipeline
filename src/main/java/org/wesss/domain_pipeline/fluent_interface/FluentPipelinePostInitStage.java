@@ -7,10 +7,6 @@ import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
 
 public class FluentPipelinePostInitStage {
 
-    // TODO rename to fluent
-    // TODO Emit domain objects to consumers that accept weaker domain object types
-    // TODO Emit domain objects to multiple consumers
-
     private OneTimeUseToken useToken;
 
     public FluentPipelinePostInitStage() {

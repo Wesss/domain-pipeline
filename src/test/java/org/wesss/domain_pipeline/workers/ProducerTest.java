@@ -2,7 +2,7 @@ package org.wesss.domain_pipeline.workers;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.wesss.domain_pipeline.emitter.Emitter;
+import org.wesss.domain_pipeline.Emitter;
 import test_instantiation.basic.IntProducer;
 import test_instantiation.basic.IntDomainObj;
 

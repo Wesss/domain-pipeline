@@ -1,8 +1,9 @@
-package org.wesss.domain_pipeline.emitter;
+package org.wesss.domain_pipeline;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
+import org.wesss.domain_pipeline.Emitter;
 import org.wesss.domain_pipeline.routing.DomainAcceptorMethod;
 import org.wesss.domain_pipeline.routing.MethodRoutingTable;
 import org.wesss.domain_pipeline.routing.PostAnalysisDomainAcceptor;
@@ -10,7 +11,6 @@ import org.wesss.general_utils.collection.ArrayUtils;
 import test_instantiation.inheritance_based_consumption.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
