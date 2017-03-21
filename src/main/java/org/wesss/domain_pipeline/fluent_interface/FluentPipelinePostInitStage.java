@@ -1,6 +1,7 @@
 package org.wesss.domain_pipeline.fluent_interface;
 
 import org.wesss.domain_pipeline.DomainObj;
+import org.wesss.domain_pipeline.node_wrappers.DomainPipelineCompiler;
 import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.general_utils.fluentstyle.OneTimeUseToken;

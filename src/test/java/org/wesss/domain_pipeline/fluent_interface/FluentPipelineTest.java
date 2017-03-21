@@ -17,15 +17,14 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.wesss.test_utils.MockUtils.genericMock;
 
-public class DomainPipelineBuilderTest {
+public class FluentPipelineTest {
 
     // TODO error when passing in null
 
     private Producer<IntDomainObj> mockIntProducer;
     private Consumer<IntDomainObj> mockIntConsumer;
-    private FluentPipelinePostInitStage builder;
 
-    public DomainPipelineBuilderTest() {
+    public FluentPipelineTest() {
         mockIntProducer = genericMock(Producer.class);
         mockIntConsumer = genericMock(Consumer.class);
     }
@@ -33,12 +32,12 @@ public class DomainPipelineBuilderTest {
     @Before
     public void before() {
         reset(mockIntProducer, mockIntConsumer);
-        builder = new FluentPipelinePostInitStage();
     }
 
     @Test
     public void buildMinimumPipeline() {
-        DomainPipeline domainPipeline = builder.startingWith(mockIntProducer)
+        DomainPipeline domainPipeline = DomainPipeline.createPipeline()
+                .startingWith(mockIntProducer)
                 .thenConsumedBy(mockIntConsumer)
                 .build();
 
@@ -50,9 +49,10 @@ public class DomainPipelineBuilderTest {
 
     @Test
     public void callingStartingWithTwiceThrowsError() {
-        builder.startingWith(mockIntProducer);
+        FluentPipelinePostInitStage pipeline = DomainPipeline.createPipeline();
+        pipeline.startingWith(mockIntProducer);
         try {
-            builder.startingWith(mockIntProducer);
+            pipeline.startingWith(mockIntProducer);
             fail();
         } catch (Exception ignored) {
 
@@ -61,8 +61,8 @@ public class DomainPipelineBuilderTest {
 
     @Test
     public void callingThenConsumedByTwiceThrowsError() {
-        FluentPipelinePostProducerStage preConsumerStage =
-                builder.startingWith(mockIntProducer);
+        FluentPipelinePostProducerStage preConsumerStage = DomainPipeline.createPipeline()
+                .startingWith(mockIntProducer);
         preConsumerStage.thenConsumedBy(mockIntConsumer);
         try {
             preConsumerStage.thenConsumedBy(mockIntConsumer);
@@ -74,8 +74,9 @@ public class DomainPipelineBuilderTest {
 
     @Test
     public void callingBuildTwiceThrowsError() {
-        FluentPipelinePostConsumerStage preBuildStage =
-                builder.startingWith(mockIntProducer).thenConsumedBy(mockIntConsumer);
+        FluentPipelinePostConsumerStage preBuildStage = DomainPipeline.createPipeline()
+                .startingWith(mockIntProducer)
+                .thenConsumedBy(mockIntConsumer);
         preBuildStage.build();
         try {
             preBuildStage.build();

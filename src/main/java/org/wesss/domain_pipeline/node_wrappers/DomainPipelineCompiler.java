@@ -1,19 +1,17 @@
-package org.wesss.domain_pipeline.fluent_interface;
+package org.wesss.domain_pipeline.node_wrappers;
 
 import org.wesss.domain_pipeline.DomainPipeline;
 import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 
 public class DomainPipelineCompiler {
 
-    // TODO move compiler out of this package into node wrappers?
-
     private ProducerNode<?> rootNode;
 
-    DomainPipelineCompiler(ProducerNode<?> rootNode) {
+    public DomainPipelineCompiler(ProducerNode<?> rootNode) {
         this.rootNode = rootNode;
     }
 
-    DomainPipeline compile() {
+    public DomainPipeline compile() {
         rootNode.build();
         return new DomainPipeline(rootNode);
     }
