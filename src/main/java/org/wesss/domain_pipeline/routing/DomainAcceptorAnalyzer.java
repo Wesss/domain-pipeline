@@ -62,6 +62,9 @@ public class DomainAcceptorAnalyzer {
         return clazzList;
     }
 
+    /**
+     * Returns all methods that are able to accept a domain obj
+     */
     private static <T extends DomainObj> DeclaredDomainAcceptorMethods<T>
             getDomainAcceptorMethods(Class<?> clazz, Class<? extends T> acceptedDomainClazz) {
 
@@ -87,7 +90,7 @@ public class DomainAcceptorAnalyzer {
                 Accepts annotation = classMethod.getAnnotation(Accepts.class);
 
                 // TODO error checking here
-                // TODO override default accept method here
+                // TODO override default method if most general accepts annotation exists
 
                 annotatedDomainAcceptorMethods.add(
                         new DomainAcceptorMethod<>((Class<? extends T>)annotation.value(), classMethod)

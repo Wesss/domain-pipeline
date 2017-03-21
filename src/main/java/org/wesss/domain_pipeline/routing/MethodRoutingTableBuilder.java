@@ -27,7 +27,7 @@ public class MethodRoutingTableBuilder<T extends DomainObj> {
             i++;
         }
 
-        if (!domainAcceptorMethods.isEmpty() &&
+        if (i < domainAcceptorMethods.size() &&
                 domainAcceptorMethods.get(i).getAcceptedClazz().equals(methodToInsertClazz)) {
             domainAcceptorMethods.remove(i);
         }

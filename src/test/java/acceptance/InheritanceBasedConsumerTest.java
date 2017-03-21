@@ -169,4 +169,17 @@ public class InheritanceBasedConsumerTest {
 
         }
     }
+
+    @Test
+    public void illegalAnnotationConsumerThrowsError() {
+        try {
+            DomainPipeline.createPipeline()
+                    .startingWith(producer)
+                    .thenConsumedBy(new InheritIllegalAnnotationConsumer())
+                    .build();
+            fail();
+        } catch (IllegalUseException ignored) {
+
+        }
+    }
 }
