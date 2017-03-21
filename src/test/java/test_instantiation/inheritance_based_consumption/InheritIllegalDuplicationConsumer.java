@@ -10,12 +10,12 @@ public class InheritIllegalDuplicationConsumer extends AbstractInheritConsumer {
     }
 
     @Accepts(DomainObjRoot.class)
-    public void overrideAcceptDomain(int domainObj) {
+    public void overrideAcceptDomain(DomainObjRoot domainObj) {
 
     }
 
     @Accepts(DomainObjRoot.class)
-    public void overrideAcceptDomain2(int domainObj) {
+    public void overrideAcceptDomain2(DomainObjRoot domainObj) {
 
     }
 }

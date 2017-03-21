@@ -9,8 +9,8 @@ public class InheritIllegalSignatureConsumer extends AbstractInheritConsumer {
 
     }
 
-    @Accepts(DomainObjRoot.class)
-    public void overrideAcceptDomain(int domainObj) {
+    @Accepts(DomainObjLeaf1.class)
+    public void overrideAcceptDomain(DomainObjRoot domainObj) {
 
     }
 }

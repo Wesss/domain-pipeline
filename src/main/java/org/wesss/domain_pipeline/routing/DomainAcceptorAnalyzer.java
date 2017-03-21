@@ -3,11 +3,10 @@ package org.wesss.domain_pipeline.routing;
 import org.wesss.domain_pipeline.Accepts;
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
+import org.wesss.general_utils.exceptions.IllegalUseException;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class DomainAcceptorAnalyzer {
 
@@ -66,39 +65,121 @@ public class DomainAcceptorAnalyzer {
      * Returns all methods that are able to accept a domain obj
      */
     private static <T extends DomainObj> DeclaredDomainAcceptorMethods<T>
-            getDomainAcceptorMethods(Class<?> clazz, Class<? extends T> acceptedDomainClazz) {
+            getDomainAcceptorMethods(Class<?> domainAcceptorClazz, Class<? extends T> weakestAcceptedDomainClazz) {
 
         DomainAcceptorMethod<T> unannotatedDomainAcceptorMethod = null;
         List<DomainAcceptorMethod<? extends T>> annotatedDomainAcceptorMethods = new ArrayList<>();
 
         // ignore generated bridge methods
-        Method[] allClassMethods = Arrays.stream(clazz.getDeclaredMethods())
+        Method[] allClassMethods = Arrays.stream(domainAcceptorClazz.getDeclaredMethods())
                 .filter(method -> !method.isBridge())
                 .toArray(Method[]::new);
 
-        // add the acceptDomain(T domainObj) method, overriding as necessary
+        // add the acceptDomain(T domainObj) method
         for (Method classMethod : allClassMethods) {
-            if (DomainAcceptorMethod.isUnannotatedAcceptDomainMethod(classMethod, acceptedDomainClazz)) {
+            if (DomainAcceptorMethod.isUnannotatedAcceptDomainMethod(classMethod, weakestAcceptedDomainClazz)) {
                 unannotatedDomainAcceptorMethod =
-                        new DomainAcceptorMethod(acceptedDomainClazz, classMethod);
+                        new DomainAcceptorMethod(weakestAcceptedDomainClazz, classMethod);
             }
         }
 
-        // add annotated methods, overriding as necessary
+        // add annotated methods, overriding the default acceptDomain method if possible
         for (Method classMethod : allClassMethods) {
             if (classMethod.isAnnotationPresent(Accepts.class)) {
                 Accepts annotation = classMethod.getAnnotation(Accepts.class);
+                Class<? extends T> acceptedDomainClazz = (Class<? extends T>) annotation.value();
 
-                // TODO error checking here
-                // TODO override default method if most general accepts annotation exists
+                if (acceptedDomainClazz.equals(weakestAcceptedDomainClazz)) {
+                    unannotatedDomainAcceptorMethod = null;
+                }
 
                 annotatedDomainAcceptorMethods.add(
-                        new DomainAcceptorMethod<>((Class<? extends T>)annotation.value(), classMethod)
+                        new DomainAcceptorMethod<>(acceptedDomainClazz, classMethod)
                 );
             }
         }
 
+        validateAcceptMethods(annotatedDomainAcceptorMethods,
+                domainAcceptorClazz,
+                weakestAcceptedDomainClazz);
 
         return new DeclaredDomainAcceptorMethods<>(unannotatedDomainAcceptorMethod, annotatedDomainAcceptorMethods);
+    }
+
+    /**
+     *
+     * @throws IllegalUseException if the given annotated methods are not properly used
+     */
+    private static <T extends DomainObj> void
+            validateAcceptMethods(List<DomainAcceptorMethod<? extends T>> annotatedDomainAcceptorMethods,
+                                  Class<?> domainAcceptorClazz,
+                                  Class<? extends T> weakestAcceptedDomainClazz) {
+        Set<DomainAcceptorMethod<? extends T>> checkedMethods = new HashSet<>();
+
+        for (DomainAcceptorMethod<? extends T> acceptorMethod : annotatedDomainAcceptorMethods) {
+            Class<? extends T> acceptedClazz = acceptorMethod.getAcceptedClazz();
+            Method method = acceptorMethod.getMethod();
+
+            // make sure class type is accepted
+            if (!weakestAcceptedDomainClazz.isAssignableFrom(acceptedClazz)) {
+                throw new IllegalUseException(new StringBuilder()
+                        .append("Method ")
+                        .append(domainAcceptorClazz.getSimpleName())
+                        .append(".")
+                        .append(method.getName())
+                        .append("(...) cannot accept arguments of type ")
+                        .append(acceptedClazz.getSimpleName())
+                        .append(" because ")
+                        .append(domainAcceptorClazz.getSimpleName())
+                        .append(" has been declared to accept arguments of type ")
+                        .append(weakestAcceptedDomainClazz.getSimpleName())
+                        .append(".")
+                        .toString());
+            }
+
+            // make sure method accepts given type exactly
+            Class<?>[] parameterTypes = method.getParameterTypes();
+            if (parameterTypes.length != 1 || !parameterTypes[0].equals(acceptedClazz)) {
+                StringBuilder error = new StringBuilder()
+                        .append("Method ")
+                        .append(domainAcceptorClazz.getSimpleName())
+                        .append(".")
+                        .append(method.getName())
+                        .append("(...) must have a single parameter of the type it has been declared to accept");
+                if (parameterTypes.length == 0) {
+                    error.append(" (No parameters are present).");
+                } else if (parameterTypes.length > 1) {
+                    error.append(" (Too many parameters).");
+                } else {
+                    error.append(" (Parameter is of type ")
+                            .append(parameterTypes[0].getSimpleName())
+                            .append(" while declared to accept type ")
+                            .append(acceptedClazz.getSimpleName())
+                            .append(").");
+                }
+                throw new IllegalUseException(error.toString());
+            }
+
+            // make sure each class does not declare multiple methods to accept the same type
+            for (DomainAcceptorMethod<? extends T> prevAcceptorMethod : checkedMethods) {
+                if (prevAcceptorMethod.getAcceptedClazz().equals(acceptedClazz)) {
+                    throw new IllegalUseException(new StringBuilder()
+                            .append("Methods ")
+                            .append(domainAcceptorClazz.getSimpleName())
+                            .append(".")
+                            .append(method.getName())
+                            .append("(...) and ")
+                            .append(domainAcceptorClazz.getSimpleName())
+                            .append(".")
+                            .append(prevAcceptorMethod.getMethod().getName())
+                            .append("(...) have both been annotated to accept the type ")
+                            .append(acceptedClazz.getSimpleName())
+                            .append(".")
+                            .toString());
+                }
+            }
+
+            checkedMethods.add(acceptorMethod);
+        }
     }
 }
