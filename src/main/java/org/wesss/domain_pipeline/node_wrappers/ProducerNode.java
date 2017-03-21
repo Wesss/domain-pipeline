@@ -9,7 +9,7 @@ import org.wesss.general_utils.collection.ArrayUtils;
 public class ProducerNode<T extends DomainObj> implements DomainEmitterNode<T> {
 
     private Producer<T> producer;
-    private DomainAcceptorNode<T> acceptorNode;
+    private DomainAcceptorNode<T> child;
 
     public ProducerNode(Producer<T> producer) {
         this.producer = producer;
@@ -21,15 +21,15 @@ public class ProducerNode<T extends DomainObj> implements DomainEmitterNode<T> {
 
 
     @Override
-    public void addAcceptorNode(DomainAcceptorNode<T> acceptorNode) {
-        this.acceptorNode = acceptorNode;
+    public void addChildAcceptor(DomainAcceptorNode<T> acceptorNode) {
+        this.child = acceptorNode;
     }
 
     @Override
     public void build() {
-        acceptorNode.build();
         Emitter<T> emitter =
-                EmitterFactory.getEmitter(producer, ArrayUtils.asSet(acceptorNode.getDomainAcceptor()));
+                EmitterFactory.getEmitter(producer, ArrayUtils.asSet(child.getDomainAcceptor()));
         producer.init(emitter);
+        child.build();
     }
 }

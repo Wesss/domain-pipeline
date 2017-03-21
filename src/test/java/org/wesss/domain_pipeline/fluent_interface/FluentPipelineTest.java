@@ -7,6 +7,7 @@ import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.general_utils.exceptions.IllegalUseException;
 import test_instantiation.basic.IntDomainObj;
+import test_instantiation.basic.IntProducer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
@@ -46,7 +47,7 @@ public class FluentPipelineTest {
 
     @Test
     public void callingStartingWithTwiceThrowsError() {
-        FluentPipelinePostInitStage pipeline = DomainPipeline.createPipeline();
+        FluentPipelineInitProducerStage pipeline = DomainPipeline.createPipeline();
         pipeline.startingWith(mockIntProducer);
         try {
             pipeline.startingWith(mockIntProducer);
@@ -58,7 +59,7 @@ public class FluentPipelineTest {
 
     @Test
     public void callingThenConsumedByTwiceThrowsError() {
-        FluentPipelinePostProducerStage preConsumerStage = DomainPipeline.createPipeline()
+        FluentPipelineAddWorkersStage preConsumerStage = DomainPipeline.createPipeline()
                 .startingWith(mockIntProducer);
         preConsumerStage.thenConsumedBy(mockIntConsumer);
         try {
@@ -71,7 +72,7 @@ public class FluentPipelineTest {
 
     @Test
     public void callingBuildTwiceThrowsError() {
-        FluentPipelinePostConsumerStage preBuildStage = DomainPipeline.createPipeline()
+        FluentPipelineFinalizeStage preBuildStage = DomainPipeline.createPipeline()
                 .startingWith(mockIntProducer)
                 .thenConsumedBy(mockIntConsumer);
         preBuildStage.build();
@@ -86,8 +87,9 @@ public class FluentPipelineTest {
     @Test
     public void passingInNullPipelineWorkerThrowsError() {
         try {
+            IntProducer nullProducer = null;
             DomainPipeline.createPipeline()
-                    .startingWith(null)
+                    .startingWith(nullProducer)
                     .thenConsumedBy(mockIntConsumer)
                     .build();
 

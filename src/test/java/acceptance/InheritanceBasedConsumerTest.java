@@ -3,7 +3,7 @@ package acceptance;
 import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
-import org.wesss.domain_pipeline.fluent_interface.FluentPipelinePostInitStage;
+import org.wesss.domain_pipeline.fluent_interface.FluentPipelineInitProducerStage;
 import org.wesss.general_utils.exceptions.IllegalUseException;
 import test_instantiation.inheritance_based_consumption.*;
 
@@ -38,7 +38,7 @@ public class InheritanceBasedConsumerTest {
 
     public AbstractInheritConsumer setupReroutePipeline() {
         AbstractInheritConsumer rerouteConsumer = new InheritRerouteConsumer();
-        DomainPipeline pipeline = new FluentPipelinePostInitStage()
+        DomainPipeline pipeline = new FluentPipelineInitProducerStage()
                 .startingWith(producer)
                 .thenConsumedBy(rerouteConsumer)
                 .build();
@@ -49,7 +49,7 @@ public class InheritanceBasedConsumerTest {
 
     public AbstractInheritConsumer setupSubclassPipeline() {
         AbstractInheritConsumer subclassConsumer = new InheritDomainSubclassConsumer();
-        DomainPipeline pipeline = new FluentPipelinePostInitStage()
+        DomainPipeline pipeline = new FluentPipelineInitProducerStage()
                 .startingWith(producer)
                 .thenConsumedBy(subclassConsumer)
                 .build();

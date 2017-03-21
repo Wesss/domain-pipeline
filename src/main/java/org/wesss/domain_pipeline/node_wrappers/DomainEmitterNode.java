@@ -10,5 +10,5 @@ public interface DomainEmitterNode<T extends DomainObj> extends DomainPipelineNo
     /**
      * adds the given acceptor node as a child to this
      */
-    public void addAcceptorNode(DomainAcceptorNode<T> acceptorNode);
+    public void addChildAcceptor(DomainAcceptorNode<T> acceptorNode);
 }

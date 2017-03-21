@@ -10,7 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 
-public class ProducerToConsumerTest {
+public class MinimalPipelineTest {
 
     private IntProducer intProducer;
     private IntConsumer intConsumer;

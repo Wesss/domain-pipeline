@@ -8,15 +8,15 @@ import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
 
 import java.util.Objects;
 
-public class FluentPipelinePostInitStage {
+public class FluentPipelineInitProducerStage {
 
     private OneTimeUseToken useToken;
 
-    public FluentPipelinePostInitStage() {
+    public FluentPipelineInitProducerStage() {
         useToken = new OneTimeUseToken();
     }
 
-    public <T extends DomainObj> FluentPipelinePostProducerStage
+    public <T extends DomainObj> FluentPipelineAddWorkersStage<T>
     startingWith(Producer<T> producer) {
         Objects.requireNonNull(producer);
         useToken.use();
@@ -24,6 +24,6 @@ public class FluentPipelinePostInitStage {
         ProducerNode<T> producerNode = new ProducerNode<>(producer);
         DomainPipelineCompiler compiler = new DomainPipelineCompiler(producerNode);
 
-        return new FluentPipelinePostProducerStage(compiler, producerNode);
+        return new FluentPipelineAddWorkersStage(compiler, producerNode);
     }
 }
