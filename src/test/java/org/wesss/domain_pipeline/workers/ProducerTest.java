@@ -3,8 +3,8 @@ package org.wesss.domain_pipeline.workers;
 import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.Emitter;
-import test_instantiation.basic.IntProducer;
 import test_instantiation.basic.IntDomainObj;
+import test_instantiation.basic.IntProducer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

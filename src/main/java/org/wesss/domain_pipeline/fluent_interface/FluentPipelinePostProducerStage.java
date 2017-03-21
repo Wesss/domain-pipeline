@@ -11,6 +11,7 @@ import java.util.Objects;
 
 /**
  * The building stage right after a producer is given
+ *
  * @param <T> the domain type currently being emitted at the end of the building pipeline
  */
 public class FluentPipelinePostProducerStage<T extends DomainObj> {

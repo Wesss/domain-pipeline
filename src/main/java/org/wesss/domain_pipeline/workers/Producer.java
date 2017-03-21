@@ -4,7 +4,6 @@ import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.Emitter;
 
 /**
- *
  * @param <T> the type of domain obj produced
  */
 public abstract class Producer<T extends DomainObj> implements DomainEmitter<T> {

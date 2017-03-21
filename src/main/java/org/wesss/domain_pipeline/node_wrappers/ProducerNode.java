@@ -6,9 +6,6 @@ import org.wesss.domain_pipeline.EmitterFactory;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.general_utils.collection.ArrayUtils;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 public class ProducerNode<T extends DomainObj> implements DomainEmitterNode<T> {
 
     private Producer<T> producer;

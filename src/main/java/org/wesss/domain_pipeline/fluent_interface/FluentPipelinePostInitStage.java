@@ -17,11 +17,11 @@ public class FluentPipelinePostInitStage {
     }
 
     public <T extends DomainObj> FluentPipelinePostProducerStage
-            startingWith(Producer<T> producer) {
+    startingWith(Producer<T> producer) {
         Objects.requireNonNull(producer);
         useToken.use();
 
-        ProducerNode<T> producerNode= new ProducerNode<>(producer);
+        ProducerNode<T> producerNode = new ProducerNode<>(producer);
         DomainPipelineCompiler compiler = new DomainPipelineCompiler(producerNode);
 
         return new FluentPipelinePostProducerStage(compiler, producerNode);

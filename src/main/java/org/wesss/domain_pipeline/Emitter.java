@@ -7,6 +7,7 @@ import java.util.Set;
 
 /**
  * Responsible for emitting domain objects to the next worker in a domain pipeline
+ *
  * @param <T> the type of emitted domain objs
  */
 public class Emitter<T extends DomainObj> {
@@ -18,7 +19,7 @@ public class Emitter<T extends DomainObj> {
     }
 
     public void emit(T domainObj) {
-        for (PostAnalysisDomainAcceptor analyzedDomainAcceptor: domainAcceptors) {
+        for (PostAnalysisDomainAcceptor analyzedDomainAcceptor : domainAcceptors) {
             analyzedDomainAcceptor.acceptDomain(domainObj);
         }
     }

@@ -11,7 +11,7 @@ import java.util.*;
 public class DomainAcceptorAnalyzer {
 
     public static <T extends DomainObj> PostAnalysisDomainAcceptor<T>
-            analyzeDomainAcceptor(DomainAcceptor<T> domainAcceptor) {
+    analyzeDomainAcceptor(DomainAcceptor<T> domainAcceptor) {
 
         MethodRoutingTable<T> methodRoutingTable = getMethodRoutingTable(domainAcceptor);
 
@@ -19,7 +19,7 @@ public class DomainAcceptorAnalyzer {
     }
 
     private static <T extends DomainObj> MethodRoutingTable<T>
-            getMethodRoutingTable(DomainAcceptor<T> domainAcceptor) {
+    getMethodRoutingTable(DomainAcceptor<T> domainAcceptor) {
 
         MethodRoutingTableBuilder<T> methodRoutingTableBuilder =
                 new MethodRoutingTableBuilder<>();
@@ -65,7 +65,7 @@ public class DomainAcceptorAnalyzer {
      * Returns all methods that are able to accept a domain obj
      */
     private static <T extends DomainObj> DeclaredDomainAcceptorMethods<T>
-            getDomainAcceptorMethods(Class<?> domainAcceptorClazz, Class<? extends T> weakestAcceptedDomainClazz) {
+    getDomainAcceptorMethods(Class<?> domainAcceptorClazz, Class<? extends T> weakestAcceptedDomainClazz) {
 
         DomainAcceptorMethod<T> unannotatedDomainAcceptorMethod = null;
         List<DomainAcceptorMethod<? extends T>> annotatedDomainAcceptorMethods = new ArrayList<>();
@@ -107,13 +107,12 @@ public class DomainAcceptorAnalyzer {
     }
 
     /**
-     *
      * @throws IllegalUseException if the given annotated methods are not properly used
      */
     private static <T extends DomainObj> void
-            validateAcceptMethods(List<DomainAcceptorMethod<? extends T>> annotatedDomainAcceptorMethods,
-                                  Class<?> domainAcceptorClazz,
-                                  Class<? extends T> weakestAcceptedDomainClazz) {
+    validateAcceptMethods(List<DomainAcceptorMethod<? extends T>> annotatedDomainAcceptorMethods,
+                          Class<?> domainAcceptorClazz,
+                          Class<? extends T> weakestAcceptedDomainClazz) {
         Set<DomainAcceptorMethod<? extends T>> checkedMethods = new HashSet<>();
 
         for (DomainAcceptorMethod<? extends T> acceptorMethod : annotatedDomainAcceptorMethods) {

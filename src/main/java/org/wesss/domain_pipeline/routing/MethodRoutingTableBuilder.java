@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @param <T> the weakest type that this routing table can accept
  */
 public class MethodRoutingTableBuilder<T extends DomainObj> {

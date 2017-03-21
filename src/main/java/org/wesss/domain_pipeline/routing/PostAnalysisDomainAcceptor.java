@@ -8,7 +8,6 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
- *
  * @param <T> the weakest accepted domain obj type
  */
 public class PostAnalysisDomainAcceptor<T extends DomainObj> {
@@ -24,7 +23,7 @@ public class PostAnalysisDomainAcceptor<T extends DomainObj> {
 
     public void acceptDomain(T domainObj) {
         Method acceptingMethod =
-                methodRoutingTable.getMethodToAccept((Class<? extends T>)domainObj.getClass());
+                methodRoutingTable.getMethodToAccept((Class<? extends T>) domainObj.getClass());
 
         RefectionUtils.invokeRethrowingInRuntimeException(
                 acceptingMethod,

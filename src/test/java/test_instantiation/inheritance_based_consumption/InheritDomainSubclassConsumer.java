@@ -11,7 +11,7 @@ public class InheritDomainSubclassConsumer extends AbstractInheritConsumer {
     @Accepts(DomainObjRoot.class)
     public void acceptDomain(DomainObjRoot domainObj) {
         DomainConsumption consumption =
-            new DomainConsumption(DomainObjRoot.class, domainObj.getClass());
+                new DomainConsumption(DomainObjRoot.class, domainObj.getClass());
         receivedDomainObjects.add(consumption);
     }
 

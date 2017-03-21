@@ -3,7 +3,6 @@ package org.wesss.domain_pipeline;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
-import org.wesss.domain_pipeline.Emitter;
 import org.wesss.domain_pipeline.routing.DomainAcceptorMethod;
 import org.wesss.domain_pipeline.routing.MethodRoutingTable;
 import org.wesss.domain_pipeline.routing.PostAnalysisDomainAcceptor;

@@ -3,7 +3,6 @@ package org.wesss.domain_pipeline.workers;
 import org.wesss.domain_pipeline.DomainObj;
 
 /**
- *
  * @param <T> the type of domain obj accepted
  */
 public interface DomainAcceptor<T extends DomainObj> {

@@ -13,9 +13,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.wesss.test_utils.MockUtils.genericMock;
 
 public class FluentPipelineTest {
@@ -89,9 +87,9 @@ public class FluentPipelineTest {
     public void passingInNullPipelineWorkerThrowsError() {
         try {
             DomainPipeline.createPipeline()
-                .startingWith(null)
-                .thenConsumedBy(mockIntConsumer)
-                .build();
+                    .startingWith(null)
+                    .thenConsumedBy(mockIntConsumer)
+                    .build();
 
             fail();
         } catch (NullPointerException ignored) {

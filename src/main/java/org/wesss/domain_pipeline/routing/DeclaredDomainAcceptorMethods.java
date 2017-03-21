@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *
  * @param <T> the weakest type that can be accepted by these methods
  */
 public class DeclaredDomainAcceptorMethods<T extends DomainObj> {

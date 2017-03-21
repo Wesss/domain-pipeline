@@ -7,7 +7,8 @@ import test_instantiation.basic.IntConsumer;
 import test_instantiation.basic.IntProducer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
 
 public class ProducerToConsumerTest {
 
