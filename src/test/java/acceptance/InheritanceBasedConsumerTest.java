@@ -16,7 +16,6 @@ import static org.junit.Assert.fail;
 
 public class InheritanceBasedConsumerTest {
 
-    // TODO error case: illegal class in Accepts clause
     // TODO support consumers that extend each other (super class has conflicting subclass annotations)
 
     private InheritProducer producer;

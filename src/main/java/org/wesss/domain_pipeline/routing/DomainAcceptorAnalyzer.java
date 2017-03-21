@@ -24,17 +24,23 @@ public class DomainAcceptorAnalyzer {
 
         MethodRoutingTableBuilder<T> methodRoutingTableBuilder =
                 new MethodRoutingTableBuilder<>();
-        Class<? extends DomainObj> acceptedDomainClazz = domainAcceptor.getAcceptedClass();
+        Class<? extends T> acceptedDomainClazz = domainAcceptor.getAcceptedClass();
 
-        // generate class ancestor list from (Object.class, this.getClass]
+        // generate class hierarchy from (Object.class, this.getClass]
         List<Class<?>> clazzList = getClassHierarchy(domainAcceptor);
 
         // for every class this class is or extends
         for (Class<?> clazz : clazzList) {
-            List<DomainAcceptorMethod<? extends T>> domainAcceptorMethods =
+            DeclaredDomainAcceptorMethods<T> declaredAcceptorMethods =
                     getDomainAcceptorMethods(clazz, acceptedDomainClazz);
 
-            for (DomainAcceptorMethod<? extends T> domainAcceptorMethod : domainAcceptorMethods) {
+            if (declaredAcceptorMethods.isUnannotatedAcceptorMethodPresent()) {
+                methodRoutingTableBuilder.insertDomainAcceptorMethod(
+                        declaredAcceptorMethods.getUnannotatedMethod()
+                );
+            }
+            for (DomainAcceptorMethod<? extends T> domainAcceptorMethod
+                    : declaredAcceptorMethods.getAnnotatedMethods()) {
                 methodRoutingTableBuilder.insertDomainAcceptorMethod(domainAcceptorMethod);
             }
         }
@@ -56,9 +62,11 @@ public class DomainAcceptorAnalyzer {
         return clazzList;
     }
 
-    private static <T extends DomainObj> List<DomainAcceptorMethod<? extends T>>
-    getDomainAcceptorMethods(Class<?> clazz, Class<? extends DomainObj> acceptedDomainClazz) {
-        List<DomainAcceptorMethod<? extends T>> domainAcceptorMethods = new ArrayList<>();
+    private static <T extends DomainObj> DeclaredDomainAcceptorMethods<T>
+            getDomainAcceptorMethods(Class<?> clazz, Class<? extends T> acceptedDomainClazz) {
+
+        DomainAcceptorMethod<T> unannotatedDomainAcceptorMethod = null;
+        List<DomainAcceptorMethod<? extends T>> annotatedDomainAcceptorMethods = new ArrayList<>();
 
         // ignore generated bridge methods
         Method[] allClassMethods = Arrays.stream(clazz.getDeclaredMethods())
@@ -68,7 +76,8 @@ public class DomainAcceptorAnalyzer {
         // add the acceptDomain(T domainObj) method, overriding as necessary
         for (Method classMethod : allClassMethods) {
             if (DomainAcceptorMethod.isUnannotatedAcceptDomainMethod(classMethod, acceptedDomainClazz)) {
-                domainAcceptorMethods.add(new DomainAcceptorMethod(acceptedDomainClazz, classMethod));
+                unannotatedDomainAcceptorMethod =
+                        new DomainAcceptorMethod(acceptedDomainClazz, classMethod);
             }
         }
 
@@ -77,14 +86,16 @@ public class DomainAcceptorAnalyzer {
             if (classMethod.isAnnotationPresent(Accepts.class)) {
                 Accepts annotation = classMethod.getAnnotation(Accepts.class);
 
-                domainAcceptorMethods.add(
+                // TODO error checking here
+                // TODO override default accept method here
+
+                annotatedDomainAcceptorMethods.add(
                         new DomainAcceptorMethod<>((Class<? extends T>)annotation.value(), classMethod)
                 );
             }
         }
 
-        // TODO error checking here
 
-        return domainAcceptorMethods;
+        return new DeclaredDomainAcceptorMethods<>(unannotatedDomainAcceptorMethod, annotatedDomainAcceptorMethods);
     }
 }

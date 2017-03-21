@@ -6,7 +6,8 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 /**
- *
+ * Represents a routing table that can be used to determine the method that should be called
+ * upon receiving any specific domain obj
  * @param <T> the weakest type that this routing table can accept
  */
 public class MethodRoutingTable<T extends DomainObj> {
