@@ -1,8 +1,6 @@
 package org.wesss.domain_pipeline.node_wrappers;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.Emitter;
-import org.wesss.domain_pipeline.EmitterFactory;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.general_utils.collection.ArrayUtils;
 
@@ -19,7 +17,6 @@ public class ProducerNode<T extends DomainObj> implements DomainEmitterNode<T> {
         producer.start();
     }
 
-
     @Override
     public void addChildAcceptor(DomainAcceptorNode<T> acceptorNode) {
         this.child = acceptorNode;
@@ -27,9 +24,6 @@ public class ProducerNode<T extends DomainObj> implements DomainEmitterNode<T> {
 
     @Override
     public void build() {
-        Emitter<T> emitter =
-                EmitterFactory.getEmitter(producer, ArrayUtils.asSet(child.getDomainAcceptor()));
-        producer.init(emitter);
-        child.build();
+        DomainEmitterNode.buildEmitterNode(producer, ArrayUtils.asSet(child));
     }
 }

@@ -1,10 +1,7 @@
 package org.wesss.domain_pipeline.node_wrappers;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.Emitter;
-import org.wesss.domain_pipeline.EmitterFactory;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
-import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.domain_pipeline.workers.Translator;
 import org.wesss.general_utils.collection.ArrayUtils;
 
@@ -32,9 +29,6 @@ public class TranslatorNode<T extends DomainObj, V extends DomainObj>
 
     @Override
     public void build() {
-        Emitter<V> emitter =
-                EmitterFactory.getEmitter(translator, ArrayUtils.asSet(child.getDomainAcceptor()));
-        translator.init(emitter);
-        child.build();
+        DomainEmitterNode.buildEmitterNode(translator, ArrayUtils.asSet(child));
     }
 }
