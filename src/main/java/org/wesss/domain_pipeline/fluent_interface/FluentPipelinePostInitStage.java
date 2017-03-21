@@ -6,6 +6,8 @@ import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
 
+import java.util.Objects;
+
 public class FluentPipelinePostInitStage {
 
     private OneTimeUseToken useToken;
@@ -16,6 +18,7 @@ public class FluentPipelinePostInitStage {
 
     public <T extends DomainObj> FluentPipelinePostProducerStage
             startingWith(Producer<T> producer) {
+        Objects.requireNonNull(producer);
         useToken.use();
 
         ProducerNode<T> producerNode= new ProducerNode<>(producer);

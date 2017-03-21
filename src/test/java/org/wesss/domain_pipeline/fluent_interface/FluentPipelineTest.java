@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Producer;
+import org.wesss.general_utils.exceptions.IllegalUseException;
 import test_instantiation.basic.IntDomainObj;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,8 +19,6 @@ import static org.mockito.Mockito.verify;
 import static org.wesss.test_utils.MockUtils.genericMock;
 
 public class FluentPipelineTest {
-
-    // TODO error when passing in null
 
     private Producer<IntDomainObj> mockIntProducer;
     private Consumer<IntDomainObj> mockIntConsumer;
@@ -54,7 +53,7 @@ public class FluentPipelineTest {
         try {
             pipeline.startingWith(mockIntProducer);
             fail();
-        } catch (Exception ignored) {
+        } catch (IllegalUseException ignored) {
 
         }
     }
@@ -67,7 +66,7 @@ public class FluentPipelineTest {
         try {
             preConsumerStage.thenConsumedBy(mockIntConsumer);
             fail();
-        } catch (Exception ignored) {
+        } catch (IllegalUseException ignored) {
 
         }
     }
@@ -81,7 +80,21 @@ public class FluentPipelineTest {
         try {
             preBuildStage.build();
             fail();
-        } catch (Exception ignored) {
+        } catch (IllegalUseException ignored) {
+
+        }
+    }
+
+    @Test
+    public void passingInNullPipelineWorkerThrowsError() {
+        try {
+            DomainPipeline.createPipeline()
+                .startingWith(null)
+                .thenConsumedBy(mockIntConsumer)
+                .build();
+
+            fail();
+        } catch (NullPointerException ignored) {
 
         }
     }
