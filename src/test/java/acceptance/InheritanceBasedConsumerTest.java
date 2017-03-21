@@ -166,7 +166,7 @@ public class InheritanceBasedConsumerTest {
                     .build();
             fail();
         } catch (IllegalUseException ignored) {
-            ignored.printStackTrace();
+
         }
     }
 
