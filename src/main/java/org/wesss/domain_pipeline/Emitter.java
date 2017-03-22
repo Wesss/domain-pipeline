@@ -19,7 +19,7 @@ public class Emitter<T extends DomainObj> {
     }
 
     public void emit(T domainObj) {
-        for (PostAnalysisDomainAcceptor analyzedDomainAcceptor : domainAcceptors) {
+        for (PostAnalysisDomainAcceptor<T> analyzedDomainAcceptor : domainAcceptors) {
             analyzedDomainAcceptor.acceptDomain(domainObj);
         }
     }
