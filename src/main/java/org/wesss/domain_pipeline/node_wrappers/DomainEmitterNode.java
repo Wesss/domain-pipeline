@@ -4,7 +4,7 @@ import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.Emitter;
 import org.wesss.domain_pipeline.EmitterFactory;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
-import org.wesss.domain_pipeline.workers.DomainEmitter;
+import org.wesss.domain_pipeline.workers.DomainPasser;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,17 +21,23 @@ public interface DomainEmitterNode<T extends DomainObj> extends DomainPipelineNo
 
     /********** Static Utils **********/
 
-    static <T extends DomainObj> void buildEmitterNode(DomainEmitter<T> domainEmitter,
+    static <T extends DomainObj> void buildEmitterNode(DomainPasser<T> domainPasser,
                                                        Set<DomainAcceptorNode<T>> children) {
+        Set<DomainAcceptor<T>> childAcceptors = children.stream()
+                .map(DomainAcceptorNode::getDomainAcceptor)
+                .collect(Collectors.toSet());
+
         Emitter<T> emitter =
                 EmitterFactory.getEmitter(
-                        domainEmitter,
-                        children.stream()
-                                .map(DomainAcceptorNode::getDomainAcceptor)
-                                .collect(Collectors.toSet())
+                        domainPasser,
+                        childAcceptors
                 );
 
-        domainEmitter.init(emitter);
+        domainPasser.initPasser(emitter);
+        for (DomainAcceptor<T> childAcceptor : childAcceptors) {
+            childAcceptor.initAcceptor(emitter);
+        }
+
         for (DomainAcceptorNode<T> child : children) {
             child.build();
         }

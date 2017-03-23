@@ -7,8 +7,15 @@ import org.wesss.domain_pipeline.Emitter;
  * @param <T> the type of domain obj consumed
  */
 public abstract class Translator<T extends DomainObj, V extends DomainObj>
-        implements DomainAcceptor<T>, DomainEmitter<V> {
+        implements DomainAcceptor<T>, DomainPasser<V> {
 
+    /**
+     * Emits domain objects back into this consumer
+     */
+    protected Emitter<T> recursiveEmitter;
+    /**
+     * Emits domain objects to the next pipeline worker(s)
+     */
     protected Emitter<V> emitter;
     private Class<T> acceptedClazz;
 
@@ -22,8 +29,13 @@ public abstract class Translator<T extends DomainObj, V extends DomainObj>
     }
 
     @Override
-    public void init(Emitter<V> emitter) {
+    public void initPasser(Emitter<V> emitter) {
         this.emitter = emitter;
+    }
+
+    @Override
+    public void initAcceptor(Emitter<T> recursiveEmitter) {
+        this.recursiveEmitter = recursiveEmitter;
     }
 
     @Override

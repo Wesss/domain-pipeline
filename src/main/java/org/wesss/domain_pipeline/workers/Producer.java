@@ -6,8 +6,11 @@ import org.wesss.domain_pipeline.Emitter;
 /**
  * @param <T> the type of domain obj produced
  */
-public abstract class Producer<T extends DomainObj> implements DomainEmitter<T> {
+public abstract class Producer<T extends DomainObj> implements DomainPasser<T> {
 
+    /**
+     * Emits domain objects to the next pipeline worker(s)
+     */
     protected Emitter<T> emitter;
     private boolean isInitialized;
 
@@ -17,7 +20,7 @@ public abstract class Producer<T extends DomainObj> implements DomainEmitter<T> 
     }
 
     @Override
-    public void init(Emitter<T> emitter) {
+    public void initPasser(Emitter<T> emitter) {
         this.emitter = emitter;
         isInitialized = true;
     }

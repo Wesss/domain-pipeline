@@ -44,7 +44,7 @@ public class ProducerTest {
 
     @Test
     public void startCallsRun() throws InterruptedException {
-        testGenerator.init(mockEmitter);
+        testGenerator.initPasser(mockEmitter);
         testGenerator.start();
 
         // wait to ensure start thread is invoked

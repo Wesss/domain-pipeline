@@ -41,7 +41,7 @@ public class FluentPipelineTest {
 
         assertThat(domainPipeline, not(nullValue()));
 
-        verify(mockIntProducer).init(any());
+        verify(mockIntProducer).initPasser(any());
         verify(mockIntProducer, never()).start();
     }
 

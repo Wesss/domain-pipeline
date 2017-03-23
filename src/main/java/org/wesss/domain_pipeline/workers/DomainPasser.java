@@ -6,11 +6,11 @@ import org.wesss.domain_pipeline.Emitter;
 /**
  * @param <T> The type of domain obj emitted
  */
-public interface DomainEmitter<T extends DomainObj> {
+public interface DomainPasser<T extends DomainObj> {
 
     /**
-     * Accept the emitter to be used for emitted DomainObjs.
+     * Accept the emitter to be used to pass on domain objs to the next pipeline worker.
      * This method must be called before work is passed to this object
      */
-    public void init(Emitter<T> emitter);
+    public void initPasser(Emitter<T> emitter);
 }
