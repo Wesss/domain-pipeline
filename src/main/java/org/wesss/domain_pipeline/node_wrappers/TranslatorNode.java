@@ -6,7 +6,7 @@ import org.wesss.domain_pipeline.workers.Translator;
 import org.wesss.general_utils.collection.ArrayUtils;
 
 public class TranslatorNode<T extends DomainObj, V extends DomainObj>
-        implements DomainAcceptorNode<T>, DomainEmitterNode<V> {
+        implements DomainTranslatorNode<T, V> {
 
     private Translator<T, V> translator;
     private DomainAcceptorNode<V> child;
