@@ -74,7 +74,7 @@ public class CompositionalPipelineTest {
     public void consumerIsComposable() {
         Consumer<IntDomainObj> composedConsumer = DomainPipeline.createComposedConsumer()
                 .firstTranslatedBy(intIncrementer0)
-                .thenTranslatedBy(intIncrementer1)
+                .thenConsumedBy(intConsumer)
                 .build();
 
         DomainPipeline.createPipeline()

@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Producer;
+import org.wesss.domain_pipeline.workers.Translator;
 import org.wesss.general_utils.exceptions.IllegalUseException;
 import test_instantiation.basic.IntDomainObj;
 import test_instantiation.basic.IntProducer;
@@ -22,20 +23,24 @@ public class FluentPipelineTest {
     // TODO error case: add a pipeline worker into more than 1 pipeline worker slot (in same or different pipelines)
 
     private Producer<IntDomainObj> mockIntProducer;
+    private Translator<IntDomainObj, IntDomainObj> mockIntTranslator;
+    private Translator<IntDomainObj, IntDomainObj> mockIntTranslator2;
     private Consumer<IntDomainObj> mockIntConsumer;
 
     public FluentPipelineTest() {
         mockIntProducer = genericMock(Producer.class);
+        mockIntTranslator = genericMock(Translator.class);
+        mockIntTranslator2 = genericMock(Translator.class);
         mockIntConsumer = genericMock(Consumer.class);
     }
 
     @Before
     public void before() {
-        reset(mockIntProducer, mockIntConsumer);
+        reset(mockIntProducer, mockIntTranslator, mockIntTranslator2, mockIntConsumer);
     }
 
     @Test
-    public void buildMinimumPipeline() {
+    public void minimumPipelineIsBuilt() {
         DomainPipeline domainPipeline = DomainPipeline.createPipeline()
                 .startingWith(mockIntProducer)
                 .thenConsumedBy(mockIntConsumer)
@@ -44,7 +49,68 @@ public class FluentPipelineTest {
         assertThat(domainPipeline, not(nullValue()));
 
         verify(mockIntProducer).initPasser(any());
+        verify(mockIntConsumer).initAcceptor(any());
         verify(mockIntProducer, never()).start();
+    }
+
+    @Test
+    public void translatorPipelineIsBuilt() {
+        DomainPipeline domainPipeline = DomainPipeline.createPipeline()
+                .startingWith(mockIntProducer)
+                .thenTranslatedBy(mockIntTranslator)
+                .thenConsumedBy(mockIntConsumer)
+                .build();
+
+        assertThat(domainPipeline, not(nullValue()));
+
+        verify(mockIntProducer).initPasser(any());
+        verify(mockIntTranslator).initAcceptor(any());
+        verify(mockIntTranslator).initPasser(any());
+        verify(mockIntConsumer).initAcceptor(any());
+        verify(mockIntProducer, never()).start();
+    }
+
+    @Test
+    public void consumerCanBeComposed() {
+        Producer<IntDomainObj> composedProducer = DomainPipeline.createComposedProducer()
+                .startingWith(mockIntProducer)
+                .thenTranslatedBy(mockIntTranslator)
+                .build();
+
+        assertThat(composedProducer, not(nullValue()));
+
+        verify(mockIntProducer).initPasser(any());
+        verify(mockIntTranslator).initAcceptor(any());
+        verify(mockIntTranslator, never()).initPasser(any());
+    }
+
+    @Test
+    public void translatorCanBeComposed() {
+        Translator<IntDomainObj, IntDomainObj> composedTranslator = DomainPipeline.createdComposedTranslator()
+                .firstTranslatedBy(mockIntTranslator)
+                .thenTranslatedBy(mockIntTranslator2)
+                .build();
+
+        assertThat(composedTranslator, not(nullValue()));
+
+        verify(mockIntTranslator, never()).initAcceptor(any());
+        verify(mockIntTranslator).initPasser(any());
+        verify(mockIntTranslator2).initAcceptor(any());
+        verify(mockIntTranslator2, never()).initPasser(any());
+    }
+
+    @Test
+    public void consumerCanBeComposed() {
+        Consumer<IntDomainObj> composedConsumer = DomainPipeline.createdComposedConsumer()
+                .firstTranslatedBy(mockIntTranslator)
+                .thenConsumedBy(mockIntConsumer)
+                .build();
+
+        assertThat(composedConsumer, not(nullValue()));
+
+        verify(mockIntTranslator, never()).initAcceptor(any());
+        verify(mockIntTranslator).initPasser(any());
+        verify(mockIntConsumer).initAcceptor(any());
     }
 
     @Test
