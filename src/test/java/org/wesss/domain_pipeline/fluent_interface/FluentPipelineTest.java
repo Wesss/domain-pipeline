@@ -19,6 +19,8 @@ import static org.wesss.test_utils.MockUtils.genericMock;
 
 public class FluentPipelineTest {
 
+    // TODO error case: add a pipeline worker into more than 1 pipeline worker slot (in same or different pipelines)
+
     private Producer<IntDomainObj> mockIntProducer;
     private Consumer<IntDomainObj> mockIntConsumer;
 
@@ -59,7 +61,7 @@ public class FluentPipelineTest {
 
     @Test
     public void callingThenConsumedByTwiceThrowsError() {
-        FluentPipelineAddWorkersStage preConsumerStage = DomainPipeline.createPipeline()
+        FluentPipelineAddWorkersStage<IntDomainObj> preConsumerStage = DomainPipeline.createPipeline()
                 .startingWith(mockIntProducer);
         preConsumerStage.thenConsumedBy(mockIntConsumer);
         try {

@@ -19,6 +19,9 @@ public abstract class Translator<T extends DomainObj, V extends DomainObj>
     protected Emitter<V> emitter;
     private Class<T> acceptedClazz;
 
+    /**
+     * @param acceptedClazz the class type that is accepted by this translator
+     */
     public Translator(Class<T> acceptedClazz) {
         this.acceptedClazz = acceptedClazz;
     }

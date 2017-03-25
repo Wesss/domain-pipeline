@@ -14,6 +14,9 @@ public abstract class Consumer<T extends DomainObj> implements DomainAcceptor<T>
     protected Emitter<T> recursiveEmitter;
     private Class<T> acceptedClazz;
 
+    /**
+     * @param acceptedClazz the class that is accepted by this consumer
+     */
     public Consumer(Class<T> acceptedClazz) {
         this.recursiveEmitter = Emitter.getStubEmitter();
         this.acceptedClazz = acceptedClazz;
