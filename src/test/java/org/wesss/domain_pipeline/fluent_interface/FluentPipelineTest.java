@@ -24,19 +24,17 @@ public class FluentPipelineTest {
 
     private Producer<IntDomainObj> mockIntProducer;
     private Translator<IntDomainObj, IntDomainObj> mockIntTranslator;
-    private Translator<IntDomainObj, IntDomainObj> mockIntTranslator2;
     private Consumer<IntDomainObj> mockIntConsumer;
 
     public FluentPipelineTest() {
         mockIntProducer = genericMock(Producer.class);
         mockIntTranslator = genericMock(Translator.class);
-        mockIntTranslator2 = genericMock(Translator.class);
         mockIntConsumer = genericMock(Consumer.class);
     }
 
     @Before
     public void before() {
-        reset(mockIntProducer, mockIntTranslator, mockIntTranslator2, mockIntConsumer);
+        reset(mockIntProducer, mockIntTranslator, mockIntConsumer);
     }
 
     @Test
@@ -68,49 +66,6 @@ public class FluentPipelineTest {
         verify(mockIntTranslator).initPasser(any());
         verify(mockIntConsumer).initAcceptor(any());
         verify(mockIntProducer, never()).start();
-    }
-
-    @Test
-    public void consumerCanBeComposed() {
-        Producer<IntDomainObj> composedProducer = DomainPipeline.createComposedProducer()
-                .startingWith(mockIntProducer)
-                .thenTranslatedBy(mockIntTranslator)
-                .build();
-
-        assertThat(composedProducer, not(nullValue()));
-
-        verify(mockIntProducer).initPasser(any());
-        verify(mockIntTranslator).initAcceptor(any());
-        verify(mockIntTranslator, never()).initPasser(any());
-    }
-
-    @Test
-    public void translatorCanBeComposed() {
-        Translator<IntDomainObj, IntDomainObj> composedTranslator = DomainPipeline.createdComposedTranslator()
-                .firstTranslatedBy(mockIntTranslator)
-                .thenTranslatedBy(mockIntTranslator2)
-                .build();
-
-        assertThat(composedTranslator, not(nullValue()));
-
-        verify(mockIntTranslator, never()).initAcceptor(any());
-        verify(mockIntTranslator).initPasser(any());
-        verify(mockIntTranslator2).initAcceptor(any());
-        verify(mockIntTranslator2, never()).initPasser(any());
-    }
-
-    @Test
-    public void consumerCanBeComposed() {
-        Consumer<IntDomainObj> composedConsumer = DomainPipeline.createdComposedConsumer()
-                .firstTranslatedBy(mockIntTranslator)
-                .thenConsumedBy(mockIntConsumer)
-                .build();
-
-        assertThat(composedConsumer, not(nullValue()));
-
-        verify(mockIntTranslator, never()).initAcceptor(any());
-        verify(mockIntTranslator).initPasser(any());
-        verify(mockIntConsumer).initAcceptor(any());
     }
 
     @Test

@@ -32,7 +32,6 @@ public class Compilation {
 
         Emitter<T> emitter =
                 EmitterFactory.getEmitter(
-                        passer,
                         childAcceptors
                 );
 

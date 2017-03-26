@@ -1,9 +1,8 @@
-package org.wesss.domain_pipeline.fluent_interface;
+package org.wesss.domain_pipeline.fluent_interface.composable;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.compilers.FluentProducerCompiler;
+import org.wesss.domain_pipeline.compilers.composable.FluentProducerCompiler;
 import org.wesss.domain_pipeline.node_wrappers.DomainPasserNode;
-import org.wesss.domain_pipeline.node_wrappers.DomainTranslatorNode;
 import org.wesss.domain_pipeline.node_wrappers.TranslatorNode;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.domain_pipeline.workers.Translator;
@@ -31,7 +30,7 @@ public class FluentProducerAddTranslatorsStage<T extends DomainObj> {
         Objects.requireNonNull(translator);
         useToken.use();
 
-        DomainTranslatorNode<T, V> translatorNode = new TranslatorNode<>(translator);
+        TranslatorNode<T, V> translatorNode = new TranslatorNode<>(translator);
         passerNode.addChildAcceptor(translatorNode);
         FluentProducerCompiler<V> newCompiler = compiler.setEndNode(translatorNode);
         return new FluentProducerAddTranslatorsStage<>(newCompiler, translatorNode);

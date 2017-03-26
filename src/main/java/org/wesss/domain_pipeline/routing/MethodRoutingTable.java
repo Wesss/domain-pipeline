@@ -14,7 +14,7 @@ import java.util.List;
 public class MethodRoutingTable<T extends DomainObj> {
 
     // Sorted in an order such that each method is to the right of all of other
-    // methods that accept a subclass of the method's accepted domain objclass.
+    // methods that accept a subclass of the method's accepted domain obj class.
     // Must contain a method that accepts T.
     private final List<DomainAcceptorMethod<? extends T>> domainAcceptorMethods;
 

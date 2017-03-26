@@ -18,7 +18,7 @@ public class EmitterFactory {
      * Returns an emitter that will pass objects given to it to given domainAcceptors
      */
     public static <T extends DomainObj> Emitter<T>
-    getEmitter(DomainPasser<T> domainPasser, Set<DomainAcceptor<T>> domainAcceptors) {
+    getEmitter(Set<DomainAcceptor<T>> domainAcceptors) {
         Set<PostAnalysisDomainAcceptor<T>> analyzedDomainAcceptors = new HashSet<>();
 
         for (DomainAcceptor<T> domainAcceptor : domainAcceptors) {

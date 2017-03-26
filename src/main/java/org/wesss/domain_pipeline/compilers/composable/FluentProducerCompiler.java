@@ -1,13 +1,16 @@
-package org.wesss.domain_pipeline.compilers;
+package org.wesss.domain_pipeline.compilers.composable;
 
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.Emitter;
+import org.wesss.domain_pipeline.compilers.Compilation;
+import org.wesss.domain_pipeline.compilers.PipelineCompiler;
 import org.wesss.domain_pipeline.node_wrappers.*;
 import org.wesss.domain_pipeline.workers.Producer;
+import org.wesss.domain_pipeline.workers.composable.ComposedProducer;
 import org.wesss.general_utils.exceptions.IllegalUseException;
 
 /**
- * @param <T> the domain type being produced by the producer to visit
+ * @param <T> the domain type that will be produced by the producer compiled from this compiler
  */
 public class FluentProducerCompiler<T extends DomainObj> extends PipelineCompiler {
 
@@ -29,18 +32,7 @@ public class FluentProducerCompiler<T extends DomainObj> extends PipelineCompile
     public Producer<T> compile() {
         rootNode.build(this);
 
-        return new Producer<T>() {
-            @Override
-            public void initPasser(Emitter<T> emitter) {
-                super.initPasser(emitter);
-                endNode.getDomainPasser().initPasser(emitter);
-            }
-
-            @Override
-            protected void run() {
-                rootNode.start();
-            }
-        };
+        return new ComposedProducer<>(rootNode, endNode);
     }
 
     @Override
