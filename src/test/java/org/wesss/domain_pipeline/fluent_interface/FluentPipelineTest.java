@@ -33,6 +33,8 @@ public class FluentPipelineTest {
     @Before
     public void before() {
         reset(mockIntProducer, mockIntTranslator, mockIntConsumer);
+        when(mockIntTranslator.getAcceptedClass()).thenReturn(IntDomainObj.class);
+        when(mockIntConsumer.getAcceptedClass()).thenReturn(IntDomainObj.class);
     }
 
     @Test

@@ -12,9 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.wesss.test_utils.MockUtils.genericMock;
 
 public class FluentComposablePipelineTest {
@@ -34,6 +32,9 @@ public class FluentComposablePipelineTest {
     @Before
     public void before() {
         reset(mockIntProducer, mockIntTranslator, mockIntTranslator2, mockIntConsumer);
+        when(mockIntTranslator.getAcceptedClass()).thenReturn(IntDomainObj.class);
+        when(mockIntTranslator2.getAcceptedClass()).thenReturn(IntDomainObj.class);
+        when(mockIntConsumer.getAcceptedClass()).thenReturn(IntDomainObj.class);
     }
 
     @Test

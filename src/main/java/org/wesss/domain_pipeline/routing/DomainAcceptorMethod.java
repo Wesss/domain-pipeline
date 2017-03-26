@@ -58,10 +58,11 @@ public class DomainAcceptorMethod<T extends DomainObj> {
      * Returns true iff given method is the default acceptDomain(T domainObj) method that
      * can still accept domain methods despite being unnanotated
      */
-    public static boolean isUnannotatedAcceptDomainMethod(Method method, Class<? extends DomainObj> acceptedClazz) {
+    public static boolean isUnannotatedAcceptDomainMethod(Method method) {
         Class<?>[] parameterTypes = method.getParameterTypes();
         return method.getName().equals(ACCEPT_DOMAIN_METHOD_NAME) &&
                 parameterTypes.length == 1 &&
-                parameterTypes[0].equals(acceptedClazz);
+                // this method after generic erasure will always have the parameter of type DomainObj.class
+                parameterTypes[0].equals(DomainObj.class);
     }
 }

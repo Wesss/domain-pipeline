@@ -21,6 +21,8 @@ public class DomainAcceptorAnalyzer {
     private static <T extends DomainObj> MethodRoutingTable<T>
     getMethodRoutingTable(DomainAcceptor<T> domainAcceptor) {
 
+        // test using domainAcceptorClazz.getMethods() to see if we can avoid scanning all extended classes in order
+
         MethodRoutingTableBuilder<T> methodRoutingTableBuilder =
                 new MethodRoutingTableBuilder<>();
         Class<? extends T> acceptedDomainClazz = domainAcceptor.getAcceptedClass();
@@ -67,25 +69,26 @@ public class DomainAcceptorAnalyzer {
     private static <T extends DomainObj> DeclaredDomainAcceptorMethods<T>
     getDomainAcceptorMethods(Class<?> domainAcceptorClazz, Class<? extends T> weakestAcceptedDomainClazz) {
 
+        // TODO possibly use clazz.getMethods() to avoid scanning hierarchy of classes
+        // TODO if not, filter out abstract methods
+
         DomainAcceptorMethod<T> unannotatedDomainAcceptorMethod = null;
         List<DomainAcceptorMethod<? extends T>> annotatedDomainAcceptorMethods = new ArrayList<>();
 
-        // ignore generated bridge methods
-        Method[] allClassMethods = Arrays.stream(domainAcceptorClazz.getDeclaredMethods())
-                .filter(method -> !method.isBridge())
-                .toArray(Method[]::new);
+        Method[] allClassMethods = domainAcceptorClazz.getDeclaredMethods();
 
         // add the acceptDomain(T domainObj) method
         for (Method classMethod : allClassMethods) {
-            if (DomainAcceptorMethod.isUnannotatedAcceptDomainMethod(classMethod, weakestAcceptedDomainClazz)) {
+            if (DomainAcceptorMethod.isUnannotatedAcceptDomainMethod(classMethod)) {
                 unannotatedDomainAcceptorMethod =
-                        new DomainAcceptorMethod(weakestAcceptedDomainClazz, classMethod);
+                        new DomainAcceptorMethod<>((Class<T>)weakestAcceptedDomainClazz, classMethod);
             }
         }
 
         // add annotated methods, overriding the default acceptDomain method if possible
         for (Method classMethod : allClassMethods) {
-            if (classMethod.isAnnotationPresent(Accepts.class)) {
+            // ignore bridge methods
+            if (classMethod.isAnnotationPresent(Accepts.class) && !classMethod.isBridge()) {
                 Accepts annotation = classMethod.getAnnotation(Accepts.class);
                 Class<? extends T> acceptedDomainClazz = (Class<? extends T>) annotation.value();
 
