@@ -6,7 +6,7 @@ import org.wesss.domain_pipeline.node_wrappers.ConsumerNode;
 import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 import org.wesss.domain_pipeline.node_wrappers.TranslatorNode;
 
-public class FluentPipelineCompiler extends PipelineCompiler{
+public class FluentPipelineCompiler extends PipelineCompiler {
 
     private ProducerNode<?> rootNode;
 

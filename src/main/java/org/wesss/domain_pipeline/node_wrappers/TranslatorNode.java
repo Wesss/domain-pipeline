@@ -10,7 +10,7 @@ import org.wesss.general_utils.collection.ArrayUtils;
 import java.util.Set;
 
 public class TranslatorNode<T extends DomainObj, V extends DomainObj>
-        implements DomainAcceptorNode<T>,DomainPasserNode<V> {
+        implements DomainAcceptorNode<T>, DomainPasserNode<V> {
 
     private Translator<T, V> translator;
     private DomainAcceptorNode<V> child;

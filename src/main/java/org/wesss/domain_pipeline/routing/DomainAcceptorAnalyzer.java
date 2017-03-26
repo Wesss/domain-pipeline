@@ -6,7 +6,10 @@ import org.wesss.domain_pipeline.workers.DomainAcceptor;
 import org.wesss.general_utils.exceptions.IllegalUseException;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class DomainAcceptorAnalyzer {
 
@@ -81,7 +84,7 @@ public class DomainAcceptorAnalyzer {
         for (Method classMethod : allClassMethods) {
             if (DomainAcceptorMethod.isUnannotatedAcceptDomainMethod(classMethod)) {
                 unannotatedDomainAcceptorMethod =
-                        new DomainAcceptorMethod<>((Class<T>)weakestAcceptedDomainClazz, classMethod);
+                        new DomainAcceptorMethod<>((Class<T>) weakestAcceptedDomainClazz, classMethod);
             }
         }
 

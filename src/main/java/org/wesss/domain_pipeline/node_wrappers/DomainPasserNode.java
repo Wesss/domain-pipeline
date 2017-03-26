@@ -1,7 +1,6 @@
 package org.wesss.domain_pipeline.node_wrappers;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.workers.DomainAcceptor;
 import org.wesss.domain_pipeline.workers.DomainPasser;
 
 import java.util.Set;

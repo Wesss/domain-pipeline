@@ -1,7 +1,6 @@
 package org.wesss.domain_pipeline.routing;
 
 import org.junit.Test;
-import org.wesss.domain_pipeline.workers.Consumer;
 import test_instantiation.annotated_consumption.*;
 import test_instantiation.basic.IntConsumer;
 import test_instantiation.basic.IntDomainObj;

@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
 import test_instantiation.basic.CharConsumer;
-import test_instantiation.basic.IntConsumer;
 import test_instantiation.basic.IntProducer;
 import test_instantiation.basic.IntToCharTranslator;
 
