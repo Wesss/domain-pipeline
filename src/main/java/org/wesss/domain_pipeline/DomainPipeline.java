@@ -1,6 +1,7 @@
 package org.wesss.domain_pipeline;
 
 import org.wesss.domain_pipeline.fluent_interface.FluentPipelineInitProducerStage;
+import org.wesss.domain_pipeline.fluent_interface.FluentProducerInitProducerStage;
 import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 
 /**
@@ -32,5 +33,12 @@ public class DomainPipeline {
      */
     public static FluentPipelineInitProducerStage createPipeline() {
         return new FluentPipelineInitProducerStage();
+    }
+
+    /**
+     * @return A fluent-style interface for creating producers composed of many domain pipeline workers
+     */
+    public static FluentProducerInitProducerStage createComposedProducer() {
+        return new FluentProducerInitProducerStage();
     }
 }

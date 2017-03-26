@@ -1,5 +1,7 @@
 package org.wesss.domain_pipeline.node_wrappers;
 
+import org.wesss.domain_pipeline.compilers.PipelineCompiler;
+
 /**
  * Represents a single worker in a domain pipeline as a node in a directed acyclic graph.
  * Nodes represent pipline workers, whilst an edge represents the parent node sending
@@ -8,8 +10,7 @@ package org.wesss.domain_pipeline.node_wrappers;
 public interface DomainPipelineNode {
 
     /**
-     * Make this Pipeline node and all subsequent nodes valid for execution
-     * (ie. by hooking up emitters).
+     * Build this node using given compiler
      */
-    public void build();
+    public void build(PipelineCompiler compiler);
 }

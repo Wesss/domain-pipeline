@@ -36,11 +36,12 @@ public class CompositionalPipelineTest {
                 .thenTranslatedBy(intIncrementer0)
                 .build();
 
-        DomainPipeline.createPipeline()
+        DomainPipeline pipeline = DomainPipeline.createPipeline()
                 .startingWith(composedProducer)
                 .thenConsumedBy(intConsumer)
-                .build()
-                .start();
+                .build();
+
+        pipeline.start();
 
         for (int i = 0; i < 3; i++) {
             intProducer.emitDomainObject(i);

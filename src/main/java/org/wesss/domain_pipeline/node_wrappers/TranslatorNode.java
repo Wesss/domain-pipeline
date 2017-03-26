@@ -1,9 +1,13 @@
 package org.wesss.domain_pipeline.node_wrappers;
 
 import org.wesss.domain_pipeline.DomainObj;
+import org.wesss.domain_pipeline.compilers.PipelineCompiler;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
+import org.wesss.domain_pipeline.workers.DomainPasser;
 import org.wesss.domain_pipeline.workers.Translator;
 import org.wesss.general_utils.collection.ArrayUtils;
+
+import java.util.Set;
 
 public class TranslatorNode<T extends DomainObj, V extends DomainObj>
         implements DomainTranslatorNode<T, V> {
@@ -21,12 +25,22 @@ public class TranslatorNode<T extends DomainObj, V extends DomainObj>
     }
 
     @Override
+    public DomainPasser<V> getDomainPasser() {
+        return translator;
+    }
+
+    @Override
     public void addChildAcceptor(DomainAcceptorNode<V> acceptorNode) {
         this.child = acceptorNode;
     }
 
     @Override
-    public void build() {
-        DomainEmitterNode.buildEmitterNode(translator, ArrayUtils.asSet(child));
+    public Set<DomainAcceptorNode<V>> getChildrenAcceptors() {
+        return ArrayUtils.asSet(child);
+    }
+
+    @Override
+    public void build(PipelineCompiler compiler) {
+        compiler.visit(this);
     }
 }

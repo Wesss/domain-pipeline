@@ -4,6 +4,8 @@ import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.Emitter;
 
 /**
+ * A domain pipeline worker that is capable of passing out (aka emitting) domain objs
+ *
  * @param <T> The type of domain obj emitted
  */
 public interface DomainPasser<T extends DomainObj> {

@@ -1,7 +1,7 @@
 package org.wesss.domain_pipeline.fluent_interface;
 
 import org.wesss.domain_pipeline.DomainPipeline;
-import org.wesss.domain_pipeline.node_wrappers.DomainPipelineCompiler;
+import org.wesss.domain_pipeline.compilers.FluentPipelineCompiler;
 import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
 
 /**
@@ -9,10 +9,10 @@ import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
  */
 public class FluentPipelineFinalizeStage {
 
-    private DomainPipelineCompiler compiler;
+    private FluentPipelineCompiler compiler;
     private OneTimeUseToken useToken;
 
-    FluentPipelineFinalizeStage(DomainPipelineCompiler compiler) {
+    FluentPipelineFinalizeStage(FluentPipelineCompiler compiler) {
         this.compiler = compiler;
         useToken = new OneTimeUseToken();
     }

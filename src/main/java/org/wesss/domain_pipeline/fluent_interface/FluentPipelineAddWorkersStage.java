@@ -1,6 +1,7 @@
 package org.wesss.domain_pipeline.fluent_interface;
 
 import org.wesss.domain_pipeline.DomainObj;
+import org.wesss.domain_pipeline.compilers.FluentPipelineCompiler;
 import org.wesss.domain_pipeline.node_wrappers.*;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Translator;
@@ -15,14 +16,14 @@ import java.util.Objects;
  */
 public class FluentPipelineAddWorkersStage<T extends DomainObj> {
 
-    private DomainPipelineCompiler compiler;
-    private DomainEmitterNode<T> emitterNode;
+    private FluentPipelineCompiler compiler;
+    private DomainPasserNode<T> passerNode;
     private OneTimeUseToken useToken;
 
-    FluentPipelineAddWorkersStage(DomainPipelineCompiler compiler,
-                                  DomainEmitterNode<T> emitterNode) {
+    FluentPipelineAddWorkersStage(FluentPipelineCompiler compiler,
+                                  DomainPasserNode<T> passerNode) {
         this.compiler = compiler;
-        this.emitterNode = emitterNode;
+        this.passerNode = passerNode;
         useToken = new OneTimeUseToken();
     }
 
@@ -31,7 +32,7 @@ public class FluentPipelineAddWorkersStage<T extends DomainObj> {
         useToken.use();
 
         TranslatorNode<T, V> translatorNode = new TranslatorNode<>(translator);
-        emitterNode.addChildAcceptor(translatorNode);
+        passerNode.addChildAcceptor(translatorNode);
 
         return new FluentPipelineAddWorkersStage(compiler, translatorNode);
     }
@@ -41,7 +42,7 @@ public class FluentPipelineAddWorkersStage<T extends DomainObj> {
         useToken.use();
 
         ConsumerNode<T> consumerNode = new ConsumerNode<>(consumer);
-        emitterNode.addChildAcceptor(consumerNode);
+        passerNode.addChildAcceptor(consumerNode);
 
         return new FluentPipelineFinalizeStage(compiler);
     }

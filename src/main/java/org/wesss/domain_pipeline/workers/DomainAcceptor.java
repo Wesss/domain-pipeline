@@ -4,6 +4,8 @@ import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.Emitter;
 
 /**
+ * A domain pipeline worker that is capable of accepting domain objs passed out by other domain pipeline workers.
+ *
  * @param <T> the type of domain obj accepted
  */
 public interface DomainAcceptor<T extends DomainObj> {
