@@ -82,7 +82,7 @@ public class FluentPipelineTest {
 
     @Test
     public void callingThenConsumedByTwiceThrowsError() {
-        FluentPipelineAddWorkersStage<IntDomainObj> preConsumerStage = DomainPipeline.createPipeline()
+        FluentPipelineAddWorkerStage<IntDomainObj> preConsumerStage = DomainPipeline.createPipeline()
                 .startingWith(mockIntProducer);
         preConsumerStage.thenConsumedBy(mockIntConsumer);
         try {

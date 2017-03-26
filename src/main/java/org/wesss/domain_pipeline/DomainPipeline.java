@@ -3,6 +3,7 @@ package org.wesss.domain_pipeline;
 import org.wesss.domain_pipeline.fluent_interface.FluentPipelineInitProducerStage;
 import org.wesss.domain_pipeline.fluent_interface.composable.FluentConsumerInitWorkerStage;
 import org.wesss.domain_pipeline.fluent_interface.composable.FluentProducerInitProducerStage;
+import org.wesss.domain_pipeline.fluent_interface.composable.FluentTranslatorInitTranslatorStage;
 import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 
 /**
@@ -40,16 +41,23 @@ public class DomainPipeline {
     }
 
     /**
-     * @return A fluent-style interface for creating producers composed of many domain pipeline workers
+     * @return A fluent-style interface for creating producers composed of other domain pipeline workers
      */
     public static FluentProducerInitProducerStage createComposedProducer() {
         return new FluentProducerInitProducerStage();
     }
 
     /**
-     * @return A fluent-style interface for creating consumers composed of many domain pipeline workers
+     * @return A fluent-style interface for creating consumers composed of other domain pipeline workers
      */
     public static FluentConsumerInitWorkerStage createComposedConsumer() {
         return new FluentConsumerInitWorkerStage();
+    }
+
+    /**
+     * @return A fluent-style interface for creating translators composed of other domain pipeline workers
+     */
+    public static FluentTranslatorInitTranslatorStage createComposedTranslator() {
+        return new FluentTranslatorInitTranslatorStage();
     }
 }

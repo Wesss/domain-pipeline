@@ -51,20 +51,20 @@ public class FluentComposablePipelineTest {
         verify(mockIntTranslator, never()).initPasser(any());
     }
 
-//    @Test
-//    public void translatorCanBeComposed() {
-//        Translator<IntDomainObj, IntDomainObj> composedTranslator = DomainPipeline.createdComposedTranslator()
-//                .firstTranslatedBy(mockIntTranslator)
-//                .thenTranslatedBy(mockIntTranslator2)
-//                .build();
-//
-//        assertThat(composedTranslator, not(nullValue()));
-//
-//        verify(mockIntTranslator, never()).initAcceptor(any());
-//        verify(mockIntTranslator).initPasser(any());
-//        verify(mockIntTranslator2).initAcceptor(any());
-//        verify(mockIntTranslator2, never()).initPasser(any());
-//    }
+    @Test
+    public void translatorCanBeComposed() {
+        Translator<IntDomainObj, IntDomainObj> composedTranslator = DomainPipeline.createComposedTranslator()
+                .firstTranslatedBy(mockIntTranslator)
+                .thenTranslatedBy(mockIntTranslator2)
+                .build();
+
+        assertThat(composedTranslator, not(nullValue()));
+
+        verify(mockIntTranslator, never()).initAcceptor(any());
+        verify(mockIntTranslator).initPasser(any());
+        verify(mockIntTranslator2).initAcceptor(any());
+        verify(mockIntTranslator2, never()).initPasser(any());
+    }
 
     @Test
     public void consumerCanBeComposed() {

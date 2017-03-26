@@ -16,13 +16,13 @@ public class FluentProducerInitProducerStage {
         useToken = new OneTimeUseToken();
     }
 
-    public <T extends DomainObj> FluentProducerAddTranslatorsStage<T>
+    public <T extends DomainObj> FluentProducerAddTranslatorStage<T>
     startingWith(Producer<T> producer) {
         Objects.requireNonNull(producer);
         useToken.use();
 
         ProducerNode<T> producerNode = new ProducerNode<>(producer);
         FluentProducerCompiler<T> compiler = new FluentProducerCompiler<>(producerNode, producerNode);
-        return new FluentProducerAddTranslatorsStage<>(compiler, producerNode);
+        return new FluentProducerAddTranslatorStage<>(compiler, producerNode);
     }
 }

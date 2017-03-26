@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Producer;
+import org.wesss.domain_pipeline.workers.Translator;
 import test_instantiation.basic.IntConsumer;
 import test_instantiation.basic.IntDomainObj;
 import test_instantiation.basic.IntIncrementer;
@@ -49,27 +50,27 @@ public class CompositionalPipelineTest {
         assertThat(intConsumer.getReceivedDomainObjects(), contains(1, 2, 3));
     }
 
-//    @Test
-//    public void translatorIsComposable() {
-//        Translator<IntDomainObj, IntDomainObj> composedTranslator = DomainPipeline.createComposedTranslator()
-//                .firstTranslatedBy(intIncrementer)
-//                .thenTranslatedBy(intIncrementer2)
-//                .build();
-//
-//        DomainPipeline pipeline = DomainPipeline.createPipeline()
-//                .startingWith(intProducer)
-//                .thenTranslatedBy(composedTranslator)
-//                .thenConsumedBy(intConsumer)
-//                .build();
-//
-//        pipeline.start();
-//
-//        for (int i = 0; i < 3; i++) {
-//            intProducer.emitDomainObject(i);
-//        }
-//
-//        assertThat(intConsumer.getReceivedDomainObjects(), contains(2, 3, 4));
-//    }
+    @Test
+    public void translatorIsComposable() {
+        Translator<IntDomainObj, IntDomainObj> composedTranslator = DomainPipeline.createComposedTranslator()
+                .firstTranslatedBy(intIncrementer)
+                .thenTranslatedBy(intIncrementer2)
+                .build();
+
+        DomainPipeline pipeline = DomainPipeline.createPipeline()
+                .startingWith(intProducer)
+                .thenTranslatedBy(composedTranslator)
+                .thenConsumedBy(intConsumer)
+                .build();
+
+        pipeline.start();
+
+        for (int i = 0; i < 3; i++) {
+            intProducer.emitDomainObject(i);
+        }
+
+        assertThat(intConsumer.getReceivedDomainObjects(), contains(2, 3, 4));
+    }
 
     @Test
     public void consumerIsComposable() {

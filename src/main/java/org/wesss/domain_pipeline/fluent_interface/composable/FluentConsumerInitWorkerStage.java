@@ -18,14 +18,14 @@ public class FluentConsumerInitWorkerStage {
         useToken = new OneTimeUseToken();
     }
 
-    public <T extends DomainObj, V extends DomainObj> FluentConsumerAddWorkersStage<T, V>
+    public <T extends DomainObj, V extends DomainObj> FluentConsumerAddWorkerStage<T, V>
     firstTranslatedBy(Translator<T, V> translator) {
         Objects.requireNonNull(translator);
         useToken.use();
 
         TranslatorNode<T, V> translatorNode = new TranslatorNode<>(translator);
         FluentConsumerCompiler<T> compiler = new FluentConsumerCompiler<>(translatorNode);
-        return new FluentConsumerAddWorkersStage<>(compiler, translatorNode);
+        return new FluentConsumerAddWorkerStage<>(compiler, translatorNode);
     }
 
     public <T extends DomainObj> FluentConsumerFinalizeStage<T>
