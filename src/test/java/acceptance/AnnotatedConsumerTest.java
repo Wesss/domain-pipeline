@@ -97,7 +97,7 @@ public class AnnotatedConsumerTest {
     }
 
     @Test
-    public void subclassPipelineDoesntRerouteRoot() {
+    public void subclassPipelineDoesNotRerouteRoot() {
         AbstractInheritConsumer consumer = setupSubclassPipeline();
 
         producer.emitRoot();
@@ -121,24 +121,14 @@ public class AnnotatedConsumerTest {
     }
 
     @Test
-    public void subclassPipelineDoesNotRerouteUntouchedSubclass() {
-        AbstractInheritConsumer consumer = setupSubclassPipeline();
-
-        producer.emitLeaf2();
-
-        List<DomainConsumption> expected = new ArrayList<>();
-        expected.add(new DomainConsumption(DomainObjRoot.class, DomainObjLeaf2.class));
-
-        assertThat(consumer.getReceivedDomainObjects(), is(expected));
-    }
-
-    @Test
     public void subclassPipelineDoesRerouteSubclassToClosestReroutedParent() {
         AbstractInheritConsumer consumer = setupSubclassPipeline();
 
+        producer.emitLeaf2();
         producer.emitLeaf1_1();
 
         List<DomainConsumption> expected = new ArrayList<>();
+        expected.add(new DomainConsumption(DomainObjRoot.class, DomainObjLeaf2.class));
         expected.add(new DomainConsumption(DomainObjLeaf1.class, DomainObjLeaf1_1.class));
 
         assertThat(consumer.getReceivedDomainObjects(), is(expected));
