@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
 import org.wesss.domain_pipeline.fluent_interface.FluentPipelineInitProducerStage;
 import org.wesss.general_utils.exceptions.IllegalUseException;
-import test_instantiation.inheritance_based_consumption.*;
+import test_instantiation.annotated_consumption.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
 
-public class InheritanceBasedConsumerTest {
+public class AnnotatedConsumerTest {
 
     // TODO support consumers that extend each other (super class has conflicting subclass annotations)
 

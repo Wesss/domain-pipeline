@@ -1,4 +1,4 @@
-package test_instantiation.inheritance_based_consumption;
+package test_instantiation.annotated_consumption;
 
 /**
  * Test domain obj class used to model domain obj inheritance

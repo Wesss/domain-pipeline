@@ -1,10 +1,12 @@
 package org.wesss.domain_pipeline.compilers.composable;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.Emitter;
 import org.wesss.domain_pipeline.compilers.Compilation;
 import org.wesss.domain_pipeline.compilers.PipelineCompiler;
-import org.wesss.domain_pipeline.node_wrappers.*;
+import org.wesss.domain_pipeline.node_wrappers.ConsumerNode;
+import org.wesss.domain_pipeline.node_wrappers.DomainPasserNode;
+import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
+import org.wesss.domain_pipeline.node_wrappers.TranslatorNode;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.domain_pipeline.workers.composable.ComposedProducer;
 import org.wesss.general_utils.exceptions.IllegalUseException;

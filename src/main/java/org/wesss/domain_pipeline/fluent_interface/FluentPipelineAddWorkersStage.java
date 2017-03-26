@@ -34,7 +34,7 @@ public class FluentPipelineAddWorkersStage<T extends DomainObj> {
         TranslatorNode<T, V> translatorNode = new TranslatorNode<>(translator);
         passerNode.addChildAcceptor(translatorNode);
 
-        return new FluentPipelineAddWorkersStage(compiler, translatorNode);
+        return new FluentPipelineAddWorkersStage<>(compiler, translatorNode);
     }
 
     public FluentPipelineFinalizeStage thenConsumedBy(Consumer<T> consumer) {

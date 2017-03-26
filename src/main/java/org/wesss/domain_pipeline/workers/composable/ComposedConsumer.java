@@ -3,11 +3,7 @@ package org.wesss.domain_pipeline.workers.composable;
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.Emitter;
 import org.wesss.domain_pipeline.node_wrappers.DomainAcceptorNode;
-import org.wesss.domain_pipeline.node_wrappers.DomainPasserNode;
-import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 import org.wesss.domain_pipeline.workers.Consumer;
-import org.wesss.domain_pipeline.workers.DomainAcceptor;
-import org.wesss.domain_pipeline.workers.Producer;
 
 public class ComposedConsumer<T extends DomainObj> extends Consumer<T> {
 

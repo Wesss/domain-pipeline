@@ -10,7 +10,7 @@ import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
  */
 public class FluentConsumerFinalizeStage<T extends DomainObj> {
 
-    private FluentConsumerCompiler compiler;
+    private FluentConsumerCompiler<T> compiler;
     private OneTimeUseToken useToken;
 
     FluentConsumerFinalizeStage(FluentConsumerCompiler<T> compiler) {

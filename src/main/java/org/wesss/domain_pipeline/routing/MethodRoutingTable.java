@@ -23,7 +23,7 @@ public class MethodRoutingTable<T extends DomainObj> {
     }
 
     public Method getMethodToAccept(Class<? extends T> clazzToAccept) {
-        for (DomainAcceptorMethod acceptingMethod : domainAcceptorMethods) {
+        for (DomainAcceptorMethod<? extends T> acceptingMethod : domainAcceptorMethods) {
             if (acceptingMethod.getAcceptedClazz().isAssignableFrom(clazzToAccept)) {
                 return acceptingMethod.getMethod();
             }

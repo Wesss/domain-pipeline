@@ -3,7 +3,6 @@ package org.wesss.domain_pipeline;
 import org.wesss.domain_pipeline.routing.DomainAcceptorAnalyzer;
 import org.wesss.domain_pipeline.routing.PostAnalysisDomainAcceptor;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
-import org.wesss.domain_pipeline.workers.DomainPasser;
 
 import java.util.HashSet;
 import java.util.Set;

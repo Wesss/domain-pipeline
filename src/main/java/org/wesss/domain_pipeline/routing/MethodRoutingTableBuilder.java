@@ -16,7 +16,7 @@ public class MethodRoutingTableBuilder<T extends DomainObj> {
         domainAcceptorMethods = new ArrayList<>();
     }
 
-    public MethodRoutingTableBuilder insertDomainAcceptorMethod(DomainAcceptorMethod<? extends T> method) {
+    public void insertDomainAcceptorMethod(DomainAcceptorMethod<? extends T> method) {
         Class<? extends DomainObj> methodToInsertClazz = method.getAcceptedClazz();
         int i = 0;
 
@@ -31,11 +31,9 @@ public class MethodRoutingTableBuilder<T extends DomainObj> {
             domainAcceptorMethods.remove(i);
         }
         domainAcceptorMethods.add(i, method);
-
-        return this;
     }
 
-    public MethodRoutingTable build() {
-        return new MethodRoutingTable(new ArrayList<>(domainAcceptorMethods));
+    public MethodRoutingTable<T> build() {
+        return new MethodRoutingTable<>(new ArrayList<>(domainAcceptorMethods));
     }
 }

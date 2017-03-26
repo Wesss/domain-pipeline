@@ -1,7 +1,6 @@
 package org.wesss.domain_pipeline.node_wrappers;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.compilers.Compilation;
 import org.wesss.domain_pipeline.compilers.PipelineCompiler;
 import org.wesss.domain_pipeline.workers.DomainPasser;
 import org.wesss.domain_pipeline.workers.Producer;

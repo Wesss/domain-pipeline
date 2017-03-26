@@ -24,6 +24,6 @@ public class FluentPipelineInitProducerStage {
         ProducerNode<T> producerNode = new ProducerNode<>(producer);
         FluentPipelineCompiler compiler = new FluentPipelineCompiler(producerNode);
 
-        return new FluentPipelineAddWorkersStage(compiler, producerNode);
+        return new FluentPipelineAddWorkersStage<>(compiler, producerNode);
     }
 }

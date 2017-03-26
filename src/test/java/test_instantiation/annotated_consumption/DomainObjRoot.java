@@ -1,4 +1,4 @@
-package test_instantiation.inheritance_based_consumption;
+package test_instantiation.annotated_consumption;
 
 import org.wesss.domain_pipeline.DomainObj;
 
