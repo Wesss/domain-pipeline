@@ -48,7 +48,7 @@ public class ProducerTest {
         testGenerator.start();
 
         // wait to ensure start thread is invoked
-        Thread.sleep(10);
+        Thread.sleep(50);
 
         assertThat(testGenerator.getRunCalls(), is(1));
     }
