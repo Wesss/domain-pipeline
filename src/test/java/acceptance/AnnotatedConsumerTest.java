@@ -16,8 +16,6 @@ import static org.junit.Assert.fail;
 
 public class AnnotatedConsumerTest {
 
-    // TODO support consumers that extend each other (super class has conflicting subclass annotations)
-
     private InheritProducer producer;
 
     @Before

@@ -20,8 +20,6 @@ import static org.wesss.test_utils.MockUtils.genericMock;
 
 public class FluentPipelineTest {
 
-    // TODO error case: add a pipeline worker into more than 1 pipeline worker slot (in same or different pipelines)
-
     private Producer<IntDomainObj> mockIntProducer;
     private Translator<IntDomainObj, IntDomainObj> mockIntTranslator;
     private Consumer<IntDomainObj> mockIntConsumer;

@@ -11,6 +11,9 @@ import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
  */
 public class DomainPipeline {
 
+    // TODO error case: add a pipeline worker into more than 1 pipeline worker slot (in same or different pipelines)
+    // TODO error case: use the @Accepts annotation in a completely generic domain acceptor
+    // TODO support consumers that extend each other (super class has conflicting subclass annotations)
     // TODO Emit domain objects to consumers that accept weaker domain object types
     // TODO Emit domain objects to multiple consumers
 
