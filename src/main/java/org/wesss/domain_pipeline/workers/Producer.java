@@ -38,7 +38,9 @@ public abstract class Producer<T extends DomainObj> implements DomainPasser<T> {
      * Begin the generation of domain objects.
      * <p>
      * This method is called via starting a new thread pointing to this method, allowing
-     * this method to block or loop until a Thread Interrupt.
+     * this method to block independently of other producers.
+     * <p>
+     * TODO document how to properly handle interrupts so that producers can shut down properly
      */
     protected abstract void run();
 }
