@@ -13,7 +13,7 @@ public class TranslatorNode<T extends DomainObj, V extends DomainObj>
         implements DomainAcceptorNode<T>, DomainPasserNode<V> {
 
     private Translator<T, V> translator;
-    private DomainAcceptorNode<V> child;
+    private DomainAcceptorNode<? super V> child;
 
     public TranslatorNode(Translator<T, V> translator) {
         this.translator = translator;
@@ -30,12 +30,12 @@ public class TranslatorNode<T extends DomainObj, V extends DomainObj>
     }
 
     @Override
-    public void addChildAcceptor(DomainAcceptorNode<V> acceptorNode) {
+    public void addChildAcceptor(DomainAcceptorNode<? super V> acceptorNode) {
         this.child = acceptorNode;
     }
 
     @Override
-    public Set<DomainAcceptorNode<V>> getChildrenAcceptors() {
+    public Set<DomainAcceptorNode<? super V>> getChildrenAcceptors() {
         return ArrayUtils.asSet(child);
     }
 

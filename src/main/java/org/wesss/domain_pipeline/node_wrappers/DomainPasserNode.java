@@ -19,10 +19,10 @@ public interface DomainPasserNode<T extends DomainObj> extends DomainPipelineNod
     /**
      * adds the given acceptor node as a child to this
      */
-    public void addChildAcceptor(DomainAcceptorNode<T> acceptorNode);
+    public void addChildAcceptor(DomainAcceptorNode<? super T> acceptorNode);
 
     /**
      * @return all of the acceptor nodes that accept domain objects passed out by this node
      */
-    public Set<DomainAcceptorNode<T>> getChildrenAcceptors();
+    public Set<DomainAcceptorNode<? super T>> getChildrenAcceptors();
 }

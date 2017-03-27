@@ -7,6 +7,7 @@ import org.wesss.domain_pipeline.node_wrappers.DomainAcceptorNode;
 import org.wesss.domain_pipeline.node_wrappers.DomainPasserNode;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
 import org.wesss.domain_pipeline.workers.DomainPasser;
+import org.wesss.general_utils.collection.ArrayUtils;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,19 +26,30 @@ public class Compilation {
     public static <T extends DomainObj> void hookUpPasserAndAcceptorNodes(DomainPasserNode<T> domainPasserNode) {
         DomainPasser<T> passer = domainPasserNode.getDomainPasser();
 
-        Set<DomainAcceptor<T>> childAcceptors = domainPasserNode
+        Set<DomainAcceptor<? super T>> childAcceptors = domainPasserNode
                 .getChildrenAcceptors().stream()
                 .map(DomainAcceptorNode::getDomainAcceptor)
                 .collect(Collectors.toSet());
 
+        // init passer
         Emitter<T> emitter =
                 EmitterFactory.getEmitter(
                         childAcceptors
                 );
 
         passer.initPasser(emitter);
-        for (DomainAcceptor<T> childAcceptor : childAcceptors) {
-            childAcceptor.initAcceptor(emitter);
+
+        // init child acceptors
+        for (DomainAcceptor<? super T> childAcceptor : childAcceptors) {
+            initChildAcceptor(childAcceptor);
         }
+    }
+
+    private static <T extends DomainObj> void initChildAcceptor(DomainAcceptor<T> childAcceptor) {
+        Emitter<T> recursiveEmitter =
+                EmitterFactory.getEmitter(
+                        ArrayUtils.asSet(childAcceptor)
+                );
+        childAcceptor.initAcceptor(recursiveEmitter);
     }
 }

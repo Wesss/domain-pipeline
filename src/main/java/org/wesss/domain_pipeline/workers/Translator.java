@@ -9,8 +9,6 @@ import org.wesss.domain_pipeline.Emitter;
 public abstract class Translator<T extends DomainObj, V extends DomainObj>
         implements DomainAcceptor<T>, DomainPasser<V> {
 
-    // TODO possibly make consumer/producer extend translator and limit functionality
-
     /**
      * Emits domain objects back into this consumer
      */

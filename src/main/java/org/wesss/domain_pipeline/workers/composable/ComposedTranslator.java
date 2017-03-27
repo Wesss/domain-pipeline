@@ -8,8 +8,6 @@ import org.wesss.domain_pipeline.workers.Translator;
 
 public class ComposedTranslator<T extends DomainObj, V extends DomainObj> extends Translator<T, V> {
 
-    // TODO possibly make composed consumer/producer extend composed translator and limit functionality
-
     private DomainAcceptorNode<T> rootNode;
     private Emitter<T> emitterToRootNode;
     private DomainPasserNode<V> endNode;

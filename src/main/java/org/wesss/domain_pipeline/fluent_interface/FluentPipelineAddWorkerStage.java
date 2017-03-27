@@ -29,21 +29,21 @@ public class FluentPipelineAddWorkerStage<T extends DomainObj> {
         useToken = new OneTimeUseToken();
     }
 
-    public <V extends DomainObj> FluentPipelineAddWorkerStage<V> thenTranslatedBy(Translator<T, V> translator) {
+    public <V extends DomainObj> FluentPipelineAddWorkerStage<V> thenTranslatedBy(Translator<? super T, V> translator) {
         Objects.requireNonNull(translator);
         useToken.use();
 
-        TranslatorNode<T, V> translatorNode = new TranslatorNode<>(translator);
+        TranslatorNode<? super T, V> translatorNode = new TranslatorNode<>(translator);
         passerNode.addChildAcceptor(translatorNode);
 
         return new FluentPipelineAddWorkerStage<>(compiler, translatorNode);
     }
 
-    public FluentPipelineFinalizeStage thenConsumedBy(Consumer<T> consumer) {
+    public FluentPipelineFinalizeStage thenConsumedBy(Consumer<? super T> consumer) {
         Objects.requireNonNull(consumer);
         useToken.use();
 
-        ConsumerNode<T> consumerNode = new ConsumerNode<>(consumer);
+        ConsumerNode<? super T> consumerNode = new ConsumerNode<>(consumer);
         passerNode.addChildAcceptor(consumerNode);
 
         return new FluentPipelineFinalizeStage(compiler);

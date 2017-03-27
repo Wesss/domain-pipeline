@@ -15,13 +15,13 @@ public abstract class PipelineCompiler {
     }
 
     public <T extends DomainObj> void visit(ProducerNode<T> producerNode) {
-        for (DomainAcceptorNode<T> child : producerNode.getChildrenAcceptors()) {
+        for (DomainAcceptorNode<? super T> child : producerNode.getChildrenAcceptors()) {
             child.build(this);
         }
     }
 
     public <T extends DomainObj, V extends DomainObj> void visit(TranslatorNode<T, V> translatorNode) {
-        for (DomainAcceptorNode<V> child : translatorNode.getChildrenAcceptors()) {
+        for (DomainAcceptorNode<? super V> child : translatorNode.getChildrenAcceptors()) {
             child.build(this);
         }
     }

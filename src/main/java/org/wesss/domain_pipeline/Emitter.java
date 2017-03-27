@@ -12,14 +12,14 @@ import java.util.Set;
  */
 public class Emitter<T extends DomainObj> {
 
-    private final Set<PostAnalysisDomainAcceptor<T>> domainAcceptors;
+    private final Set<PostAnalysisDomainAcceptor<? super T>> domainAcceptors;
 
-    public Emitter(Set<PostAnalysisDomainAcceptor<T>> domainAcceptors) {
+    public Emitter(Set<PostAnalysisDomainAcceptor<? super T>> domainAcceptors) {
         this.domainAcceptors = domainAcceptors;
     }
 
     public void emit(T domainObj) {
-        for (PostAnalysisDomainAcceptor<T> analyzedDomainAcceptor : domainAcceptors) {
+        for (PostAnalysisDomainAcceptor<? super T> analyzedDomainAcceptor : domainAcceptors) {
             analyzedDomainAcceptor.acceptDomain(domainObj);
         }
     }

@@ -73,7 +73,6 @@ public class DomainAcceptorAnalyzer {
     getDomainAcceptorMethods(Class<?> domainAcceptorClazz, Class<? extends T> weakestAcceptedDomainClazz) {
 
         // TODO possibly use clazz.getMethods() to avoid scanning hierarchy of classes
-        // TODO if not, filter out abstract methods
 
         DomainAcceptorMethod<T> unannotatedDomainAcceptorMethod = null;
         List<DomainAcceptorMethod<? extends T>> annotatedDomainAcceptorMethods = new ArrayList<>();

@@ -11,7 +11,7 @@ import java.util.Set;
 public class ProducerNode<T extends DomainObj> implements DomainPasserNode<T> {
 
     private Producer<T> producer;
-    private DomainAcceptorNode<T> child;
+    private DomainAcceptorNode<? super T> child;
 
     public ProducerNode(Producer<T> producer) {
         this.producer = producer;
@@ -27,12 +27,12 @@ public class ProducerNode<T extends DomainObj> implements DomainPasserNode<T> {
     }
 
     @Override
-    public void addChildAcceptor(DomainAcceptorNode<T> acceptorNode) {
+    public void addChildAcceptor(DomainAcceptorNode<? super T> acceptorNode) {
         this.child = acceptorNode;
     }
 
     @Override
-    public Set<DomainAcceptorNode<T>> getChildrenAcceptors() {
+    public Set<DomainAcceptorNode<? super T>> getChildrenAcceptors() {
         return ArrayUtils.asSet(child);
     }
 
