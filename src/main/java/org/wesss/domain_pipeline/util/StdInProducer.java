@@ -26,7 +26,7 @@ public class StdInProducer extends Producer<StringDomain> {
     @Override
     protected void run() {
         boolean isRunning = true;
-        while(isRunning) {
+        while (isRunning) {
             Scanner scanner = new Scanner(System.in);
             String line = scanner.nextLine();
 

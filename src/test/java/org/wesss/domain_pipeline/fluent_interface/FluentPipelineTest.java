@@ -10,7 +10,6 @@ import org.wesss.domain_pipeline.workers.Translator;
 import org.wesss.general_utils.exceptions.IllegalUseException;
 import test_instantiation.basic.IntDomainObj;
 import test_instantiation.basic.IntProducer;
-import test_instantiation.basic.ObjConsumer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;

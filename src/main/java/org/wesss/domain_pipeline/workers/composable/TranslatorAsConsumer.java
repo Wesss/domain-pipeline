@@ -4,7 +4,6 @@ import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.Emitter;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.DomainPasser;
-import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.general_utils.annotations.Nullable;
 import org.wesss.general_utils.exceptions.IllegalUseException;
 
@@ -26,7 +25,7 @@ public class TranslatorAsConsumer<T extends DomainObj> extends Consumer<DomainOb
         if (emitter == null) {
             throw new IllegalUseException("Emitter has not been initialized");
         }
-        emitter.emit((T)domainObj);
+        emitter.emit((T) domainObj);
     }
 
     @Override

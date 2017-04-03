@@ -32,7 +32,7 @@ public class TranslatorTester<T extends DomainObj, V extends DomainObj> {
         List<DomainObj> emissions = accumulatingConsumer.getReceivedDomainObjects();
         List<V> typedEmissions = new ArrayList<>();
         for (DomainObj obj : emissions) {
-            typedEmissions.add((V)obj);
+            typedEmissions.add((V) obj);
         }
         return typedEmissions;
     }

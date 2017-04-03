@@ -3,7 +3,6 @@ package acceptance;
 import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
-import test_instantiation.basic.IntConsumer;
 import test_instantiation.basic.IntDomainObj;
 import test_instantiation.basic.IntProducer;
 import test_instantiation.basic.ObjConsumer;
@@ -11,8 +10,6 @@ import test_instantiation.basic.ObjConsumer;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasItems;
 
 public class WeakerTypeConsumptionTest {
@@ -39,8 +36,8 @@ public class WeakerTypeConsumptionTest {
         }
 
         assertThat(objConsumer.getReceivedDomainObjects().stream()
-                .map(domainObj -> ((IntDomainObj)domainObj).getId())
-                .collect(Collectors.toList()),
+                        .map(domainObj -> ((IntDomainObj) domainObj).getId())
+                        .collect(Collectors.toList()),
                 hasItems(0, 1, 2));
     }
 }

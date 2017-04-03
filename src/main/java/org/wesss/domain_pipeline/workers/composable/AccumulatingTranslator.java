@@ -24,6 +24,9 @@ public class AccumulatingTranslator<T extends DomainObj> extends Translator<T, L
         receivedDomainObjs.add(domainObj);
     }
 
+    /**
+     * emits all received domain objs as a list, ordered by time received.
+     */
     public void emitAllReceivedDomainObjs() {
         emitter.emit(new ListDomain<>(receivedDomainObjs));
         receivedDomainObjs.clear();

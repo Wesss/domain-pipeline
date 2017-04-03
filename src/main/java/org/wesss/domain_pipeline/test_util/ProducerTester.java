@@ -22,7 +22,7 @@ public class ProducerTester<T extends DomainObj> {
         List<DomainObj> emissions = accumulatingConsumer.getReceivedDomainObjects();
         List<T> typedEmissions = new ArrayList<>();
         for (DomainObj obj : emissions) {
-            typedEmissions.add((T)obj);
+            typedEmissions.add((T) obj);
         }
         return typedEmissions;
     }

@@ -2,11 +2,14 @@ package org.wesss.domain_pipeline.compilers.composable;
 
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.compilers.FluentPipelineCompiler;
-import org.wesss.domain_pipeline.node_wrappers.*;
-import org.wesss.domain_pipeline.workers.composable.TranslatorAsConsumer;
-import org.wesss.domain_pipeline.workers.composable.TranslatorAsProducer;
+import org.wesss.domain_pipeline.node_wrappers.ConsumerNode;
+import org.wesss.domain_pipeline.node_wrappers.DomainAcceptorNode;
+import org.wesss.domain_pipeline.node_wrappers.DomainPasserNode;
+import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 import org.wesss.domain_pipeline.workers.Translator;
 import org.wesss.domain_pipeline.workers.composable.ComposedTranslator;
+import org.wesss.domain_pipeline.workers.composable.TranslatorAsConsumer;
+import org.wesss.domain_pipeline.workers.composable.TranslatorAsProducer;
 
 /**
  * @param <T> the domain type that will be produced by the producer compiled from this compiler

@@ -4,7 +4,6 @@ import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.Emitter;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
 import org.wesss.domain_pipeline.workers.Producer;
-import org.wesss.general_utils.exceptions.IllegalUseException;
 
 /**
  * A Translator that simply re-emit the domain objects it accepts, disguised as a producer
