@@ -2,8 +2,8 @@ package org.wesss.domain_pipeline.test_util;
 
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.DomainPipeline;
-import org.wesss.domain_pipeline.util.ManualConsumer;
-import org.wesss.domain_pipeline.util.ManualProducer;
+import org.wesss.domain_pipeline.util.AccumulatingConsumer;
+import org.wesss.domain_pipeline.util.TranslatorAsProducer;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.domain_pipeline.workers.Translator;
@@ -19,14 +19,14 @@ public class DomainPipelineTest {
      * @return a test interface for testing the emitted domain objs of given producer
      */
     public static <T extends DomainObj> ProducerTester<T> testProducer(Producer<T> producer) {
-        ManualConsumer<DomainObj> manualConsumer = new ManualConsumer<>(DomainObj.class);
+        AccumulatingConsumer<DomainObj> accumulatingConsumer = new AccumulatingConsumer<>(DomainObj.class);
         DomainPipeline.createPipeline()
                 .startingWith(producer)
-                .thenConsumedBy(manualConsumer)
+                .thenConsumedBy(accumulatingConsumer)
                 .build()
                 .start();
 
-        return new ProducerTester<>(manualConsumer);
+        return new ProducerTester<>(accumulatingConsumer);
     }
 
     /**
@@ -34,29 +34,29 @@ public class DomainPipelineTest {
      */
     public static <T extends DomainObj, V extends DomainObj>
     TranslatorTester<T, V> testTranslator(Translator<T, V> translator) {
-        ManualProducer<T> manualProducer = new ManualProducer<>();
-        ManualConsumer<DomainObj> manualConsumer = new ManualConsumer<>(DomainObj.class);
+        TranslatorAsProducer<T> translatorAsProducer = new TranslatorAsProducer<>(translator.getAcceptedClass());
+        AccumulatingConsumer<DomainObj> accumulatingConsumer = new AccumulatingConsumer<>(DomainObj.class);
         DomainPipeline.createPipeline()
-                .startingWith(manualProducer)
+                .startingWith(translatorAsProducer)
                 .thenTranslatedBy(translator)
-                .thenConsumedBy(manualConsumer)
+                .thenConsumedBy(accumulatingConsumer)
                 .build()
                 .start();
 
-        return new TranslatorTester<T, V>(manualProducer, manualConsumer);
+        return new TranslatorTester<T, V>(translatorAsProducer, accumulatingConsumer);
     }
 
     /**
      * @return a test interface for passing domain objs to the consumer
      */
     public static <T extends DomainObj> ConsumerTester<T> testConsumer(Consumer<T> consumer) {
-        ManualProducer<T> manualProducer = new ManualProducer<>();
+        TranslatorAsProducer<T> translatorAsProducer = new TranslatorAsProducer<>(consumer.getAcceptedClass());
         DomainPipeline.createPipeline()
-                .startingWith(manualProducer)
+                .startingWith(translatorAsProducer)
                 .thenConsumedBy(consumer)
                 .build()
                 .start();
 
-        return new ConsumerTester<>(manualProducer);
+        return new ConsumerTester<>(translatorAsProducer);
     }
 }

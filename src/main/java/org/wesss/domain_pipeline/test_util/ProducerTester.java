@@ -1,17 +1,17 @@
 package org.wesss.domain_pipeline.test_util;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.util.ManualConsumer;
+import org.wesss.domain_pipeline.util.AccumulatingConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProducerTester<T extends DomainObj> {
 
-    ManualConsumer<DomainObj> manualConsumer;
+    AccumulatingConsumer<DomainObj> accumulatingConsumer;
 
-    ProducerTester(ManualConsumer<DomainObj> manualConsumer) {
-        this.manualConsumer = manualConsumer;
+    ProducerTester(AccumulatingConsumer<DomainObj> accumulatingConsumer) {
+        this.accumulatingConsumer = accumulatingConsumer;
     }
 
     /**
@@ -19,7 +19,7 @@ public class ProducerTester<T extends DomainObj> {
      * that they were emitted
      */
     public List<T> getEmissions() {
-        List<DomainObj> emissions = manualConsumer.getReceivedDomainObjects();
+        List<DomainObj> emissions = accumulatingConsumer.getReceivedDomainObjects();
         List<T> typedEmissions = new ArrayList<>();
         for (DomainObj obj : emissions) {
             typedEmissions.add((T)obj);

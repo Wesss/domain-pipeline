@@ -1,31 +1,27 @@
 package org.wesss.domain_pipeline.test_util;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.DomainPipeline;
-import org.wesss.domain_pipeline.util.ManualConsumer;
-import org.wesss.domain_pipeline.util.ManualProducer;
-import org.wesss.domain_pipeline.workers.Consumer;
-import org.wesss.domain_pipeline.workers.Producer;
-import org.wesss.domain_pipeline.workers.Translator;
+import org.wesss.domain_pipeline.util.AccumulatingConsumer;
+import org.wesss.domain_pipeline.util.TranslatorAsProducer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TranslatorTester<T extends DomainObj, V extends DomainObj> {
 
-    ManualProducer<T> manualProducer;
-    ManualConsumer<DomainObj> manualConsumer;
+    TranslatorAsProducer<T> translatorAsProducer;
+    AccumulatingConsumer<DomainObj> accumulatingConsumer;
 
-    TranslatorTester(ManualProducer<T> manualProducer, ManualConsumer<DomainObj> manualConsumer) {
-        this.manualProducer = manualProducer;
-        this.manualConsumer = manualConsumer;
+    TranslatorTester(TranslatorAsProducer<T> translatorAsProducer, AccumulatingConsumer<DomainObj> accumulatingConsumer) {
+        this.translatorAsProducer = translatorAsProducer;
+        this.accumulatingConsumer = accumulatingConsumer;
     }
 
     /**
      * Passes given domain obj to the pipeline worker under test
      */
     public void passIn(T domainObj) {
-        manualProducer.emit(domainObj);
+        translatorAsProducer.acceptDomain(domainObj);
     }
 
     /**
@@ -33,7 +29,7 @@ public class TranslatorTester<T extends DomainObj, V extends DomainObj> {
      * that they were emitted
      */
     public List<V> getEmissions() {
-        List<DomainObj> emissions = manualConsumer.getReceivedDomainObjects();
+        List<DomainObj> emissions = accumulatingConsumer.getReceivedDomainObjects();
         List<V> typedEmissions = new ArrayList<>();
         for (DomainObj obj : emissions) {
             typedEmissions.add((V)obj);

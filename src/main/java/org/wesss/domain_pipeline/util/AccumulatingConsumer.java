@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A Consumer that accumulates passed in domain objs to hand off its callers.
+ * A Consumer that accumulates passed in domain objs
  */
-public class ManualConsumer<T extends DomainObj> extends Consumer<T> {
+public class AccumulatingConsumer<T extends DomainObj> extends Consumer<T> {
 
     private List<T> receivedDomainObjects;
 
     /**
      * @param acceptedClazz the class that is accepted by this consumer
      */
-    public ManualConsumer(Class<T> acceptedClazz) {
+    public AccumulatingConsumer(Class<T> acceptedClazz) {
         super(acceptedClazz);
         receivedDomainObjects = new ArrayList<>();
     }

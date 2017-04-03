@@ -2,11 +2,14 @@ package org.wesss.domain_pipeline.compilers.composable;
 
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.compilers.Compilation;
+import org.wesss.domain_pipeline.compilers.FluentPipelineCompiler;
 import org.wesss.domain_pipeline.compilers.PipelineCompiler;
 import org.wesss.domain_pipeline.node_wrappers.ConsumerNode;
 import org.wesss.domain_pipeline.node_wrappers.DomainPasserNode;
 import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 import org.wesss.domain_pipeline.node_wrappers.TranslatorNode;
+import org.wesss.domain_pipeline.util.TranslatorAsConsumer;
+import org.wesss.domain_pipeline.util.TranslatorAsProducer;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.domain_pipeline.workers.composable.ComposedProducer;
 import org.wesss.general_utils.exceptions.IllegalUseException;
@@ -14,7 +17,7 @@ import org.wesss.general_utils.exceptions.IllegalUseException;
 /**
  * @param <T> the domain type that will be produced by the producer compiled from this compiler
  */
-public class FluentProducerCompiler<T extends DomainObj> extends PipelineCompiler {
+public class FluentProducerCompiler<T extends DomainObj> {
 
     private ProducerNode<?> rootNode;
     private DomainPasserNode<T> endNode;
@@ -32,31 +35,12 @@ public class FluentProducerCompiler<T extends DomainObj> extends PipelineCompile
     }
 
     public Producer<T> compile() {
-        rootNode.build(this);
+        TranslatorAsConsumer<T> fakeConsumer = new TranslatorAsConsumer<>();
+        ConsumerNode<DomainObj> fakeConsumerNode = new ConsumerNode<>(fakeConsumer);
+        endNode.addChildAcceptor(fakeConsumerNode);
 
-        return new ComposedProducer<>(rootNode, endNode);
-    }
-
-    @Override
-    public <V extends DomainObj> void visit(ProducerNode<V> producerNode) {
-        // stop compilation if we reach the end of the pipeline
-        if (!producerNode.equals(endNode)) {
-            Compilation.hookUpPasserAndAcceptorNodes(producerNode);
-            super.visit(producerNode);
-        }
-    }
-
-    @Override
-    public <V extends DomainObj, W extends DomainObj> void visit(TranslatorNode<V, W> translatorNode) {
-        // stop compilation if we reach the end of the pipeline
-        if (!translatorNode.equals(endNode)) {
-            Compilation.hookUpPasserAndAcceptorNodes(translatorNode);
-            super.visit(translatorNode);
-        }
-    }
-
-    @Override
-    public <V extends DomainObj> void visit(ConsumerNode<V> consumerNode) {
-        throw new IllegalUseException("Consumer cannot compose a producer");
+        FluentPipelineCompiler pipelineCompiler = new FluentPipelineCompiler(rootNode);
+        pipelineCompiler.compile().start();
+        return new ComposedProducer<>(rootNode, fakeConsumer);
     }
 }

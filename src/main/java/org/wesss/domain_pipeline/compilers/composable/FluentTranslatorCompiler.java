@@ -4,8 +4,11 @@ import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.Emitter;
 import org.wesss.domain_pipeline.EmitterFactory;
 import org.wesss.domain_pipeline.compilers.Compilation;
+import org.wesss.domain_pipeline.compilers.FluentPipelineCompiler;
 import org.wesss.domain_pipeline.compilers.PipelineCompiler;
 import org.wesss.domain_pipeline.node_wrappers.*;
+import org.wesss.domain_pipeline.util.TranslatorAsConsumer;
+import org.wesss.domain_pipeline.util.TranslatorAsProducer;
 import org.wesss.domain_pipeline.workers.Translator;
 import org.wesss.domain_pipeline.workers.composable.ComposedTranslator;
 import org.wesss.general_utils.collection.ArrayUtils;
@@ -14,7 +17,7 @@ import org.wesss.general_utils.exceptions.IllegalUseException;
 /**
  * @param <T> the domain type that will be produced by the producer compiled from this compiler
  */
-public class FluentTranslatorCompiler<T extends DomainObj, V extends DomainObj> extends PipelineCompiler {
+public class FluentTranslatorCompiler<T extends DomainObj, V extends DomainObj> {
 
     private DomainAcceptorNode<T> rootNode;
     private DomainPasserNode<V> endNode;
@@ -32,30 +35,18 @@ public class FluentTranslatorCompiler<T extends DomainObj, V extends DomainObj> 
     }
 
     public Translator<T, V> compile() {
-        rootNode.build(this);
+        Class<T> acceptedClass = rootNode.getDomainAcceptor().getAcceptedClass();
+        TranslatorAsProducer<T> fakeProducer = new TranslatorAsProducer<>(acceptedClass);
+        ProducerNode<T> fakeProducerNode = new ProducerNode<>(fakeProducer);
+        fakeProducerNode.addChildAcceptor(rootNode);
 
-        Emitter<T> emitterToRootNode = EmitterFactory.getEmitter(
-                ArrayUtils.asSet(rootNode.getDomainAcceptor())
-        );
-        return new ComposedTranslator<>(rootNode, emitterToRootNode, endNode);
-    }
+        TranslatorAsConsumer<V> fakeConsumer = new TranslatorAsConsumer<>();
+        ConsumerNode<DomainObj> fakeConsumerNode = new ConsumerNode<>(fakeConsumer);
+        endNode.addChildAcceptor(fakeConsumerNode);
 
-    @Override
-    public <W extends DomainObj> void visit(ProducerNode<W> producerNode) {
-        throw new IllegalUseException("Producer cannot compose a Translator");
-    }
+        FluentPipelineCompiler pipelineCompiler = new FluentPipelineCompiler(fakeProducerNode);
+        pipelineCompiler.compile().start();
 
-    @Override
-    public <W extends DomainObj, X extends DomainObj> void visit(TranslatorNode<W, X> translatorNode) {
-        // stop compilation if we reach the end of the pipeline
-        if (!translatorNode.equals(endNode)) {
-            Compilation.hookUpPasserAndAcceptorNodes(translatorNode);
-            super.visit(translatorNode);
-        }
-    }
-
-    @Override
-    public <W extends DomainObj> void visit(ConsumerNode<W> consumerNode) {
-        throw new IllegalUseException("Consumer cannot compose a Translator");
+        return new ComposedTranslator<>(fakeProducer, fakeConsumer, acceptedClass);
     }
 }

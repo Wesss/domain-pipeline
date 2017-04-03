@@ -1,29 +1,20 @@
 package org.wesss.domain_pipeline.workers.composable;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.Emitter;
-import org.wesss.domain_pipeline.node_wrappers.DomainAcceptorNode;
+import org.wesss.domain_pipeline.util.TranslatorAsProducer;
 import org.wesss.domain_pipeline.workers.Consumer;
 
 public class ComposedConsumer<T extends DomainObj> extends Consumer<T> {
 
-    private DomainAcceptorNode<T> rootNode;
-    private Emitter<T> emitterToRootNode;
+    private TranslatorAsProducer<T> fakeProducer;
 
-    public ComposedConsumer(DomainAcceptorNode<T> rootNode, Emitter<T> emitterToRootNode) {
-        super(rootNode.getDomainAcceptor().getAcceptedClass());
-        this.rootNode = rootNode;
-        this.emitterToRootNode = emitterToRootNode;
-    }
-
-    @Override
-    public void initAcceptor(Emitter<T> recursiveEmitter) {
-        super.initAcceptor(recursiveEmitter);
-        rootNode.getDomainAcceptor().initAcceptor(emitterToRootNode);
+    public ComposedConsumer(TranslatorAsProducer<T> fakeProducer, Class<T> acceptedClazz) {
+        super(acceptedClazz);
+        this.fakeProducer = fakeProducer;
     }
 
     @Override
     public void acceptDomain(T domainObj) {
-        emitterToRootNode.emit(domainObj);
+        fakeProducer.acceptDomain(domainObj);
     }
 }

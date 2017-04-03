@@ -48,7 +48,7 @@ public class FluentComposablePipelineTest {
 
         verify(mockIntProducer).initPasser(any());
         verify(mockIntTranslator).initAcceptor(any());
-        verify(mockIntTranslator, never()).initPasser(any());
+        verify(mockIntTranslator).initPasser(any());
     }
 
     @Test
@@ -60,10 +60,10 @@ public class FluentComposablePipelineTest {
 
         assertThat(composedTranslator, not(nullValue()));
 
-        verify(mockIntTranslator, never()).initAcceptor(any());
+        verify(mockIntTranslator).initAcceptor(any());
         verify(mockIntTranslator).initPasser(any());
         verify(mockIntTranslator2).initAcceptor(any());
-        verify(mockIntTranslator2, never()).initPasser(any());
+        verify(mockIntTranslator2).initPasser(any());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class FluentComposablePipelineTest {
 
         assertThat(composedConsumer, not(nullValue()));
 
-        verify(mockIntTranslator, never()).initAcceptor(any());
+        verify(mockIntTranslator).initAcceptor(any());
         verify(mockIntTranslator).initPasser(any());
         verify(mockIntConsumer).initAcceptor(any());
     }
