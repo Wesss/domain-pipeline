@@ -1,7 +1,7 @@
 package org.wesss.domain_pipeline.test_util;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.util.AccumulatingConsumer;
+import org.wesss.domain_pipeline.workers.composable.AccumulatingConsumer;
 
 import java.util.ArrayList;
 import java.util.List;

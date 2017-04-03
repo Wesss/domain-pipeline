@@ -1,13 +1,13 @@
-package org.wesss.domain_pipeline.util.domain;
+package org.wesss.domain_pipeline.util.interdomain;
 
 import org.wesss.domain_pipeline.DomainObj;
 
 import java.util.Objects;
 
-public class StringDomainObj extends DomainObj {
+public class StringDomain extends DomainObj {
     private String string;
 
-    public StringDomainObj(String string) {
+    public StringDomain(String string) {
         Objects.requireNonNull(string);
         this.string = string;
     }

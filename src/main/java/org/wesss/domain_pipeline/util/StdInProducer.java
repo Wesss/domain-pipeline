@@ -1,6 +1,6 @@
 package org.wesss.domain_pipeline.util;
 
-import org.wesss.domain_pipeline.util.domain.StringDomainObj;
+import org.wesss.domain_pipeline.util.interdomain.StringDomain;
 import org.wesss.domain_pipeline.workers.Producer;
 
 import java.util.Scanner;
@@ -9,7 +9,7 @@ import java.util.Scanner;
  * Continually outputs lines fed from std in until the quit string is input.
  * The quit string is by default "quit".
  */
-public class StdInProducer extends Producer<StringDomainObj> {
+public class StdInProducer extends Producer<StringDomain> {
 
     private static final String DEFAULT_QUIT_STRING = "quit";
 
@@ -33,7 +33,7 @@ public class StdInProducer extends Producer<StringDomainObj> {
             if (line.equals(quitString)) {
                 isRunning = false;
             } else {
-                emitter.emit(new StringDomainObj(line));
+                emitter.emit(new StringDomain(line));
             }
         }
     }

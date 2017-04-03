@@ -2,8 +2,8 @@ package org.wesss.domain_pipeline.test_util;
 
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.DomainPipeline;
-import org.wesss.domain_pipeline.util.AccumulatingConsumer;
-import org.wesss.domain_pipeline.util.TranslatorAsProducer;
+import org.wesss.domain_pipeline.workers.composable.AccumulatingConsumer;
+import org.wesss.domain_pipeline.workers.composable.TranslatorAsProducer;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.domain_pipeline.workers.Translator;

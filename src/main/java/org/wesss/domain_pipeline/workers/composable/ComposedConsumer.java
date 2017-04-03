@@ -1,7 +1,6 @@
 package org.wesss.domain_pipeline.workers.composable;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.util.TranslatorAsProducer;
 import org.wesss.domain_pipeline.workers.Consumer;
 
 public class ComposedConsumer<T extends DomainObj> extends Consumer<T> {

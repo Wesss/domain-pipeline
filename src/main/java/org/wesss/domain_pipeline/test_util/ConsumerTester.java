@@ -1,7 +1,7 @@
 package org.wesss.domain_pipeline.test_util;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.util.TranslatorAsProducer;
+import org.wesss.domain_pipeline.workers.composable.TranslatorAsProducer;
 
 public class ConsumerTester<T extends DomainObj> {
 

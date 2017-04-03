@@ -1,4 +1,4 @@
-package org.wesss.domain_pipeline.util;
+package org.wesss.domain_pipeline.workers.composable;
 
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.Emitter;
