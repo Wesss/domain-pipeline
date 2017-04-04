@@ -1,6 +1,7 @@
 package org.wesss.domain_pipeline.routing;
 
 import org.junit.Test;
+import org.wesss.domain_pipeline.routing.domain.DomainAcceptorAnalyzer;
 import test_instantiation.annotated_consumption.*;
 import test_instantiation.basic.IntConsumer;
 import test_instantiation.basic.IntDomainObj;
@@ -18,8 +19,8 @@ public class DomainAcceptorAnalyzerTest {
     @Test
     public void analyzeMinimalAcceptor() {
         IntConsumer consumer = new IntConsumer();
-        PostAnalysisDomainAcceptor<IntDomainObj> analyzedDomainAcceptor =
-                DomainAcceptorAnalyzer.analyzeDomainAcceptor(consumer);
+        MethodRouter<IntDomainObj> analyzedDomainAcceptor =
+                MethodRouterFactory.getMethodRouter(consumer);
 
         IntDomainObj domainObj = new IntDomainObj(0);
         analyzedDomainAcceptor.acceptDomain(domainObj);
@@ -30,8 +31,8 @@ public class DomainAcceptorAnalyzerTest {
     @Test
     public void analyzeAnnotatedAcceptor() {
         InheritDomainSubclassConsumer consumer = new InheritDomainSubclassConsumer();
-        PostAnalysisDomainAcceptor<DomainObjRoot> analyzedDomainAcceptor =
-                DomainAcceptorAnalyzer.analyzeDomainAcceptor(consumer);
+        MethodRouter<DomainObjRoot> analyzedDomainAcceptor =
+                MethodRouterFactory.getMethodRouter(consumer);
 
         analyzedDomainAcceptor.acceptDomain(new DomainObjRoot());
         analyzedDomainAcceptor.acceptDomain(new DomainObjLeaf1());
@@ -50,8 +51,8 @@ public class DomainAcceptorAnalyzerTest {
     @Test
     public void analyzeGenericAcceptor() {
         GenericConsumer<IntDomainObj> genericConsumer = new GenericConsumer<>(IntDomainObj.class);
-        PostAnalysisDomainAcceptor<IntDomainObj> analyzedDomainAcceptor =
-                DomainAcceptorAnalyzer.analyzeDomainAcceptor(genericConsumer);
+        MethodRouter<IntDomainObj> analyzedDomainAcceptor =
+                MethodRouterFactory.getMethodRouter(genericConsumer);
 
         IntDomainObj domainObj = new IntDomainObj(0);
         analyzedDomainAcceptor.acceptDomain(domainObj);

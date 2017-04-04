@@ -1,7 +1,7 @@
 package org.wesss.domain_pipeline.workers;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.Emitter;
+import org.wesss.domain_pipeline.routing.Emitter;
 
 /**
  * A domain pipeline worker that is capable of passing out (aka emitting) domain objs

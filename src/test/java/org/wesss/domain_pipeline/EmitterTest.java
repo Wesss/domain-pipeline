@@ -3,9 +3,10 @@ package org.wesss.domain_pipeline;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
-import org.wesss.domain_pipeline.routing.DomainAcceptorMethod;
-import org.wesss.domain_pipeline.routing.MethodRoutingTable;
-import org.wesss.domain_pipeline.routing.PostAnalysisDomainAcceptor;
+import org.wesss.domain_pipeline.routing.domain.DomainAcceptorMethod;
+import org.wesss.domain_pipeline.routing.Emitter;
+import org.wesss.domain_pipeline.routing.domain.MethodRoutingTable;
+import org.wesss.domain_pipeline.routing.MethodRouter;
 import org.wesss.general_utils.collection.ArrayUtils;
 import test_instantiation.annotated_consumption.*;
 
@@ -53,10 +54,10 @@ public class EmitterTest {
         MethodRoutingTable<DomainObjRoot> methodRoutingTable = new MethodRoutingTable<>(domainAcceptorMethods1);
         MethodRoutingTable<DomainObjRoot> methodRoutingTable2 = new MethodRoutingTable<>(domainAcceptorMethods2);
 
-        PostAnalysisDomainAcceptor<DomainObjRoot> postAnalysisConsumer1 =
-                new PostAnalysisDomainAcceptor<>(mockConsumer1, methodRoutingTable);
-        PostAnalysisDomainAcceptor<DomainObjRoot> postAnalysisConsumer2 =
-                new PostAnalysisDomainAcceptor<>(mockConsumer2, methodRoutingTable2);
+        MethodRouter<DomainObjRoot> postAnalysisConsumer1 =
+                new MethodRouter<>(mockConsumer1, methodRoutingTable);
+        MethodRouter<DomainObjRoot> postAnalysisConsumer2 =
+                new MethodRouter<>(mockConsumer2, methodRoutingTable2);
 
         emitter = new Emitter(ArrayUtils.asSet(postAnalysisConsumer1, postAnalysisConsumer2));
     }

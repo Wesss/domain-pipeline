@@ -1,6 +1,6 @@
-package org.wesss.domain_pipeline;
+package org.wesss.domain_pipeline.routing;
 
-import org.wesss.domain_pipeline.routing.PostAnalysisDomainAcceptor;
+import org.wesss.domain_pipeline.DomainObj;
 
 import java.util.Objects;
 import java.util.Set;
@@ -12,14 +12,14 @@ import java.util.Set;
  */
 public class Emitter<T extends DomainObj> {
 
-    private final Set<PostAnalysisDomainAcceptor<? super T>> domainAcceptors;
+    private final Set<MethodRouter<? super T>> domainAcceptors;
 
-    public Emitter(Set<PostAnalysisDomainAcceptor<? super T>> domainAcceptors) {
+    public Emitter(Set<MethodRouter<? super T>> domainAcceptors) {
         this.domainAcceptors = domainAcceptors;
     }
 
     public void emit(T domainObj) {
-        for (PostAnalysisDomainAcceptor<? super T> analyzedDomainAcceptor : domainAcceptors) {
+        for (MethodRouter<? super T> analyzedDomainAcceptor : domainAcceptors) {
             analyzedDomainAcceptor.acceptDomain(domainObj);
         }
     }

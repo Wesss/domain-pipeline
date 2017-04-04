@@ -1,7 +1,8 @@
-package org.wesss.domain_pipeline.routing;
+package org.wesss.domain_pipeline.routing.domain;
 
 import org.wesss.domain_pipeline.Accepts;
 import org.wesss.domain_pipeline.DomainObj;
+import org.wesss.domain_pipeline.routing.MethodRouter;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
 import org.wesss.general_utils.exceptions.IllegalUseException;
 
@@ -13,19 +14,8 @@ import java.util.Set;
 
 public class DomainAcceptorAnalyzer {
 
-    public static <T extends DomainObj> PostAnalysisDomainAcceptor<T>
-    analyzeDomainAcceptor(DomainAcceptor<T> domainAcceptor) {
-
-        MethodRoutingTable<T> methodRoutingTable = getMethodRoutingTable(domainAcceptor);
-
-        return new PostAnalysisDomainAcceptor<>(domainAcceptor, methodRoutingTable);
-    }
-
-    private static <T extends DomainObj> MethodRoutingTable<T>
+    public static <T extends DomainObj> MethodRoutingTable<T>
     getMethodRoutingTable(DomainAcceptor<T> domainAcceptor) {
-
-        // test using domainAcceptorClazz.getMethods() to see if we can avoid scanning all extended classes in order
-
         MethodRoutingTableBuilder<T> methodRoutingTableBuilder =
                 new MethodRoutingTableBuilder<>();
         Class<? extends T> acceptedDomainClazz = domainAcceptor.getAcceptedClass();

@@ -1,6 +1,7 @@
 package org.wesss.domain_pipeline.routing;
 
 import org.wesss.domain_pipeline.DomainObj;
+import org.wesss.domain_pipeline.routing.domain.MethodRoutingTable;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
 import org.wesss.general_utils.reflection.RefectionUtils;
 
@@ -10,13 +11,13 @@ import java.util.Objects;
 /**
  * @param <T> the weakest accepted domain obj type
  */
-public class PostAnalysisDomainAcceptor<T extends DomainObj> {
+public class MethodRouter<T extends DomainObj> {
 
     private final DomainAcceptor<T> domainAcceptor;
     private final MethodRoutingTable<T> methodRoutingTable;
 
-    public PostAnalysisDomainAcceptor(DomainAcceptor<T> domainAcceptor,
-                                      MethodRoutingTable<T> methodRoutingTable) {
+    public MethodRouter(DomainAcceptor<T> domainAcceptor,
+                        MethodRoutingTable<T> methodRoutingTable) {
         this.domainAcceptor = domainAcceptor;
         this.methodRoutingTable = methodRoutingTable;
     }
@@ -35,7 +36,7 @@ public class PostAnalysisDomainAcceptor<T extends DomainObj> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PostAnalysisDomainAcceptor<?> that = (PostAnalysisDomainAcceptor<?>) o;
+        MethodRouter<?> that = (MethodRouter<?>) o;
         return Objects.equals(domainAcceptor, that.domainAcceptor) &&
                 Objects.equals(methodRoutingTable, that.methodRoutingTable);
     }
@@ -47,7 +48,7 @@ public class PostAnalysisDomainAcceptor<T extends DomainObj> {
 
     @Override
     public String toString() {
-        return "PostAnalysisDomainAcceptor{" +
+        return "MethodRouter{" +
                 "domainAcceptor=" + domainAcceptor +
                 ", methodRoutingTable=" + methodRoutingTable +
                 '}';

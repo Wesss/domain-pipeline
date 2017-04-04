@@ -21,18 +21,24 @@ public class FluentPipelineCompiler extends PipelineCompiler {
 
     @Override
     public <T extends DomainObj> void visit(ProducerNode<T> producerNode) {
-        Compilation.hookUpPasserAndAcceptorNodes(producerNode);
         super.visit(producerNode);
+        Compilation.initPasserNode(producerNode);
+        producerNode.getDomainPasser().initPasser(producerNode.getEmitter());
     }
 
     @Override
     public <T extends DomainObj, V extends DomainObj> void visit(TranslatorNode<T, V> translatorNode) {
-        Compilation.hookUpPasserAndAcceptorNodes(translatorNode);
         super.visit(translatorNode);
+        Compilation.initPasserNode(translatorNode);
+        translatorNode.getDomainPasser().initPasser(translatorNode.getEmitter());
+        Compilation.initAcceptorNode(translatorNode);
+        translatorNode.getDomainAcceptor().initAcceptor(translatorNode.getRecursiveEmitter());
     }
 
     @Override
     public <T extends DomainObj> void visit(ConsumerNode<T> consumerNode) {
         super.visit(consumerNode);
+        Compilation.initAcceptorNode(consumerNode);
+        consumerNode.getDomainAcceptor().initAcceptor(consumerNode.getRecursiveEmitter());
     }
 }

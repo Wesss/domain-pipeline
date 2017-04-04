@@ -1,7 +1,7 @@
 package org.wesss.domain_pipeline.workers.composable;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.Emitter;
+import org.wesss.domain_pipeline.routing.Emitter;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.DomainPasser;
 import org.wesss.general_utils.annotations.Nullable;

@@ -1,4 +1,4 @@
-package org.wesss.domain_pipeline.routing;
+package org.wesss.domain_pipeline.routing.domain;
 
 import org.wesss.domain_pipeline.DomainObj;
 
