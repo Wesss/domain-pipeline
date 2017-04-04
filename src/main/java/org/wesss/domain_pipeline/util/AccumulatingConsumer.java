@@ -1,4 +1,4 @@
-package org.wesss.domain_pipeline.workers.composable;
+package org.wesss.domain_pipeline.util;
 
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.workers.Consumer;
