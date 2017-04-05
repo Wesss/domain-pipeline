@@ -1,6 +1,6 @@
 package org.wesss.domain_pipeline.node_wrappers;
 
-import org.wesss.domain_pipeline.compilers.PipelineCompiler;
+import org.wesss.domain_pipeline.compiler.PipelineWalker;
 
 /**
  * Represents a single worker in a domain pipeline as a node in a directed acyclic graph.
@@ -12,5 +12,5 @@ public interface DomainPipelineNode {
     /**
      * Build this node using given compiler
      */
-    public void build(PipelineCompiler compiler);
+    public void buildUsing(PipelineWalker compiler);
 }

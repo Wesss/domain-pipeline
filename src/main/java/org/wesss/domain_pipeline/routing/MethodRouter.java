@@ -13,13 +13,18 @@ import java.util.Objects;
  */
 public class MethodRouter<T extends DomainObj> {
 
-    private final DomainAcceptor<T> domainAcceptor;
-    private final MethodRoutingTable<T> methodRoutingTable;
+    private DomainAcceptor<T> domainAcceptor;
+    private MethodRoutingTable<T> methodRoutingTable;
 
     public MethodRouter(DomainAcceptor<T> domainAcceptor,
                         MethodRoutingTable<T> methodRoutingTable) {
         this.domainAcceptor = domainAcceptor;
         this.methodRoutingTable = methodRoutingTable;
+    }
+
+    public void changeTo(MethodRouter<T> other) {
+        this.domainAcceptor = other.domainAcceptor;
+        this.methodRoutingTable = other.methodRoutingTable;
     }
 
     public void acceptDomain(T domainObj) {
@@ -32,25 +37,11 @@ public class MethodRouter<T extends DomainObj> {
                 domainObj);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MethodRouter<?> that = (MethodRouter<?>) o;
-        return Objects.equals(domainAcceptor, that.domainAcceptor) &&
-                Objects.equals(methodRoutingTable, that.methodRoutingTable);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(domainAcceptor, methodRoutingTable);
-    }
-
-    @Override
-    public String toString() {
-        return "MethodRouter{" +
-                "domainAcceptor=" + domainAcceptor +
-                ", methodRoutingTable=" + methodRoutingTable +
-                '}';
+    /**
+     * @return a methodRouter that routes to nothing
+     */
+    public static <T extends DomainObj> MethodRouter<T> getStubMethodRouter() {
+        // TODO actually return stub method router
+        return new MethodRouter<T>(null, null);
     }
 }

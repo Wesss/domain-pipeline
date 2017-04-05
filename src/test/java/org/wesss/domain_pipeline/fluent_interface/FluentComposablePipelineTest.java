@@ -3,10 +3,10 @@ package org.wesss.domain_pipeline.fluent_interface;
 import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
+import org.wesss.domain_pipeline.util.interdomain.IntDomain;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.domain_pipeline.workers.Translator;
-import test_instantiation.basic.IntDomainObj;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
@@ -17,10 +17,10 @@ import static org.wesss.test_utils.MockUtils.genericMock;
 
 public class FluentComposablePipelineTest {
 
-    private Producer<IntDomainObj> mockIntProducer;
-    private Translator<IntDomainObj, IntDomainObj> mockIntTranslator;
-    private Translator<IntDomainObj, IntDomainObj> mockIntTranslator2;
-    private Consumer<IntDomainObj> mockIntConsumer;
+    private Producer<IntDomain> mockIntProducer;
+    private Translator<IntDomain, IntDomain> mockIntTranslator;
+    private Translator<IntDomain, IntDomain> mockIntTranslator2;
+    private Consumer<IntDomain> mockIntConsumer;
 
     public FluentComposablePipelineTest() {
         mockIntProducer = genericMock(Producer.class);
@@ -32,14 +32,14 @@ public class FluentComposablePipelineTest {
     @Before
     public void before() {
         reset(mockIntProducer, mockIntTranslator, mockIntTranslator2, mockIntConsumer);
-        when(mockIntTranslator.getAcceptedClass()).thenReturn(IntDomainObj.class);
-        when(mockIntTranslator2.getAcceptedClass()).thenReturn(IntDomainObj.class);
-        when(mockIntConsumer.getAcceptedClass()).thenReturn(IntDomainObj.class);
+        when(mockIntTranslator.getAcceptedClass()).thenReturn(IntDomain.class);
+        when(mockIntTranslator2.getAcceptedClass()).thenReturn(IntDomain.class);
+        when(mockIntConsumer.getAcceptedClass()).thenReturn(IntDomain.class);
     }
 
     @Test
     public void producerCanBeComposed() {
-        Producer<IntDomainObj> composedProducer = DomainPipeline.createComposedProducer()
+        Producer<IntDomain> composedProducer = DomainPipeline.createComposedProducer()
                 .startingWith(mockIntProducer)
                 .thenTranslatedBy(mockIntTranslator)
                 .build();
@@ -53,7 +53,7 @@ public class FluentComposablePipelineTest {
 
     @Test
     public void translatorCanBeComposed() {
-        Translator<IntDomainObj, IntDomainObj> composedTranslator = DomainPipeline.createComposedTranslator()
+        Translator<IntDomain, IntDomain> composedTranslator = DomainPipeline.createComposedTranslator()
                 .firstTranslatedBy(mockIntTranslator)
                 .thenTranslatedBy(mockIntTranslator2)
                 .build();
@@ -68,7 +68,7 @@ public class FluentComposablePipelineTest {
 
     @Test
     public void consumerCanBeComposed() {
-        Consumer<IntDomainObj> composedConsumer = DomainPipeline.createComposedConsumer()
+        Consumer<IntDomain> composedConsumer = DomainPipeline.createComposedConsumer()
                 .firstTranslatedBy(mockIntTranslator)
                 .thenConsumedBy(mockIntConsumer)
                 .build();

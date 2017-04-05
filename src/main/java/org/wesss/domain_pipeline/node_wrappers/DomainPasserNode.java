@@ -2,6 +2,7 @@ package org.wesss.domain_pipeline.node_wrappers;
 
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.routing.Emitter;
+import org.wesss.domain_pipeline.routing.MethodRouter;
 import org.wesss.domain_pipeline.workers.DomainPasser;
 
 import java.util.Set;
@@ -15,17 +16,11 @@ public interface DomainPasserNode<T extends DomainObj> extends DomainPipelineNod
     /**
      * Return the domain passer of this node
      */
-    DomainPasser<T> getDomainPasser();
+    public DomainPasser<T> getDomainPasser();
 
-    /**
-     * stores given emitter as the emitter for this domain passer
-     */
-    public void initEmitter(Emitter<T> emitter);
-
-    /**
-     * @return stored emitter iff it has been initialized
-     */
     public Emitter<T> getEmitter();
+
+    public void setEmitter(Emitter<T> emitter);
 
     /**
      * adds the given acceptor node as a child to this

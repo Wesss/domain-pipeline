@@ -1,10 +1,9 @@
 package org.wesss.domain_pipeline.routing;
 
 import org.junit.Test;
-import org.wesss.domain_pipeline.routing.domain.DomainAcceptorAnalyzer;
+import org.wesss.domain_pipeline.util.interdomain.IntDomain;
 import test_instantiation.annotated_consumption.*;
 import test_instantiation.basic.IntConsumer;
-import test_instantiation.basic.IntDomainObj;
 import test_instantiation.inheritance_consumption.GenericConsumer;
 
 import java.util.ArrayList;
@@ -14,16 +13,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 
-public class DomainAcceptorAnalyzerTest {
+public class MethodRouterTest {
 
     @Test
     public void analyzeMinimalAcceptor() {
         IntConsumer consumer = new IntConsumer();
-        MethodRouter<IntDomainObj> analyzedDomainAcceptor =
+        MethodRouter<IntDomain> methodRouter =
                 MethodRouterFactory.getMethodRouter(consumer);
 
-        IntDomainObj domainObj = new IntDomainObj(0);
-        analyzedDomainAcceptor.acceptDomain(domainObj);
+        IntDomain domainObj = new IntDomain(0);
+        methodRouter.acceptDomain(domainObj);
 
         assertThat(consumer.getReceivedDomainObjects(), contains(0));
     }
@@ -31,13 +30,13 @@ public class DomainAcceptorAnalyzerTest {
     @Test
     public void analyzeAnnotatedAcceptor() {
         InheritDomainSubclassConsumer consumer = new InheritDomainSubclassConsumer();
-        MethodRouter<DomainObjRoot> analyzedDomainAcceptor =
+        MethodRouter<DomainObjRoot> methodRouter =
                 MethodRouterFactory.getMethodRouter(consumer);
 
-        analyzedDomainAcceptor.acceptDomain(new DomainObjRoot());
-        analyzedDomainAcceptor.acceptDomain(new DomainObjLeaf1());
-        analyzedDomainAcceptor.acceptDomain(new DomainObjLeaf2());
-        analyzedDomainAcceptor.acceptDomain(new DomainObjLeaf1_1());
+        methodRouter.acceptDomain(new DomainObjRoot());
+        methodRouter.acceptDomain(new DomainObjLeaf1());
+        methodRouter.acceptDomain(new DomainObjLeaf2());
+        methodRouter.acceptDomain(new DomainObjLeaf1_1());
 
         List<DomainConsumption> expected = new ArrayList<>();
         expected.add(new DomainConsumption(DomainObjRoot.class, DomainObjRoot.class));
@@ -50,12 +49,12 @@ public class DomainAcceptorAnalyzerTest {
 
     @Test
     public void analyzeGenericAcceptor() {
-        GenericConsumer<IntDomainObj> genericConsumer = new GenericConsumer<>(IntDomainObj.class);
-        MethodRouter<IntDomainObj> analyzedDomainAcceptor =
+        GenericConsumer<IntDomain> genericConsumer = new GenericConsumer<>(IntDomain.class);
+        MethodRouter<IntDomain> methodRouter =
                 MethodRouterFactory.getMethodRouter(genericConsumer);
 
-        IntDomainObj domainObj = new IntDomainObj(0);
-        analyzedDomainAcceptor.acceptDomain(domainObj);
+        IntDomain domainObj = new IntDomain(0);
+        methodRouter.acceptDomain(domainObj);
 
         assertThat(genericConsumer.getReceivedDomainObjects(), contains(domainObj));
     }

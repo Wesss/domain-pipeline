@@ -4,11 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.DomainPipeline;
+import org.wesss.domain_pipeline.util.interdomain.IntDomain;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.domain_pipeline.workers.Translator;
 import org.wesss.general_utils.exceptions.IllegalUseException;
-import test_instantiation.basic.IntDomainObj;
 import test_instantiation.basic.IntProducer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,9 +21,9 @@ import static org.wesss.test_utils.MockUtils.genericMock;
 
 public class FluentPipelineTest {
 
-    private Producer<IntDomainObj> mockIntProducer;
-    private Translator<IntDomainObj, IntDomainObj> mockIntTranslator;
-    private Consumer<IntDomainObj> mockIntConsumer;
+    private Producer<IntDomain> mockIntProducer;
+    private Translator<IntDomain, IntDomain> mockIntTranslator;
+    private Consumer<IntDomain> mockIntConsumer;
     private Consumer<DomainObj> mockObjConsumer;
 
     public FluentPipelineTest() {
@@ -36,8 +36,8 @@ public class FluentPipelineTest {
     @Before
     public void before() {
         reset(mockIntProducer, mockIntTranslator, mockIntConsumer);
-        when(mockIntTranslator.getAcceptedClass()).thenReturn(IntDomainObj.class);
-        when(mockIntConsumer.getAcceptedClass()).thenReturn(IntDomainObj.class);
+        when(mockIntTranslator.getAcceptedClass()).thenReturn(IntDomain.class);
+        when(mockIntConsumer.getAcceptedClass()).thenReturn(IntDomain.class);
         when(mockObjConsumer.getAcceptedClass()).thenReturn(DomainObj.class);
     }
 
@@ -100,7 +100,7 @@ public class FluentPipelineTest {
 
     @Test
     public void callingThenConsumedByTwiceThrowsError() {
-        FluentPipelineAddWorkerStage<IntDomainObj> preConsumerStage = DomainPipeline.createPipeline()
+        FluentPipelineAddWorkerStage<IntDomain> preConsumerStage = DomainPipeline.createPipeline()
                 .startingWith(mockIntProducer);
         preConsumerStage.thenConsumedBy(mockIntConsumer);
         try {

@@ -1,8 +1,9 @@
 package org.wesss.domain_pipeline.node_wrappers;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.compilers.PipelineCompiler;
+import org.wesss.domain_pipeline.compiler.PipelineWalker;
 import org.wesss.domain_pipeline.routing.Emitter;
+import org.wesss.domain_pipeline.routing.MethodRouter;
 import org.wesss.domain_pipeline.workers.DomainPasser;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.general_utils.collection.ArrayUtils;
@@ -17,25 +18,42 @@ public class ProducerNode<T extends DomainObj> implements DomainPasserNode<T> {
 
     public ProducerNode(Producer<T> producer) {
         this.producer = producer;
+        this.emitter = Emitter.getStubEmitter();
     }
 
     public void start() {
         producer.start();
     }
 
-    @Override
-    public DomainPasser<T> getDomainPasser() {
+    public Producer<T> getProducer() {
         return producer;
     }
 
-    @Override
-    public void initEmitter(Emitter<T> emitter) {
-        this.emitter = emitter;
+    public void setProducer(Producer<T> producer) {
+        this.producer = producer;
     }
 
     @Override
     public Emitter<T> getEmitter() {
         return emitter;
+    }
+
+    @Override
+    public void setEmitter(Emitter<T> emitter) {
+        this.emitter.changeTo(emitter);
+    }
+
+    public DomainAcceptorNode<? super T> getChild() {
+        return child;
+    }
+
+    public void setChild(DomainAcceptorNode<? super T> child) {
+        this.child = child;
+    }
+
+    @Override
+    public DomainPasser<T> getDomainPasser() {
+        return producer;
     }
 
     @Override
@@ -49,7 +67,7 @@ public class ProducerNode<T extends DomainObj> implements DomainPasserNode<T> {
     }
 
     @Override
-    public void build(PipelineCompiler compiler) {
+    public void buildUsing(PipelineWalker compiler) {
         compiler.visit(this);
     }
 }

@@ -3,7 +3,7 @@ package acceptance;
 import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
-import test_instantiation.basic.IntDomainObj;
+import org.wesss.domain_pipeline.util.interdomain.IntDomain;
 import test_instantiation.basic.IntProducer;
 import test_instantiation.basic.ObjConsumer;
 
@@ -36,7 +36,7 @@ public class WeakerTypeConsumptionTest {
         }
 
         assertThat(objConsumer.getReceivedDomainObjects().stream()
-                        .map(domainObj -> ((IntDomainObj) domainObj).getId())
+                        .map(domainObj -> ((IntDomain) domainObj).getInt())
                         .collect(Collectors.toList()),
                 hasItems(0, 1, 2));
     }

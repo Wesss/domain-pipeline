@@ -2,7 +2,7 @@ package org.wesss.domain_pipeline.routing;
 
 import org.wesss.domain_pipeline.DomainObj;
 
-import java.util.Objects;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -12,36 +12,20 @@ import java.util.Set;
  */
 public class Emitter<T extends DomainObj> {
 
-    private final Set<MethodRouter<? super T>> domainAcceptors;
+    private Set<MethodRouter<? super T>> domainAcceptors;
 
     public Emitter(Set<MethodRouter<? super T>> domainAcceptors) {
         this.domainAcceptors = domainAcceptors;
     }
 
+    public void changeTo(Emitter<T> recursiveEmitter) {
+        this.domainAcceptors = recursiveEmitter.domainAcceptors;
+    }
+
     public void emit(T domainObj) {
-        for (MethodRouter<? super T> analyzedDomainAcceptor : domainAcceptors) {
-            analyzedDomainAcceptor.acceptDomain(domainObj);
+        for (MethodRouter<? super T> methodRouter : domainAcceptors) {
+            methodRouter.acceptDomain(domainObj);
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Emitter<?> emitter = (Emitter<?>) o;
-        return Objects.equals(domainAcceptors, emitter.domainAcceptors);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(domainAcceptors);
-    }
-
-    @Override
-    public String toString() {
-        return "Emitter{" +
-                "domainAcceptors=" + domainAcceptors +
-                '}';
     }
 
     /********** Static Utils **********/
@@ -50,6 +34,6 @@ public class Emitter<T extends DomainObj> {
      * returns an emitter that does nothing upon receiving DomainObjs to emit
      */
     public static <T extends DomainObj> Emitter<T> getStubEmitter() {
-        return EmitterFactory.getStubEmitter();
+        return new Emitter<>(new HashSet<>());
     }
 }

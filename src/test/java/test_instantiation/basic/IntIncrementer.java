@@ -1,15 +1,16 @@
 package test_instantiation.basic;
 
+import org.wesss.domain_pipeline.util.interdomain.IntDomain;
 import org.wesss.domain_pipeline.workers.Translator;
 
-public class IntIncrementer extends Translator<IntDomainObj, IntDomainObj> {
+public class IntIncrementer extends Translator<IntDomain, IntDomain> {
 
     public IntIncrementer() {
-        super(IntDomainObj.class);
+        super(IntDomain.class);
     }
 
     @Override
-    public void acceptDomain(IntDomainObj domainObj) {
-        emitter.emit(new IntDomainObj(domainObj.getId() + 1));
+    public void acceptDomain(IntDomain domainObj) {
+        emitter.emit(new IntDomain(domainObj.getInt() + 1));
     }
 }

@@ -1,8 +1,9 @@
 package test_instantiation.basic;
 
+import org.wesss.domain_pipeline.util.interdomain.IntDomain;
 import org.wesss.domain_pipeline.workers.Producer;
 
-public class IntProducer extends Producer<IntDomainObj> {
+public class IntProducer extends Producer<IntDomain> {
 
     private int runCalls;
 
@@ -20,6 +21,6 @@ public class IntProducer extends Producer<IntDomainObj> {
     }
 
     public void emitDomainObject(int id) {
-        emitter.emit(new IntDomainObj(id));
+        emitter.emit(new IntDomain(id));
     }
 }

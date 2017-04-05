@@ -3,11 +3,11 @@ package acceptance;
 import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.DomainPipeline;
+import org.wesss.domain_pipeline.util.interdomain.IntDomain;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.domain_pipeline.workers.Translator;
 import test_instantiation.basic.IntConsumer;
-import test_instantiation.basic.IntDomainObj;
 import test_instantiation.basic.IntIncrementer;
 import test_instantiation.basic.IntProducer;
 
@@ -31,7 +31,7 @@ public class CompositionalPipelineTest {
 
     @Test
     public void producerIsComposable() {
-        Producer<IntDomainObj> composedProducer = DomainPipeline.createComposedProducer()
+        Producer<IntDomain> composedProducer = DomainPipeline.createComposedProducer()
                 .startingWith(intProducer)
                 .thenTranslatedBy(intIncrementer)
                 .build();
@@ -52,7 +52,7 @@ public class CompositionalPipelineTest {
 
     @Test
     public void translatorIsComposable() {
-        Translator<IntDomainObj, IntDomainObj> composedTranslator = DomainPipeline.createComposedTranslator()
+        Translator<IntDomain, IntDomain> composedTranslator = DomainPipeline.createComposedTranslator()
                 .firstTranslatedBy(intIncrementer)
                 .thenTranslatedBy(intIncrementer2)
                 .build();
@@ -74,7 +74,7 @@ public class CompositionalPipelineTest {
 
     @Test
     public void consumerIsComposable() {
-        Consumer<IntDomainObj> composedConsumer = DomainPipeline.createComposedConsumer()
+        Consumer<IntDomain> composedConsumer = DomainPipeline.createComposedConsumer()
                 .firstTranslatedBy(intIncrementer)
                 .thenConsumedBy(intConsumer)
                 .build();

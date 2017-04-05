@@ -1,7 +1,7 @@
 package org.wesss.domain_pipeline.fluent_interface.composable;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.compilers.composable.FluentConsumerCompiler;
+import org.wesss.domain_pipeline.compiler.composable.FluentConsumerCompiler;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
 

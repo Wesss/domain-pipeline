@@ -1,10 +1,9 @@
 package org.wesss.domain_pipeline.node_wrappers;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.compilers.PipelineCompiler;
+import org.wesss.domain_pipeline.compiler.PipelineWalker;
 import org.wesss.domain_pipeline.routing.Emitter;
 import org.wesss.domain_pipeline.routing.MethodRouter;
-import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
 import org.wesss.domain_pipeline.workers.DomainPasser;
 import org.wesss.domain_pipeline.workers.Translator;
@@ -22,17 +21,10 @@ public class TranslatorNode<T extends DomainObj, V extends DomainObj>
     private DomainAcceptorNode<? super V> child;
 
     public TranslatorNode(Translator<T, V> translator) {
+        this.methodRouter = MethodRouter.getStubMethodRouter();
+        this.recursiveEmitter = Emitter.getStubEmitter();
         this.translator = translator;
-    }
-
-    @Override
-    public DomainAcceptor<T> getDomainAcceptor() {
-        return translator;
-    }
-
-    @Override
-    public void initMethodRouter(MethodRouter<T> methodRouter) {
-        this.methodRouter = methodRouter;
+        this.emitter = Emitter.getStubEmitter();
     }
 
     @Override
@@ -41,8 +33,8 @@ public class TranslatorNode<T extends DomainObj, V extends DomainObj>
     }
 
     @Override
-    public void initRecursiveEmitter(Emitter<T> emitter) {
-        this.recursiveEmitter = emitter;
+    public void setMethodRouter(MethodRouter<T> methodRouter) {
+        this.methodRouter.changeTo(methodRouter);
     }
 
     @Override
@@ -51,18 +43,45 @@ public class TranslatorNode<T extends DomainObj, V extends DomainObj>
     }
 
     @Override
-    public DomainPasser<V> getDomainPasser() {
+    public void setRecursiveEmitter(Emitter<T> recursiveEmitter) {
+        this.recursiveEmitter.changeTo(recursiveEmitter);
+    }
+
+    public Translator<T, V> getTranslator() {
         return translator;
     }
 
-    @Override
-    public void initEmitter(Emitter<V> emitter) {
-        this.emitter = emitter;
+    public void setTranslator(Translator<T, V> translator) {
+        this.translator = translator;
     }
 
     @Override
     public Emitter<V> getEmitter() {
         return emitter;
+    }
+
+    @Override
+    public void setEmitter(Emitter<V> emitter) {
+        this.emitter.changeTo(emitter);
+    }
+
+    public DomainAcceptorNode<? super V> getChild() {
+        return child;
+    }
+
+    public void setChild(DomainAcceptorNode<? super V> child) {
+        this.child = child;
+    }
+
+    @Override
+    public DomainAcceptor<T> getDomainAcceptor() {
+        return translator;
+    }
+
+
+    @Override
+    public DomainPasser<V> getDomainPasser() {
+        return translator;
     }
 
     @Override
@@ -76,7 +95,7 @@ public class TranslatorNode<T extends DomainObj, V extends DomainObj>
     }
 
     @Override
-    public void build(PipelineCompiler compiler) {
+    public void buildUsing(PipelineWalker compiler) {
         compiler.visit(this);
     }
 }

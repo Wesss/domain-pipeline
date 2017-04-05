@@ -1,16 +1,17 @@
-package test_instantiation.basic;
+package test_instantiation.swappable_workers;
 
 import org.wesss.domain_pipeline.util.interdomain.IntDomain;
 import org.wesss.domain_pipeline.workers.Consumer;
+import org.wesss.domain_pipeline.workers.swappable.SwappableConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IntConsumer extends Consumer<IntDomain> {
+public class SwappableIntConsumer extends SwappableConsumer<IntDomain> {
 
     private List<Integer> receivedDomainObjects;
 
-    public IntConsumer() {
+    public SwappableIntConsumer() {
         super(IntDomain.class);
         receivedDomainObjects = new ArrayList<>();
     }
@@ -21,6 +22,10 @@ public class IntConsumer extends Consumer<IntDomain> {
     }
 
     public List<Integer> getReceivedDomainObjects() {
-        return new ArrayList<>(receivedDomainObjects);
+        return receivedDomainObjects;
+    }
+
+    public void swapTo(Consumer<IntDomain> consumer) {
+        swapper.swapTo(consumer);
     }
 }

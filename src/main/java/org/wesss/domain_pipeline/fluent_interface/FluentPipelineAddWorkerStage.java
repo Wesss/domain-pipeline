@@ -1,7 +1,7 @@
 package org.wesss.domain_pipeline.fluent_interface;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.compilers.FluentPipelineCompiler;
+import org.wesss.domain_pipeline.compiler.FluentPipelineCompiler;
 import org.wesss.domain_pipeline.node_wrappers.ConsumerNode;
 import org.wesss.domain_pipeline.node_wrappers.DomainPasserNode;
 import org.wesss.domain_pipeline.node_wrappers.TranslatorNode;

@@ -1,7 +1,7 @@
-package org.wesss.domain_pipeline.compilers.composable;
+package org.wesss.domain_pipeline.compiler.composable;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.compilers.FluentPipelineCompiler;
+import org.wesss.domain_pipeline.compiler.FluentPipelineCompiler;
 import org.wesss.domain_pipeline.node_wrappers.DomainAcceptorNode;
 import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 import org.wesss.domain_pipeline.workers.Consumer;
