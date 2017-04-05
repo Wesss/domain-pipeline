@@ -2,7 +2,6 @@ package org.wesss.domain_pipeline.routing.domain;
 
 import org.wesss.domain_pipeline.Accepts;
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.routing.MethodRouter;
 import org.wesss.domain_pipeline.workers.DomainAcceptor;
 import org.wesss.general_utils.exceptions.IllegalUseException;
 

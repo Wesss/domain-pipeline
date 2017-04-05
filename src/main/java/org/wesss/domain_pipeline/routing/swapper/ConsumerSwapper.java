@@ -5,7 +5,6 @@ import org.wesss.domain_pipeline.compiler.DomainAcceptorInitializingWalker;
 import org.wesss.domain_pipeline.compiler.SwapperInitializingWalker;
 import org.wesss.domain_pipeline.node_wrappers.ConsumerNode;
 import org.wesss.domain_pipeline.workers.Consumer;
-import org.wesss.domain_pipeline.workers.Producer;
 
 public class ConsumerSwapper<T extends DomainObj> {
 

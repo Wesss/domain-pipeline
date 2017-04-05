@@ -9,9 +9,6 @@ import org.wesss.general_utils.exceptions.IllegalUseException;
  */
 public abstract class PipelineWalker {
 
-    // TODO split into interface that only requires compile method, split into AST visitor/walker interface
-    // split each compilation step into different AST walkers
-
     public final void visit(DomainPipelineNode node) {
         throw new IllegalUseException("This compiler has not been properly set up to visit nodes of type"
                 + node.getClass().getSimpleName());

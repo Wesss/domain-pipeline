@@ -1,8 +1,8 @@
 package org.wesss.domain_pipeline.workers.composable;
 
 import org.wesss.domain_pipeline.DomainObj;
-import org.wesss.domain_pipeline.routing.Emitter;
 import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
+import org.wesss.domain_pipeline.routing.Emitter;
 import org.wesss.domain_pipeline.workers.Producer;
 
 public class ComposedProducer<T extends DomainObj> extends Producer<T> {

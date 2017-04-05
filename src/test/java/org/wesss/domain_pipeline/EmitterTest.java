@@ -3,10 +3,10 @@ package org.wesss.domain_pipeline;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
-import org.wesss.domain_pipeline.routing.domain.DomainAcceptorMethod;
 import org.wesss.domain_pipeline.routing.Emitter;
-import org.wesss.domain_pipeline.routing.domain.MethodRoutingTable;
 import org.wesss.domain_pipeline.routing.MethodRouter;
+import org.wesss.domain_pipeline.routing.domain.DomainAcceptorMethod;
+import org.wesss.domain_pipeline.routing.domain.MethodRoutingTable;
 import org.wesss.general_utils.collection.ArrayUtils;
 import test_instantiation.annotated_consumption.*;
 

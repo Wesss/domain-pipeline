@@ -3,7 +3,6 @@ package org.wesss.domain_pipeline.workers.swappable;
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.routing.swapper.ConsumerSwapper;
 import org.wesss.domain_pipeline.workers.Consumer;
-import org.wesss.domain_pipeline.workers.Producer;
 
 /**
  * A Consumer that can be swapped out with other producers arbitrarily

@@ -4,9 +4,7 @@ import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.compiler.DomainAcceptorInitializingWalker;
 import org.wesss.domain_pipeline.compiler.DomainPasserInitializingWalker;
 import org.wesss.domain_pipeline.compiler.SwapperInitializingWalker;
-import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 import org.wesss.domain_pipeline.node_wrappers.TranslatorNode;
-import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.domain_pipeline.workers.Translator;
 
 public class TranslatorSwapper<T extends DomainObj, V extends DomainObj> {
