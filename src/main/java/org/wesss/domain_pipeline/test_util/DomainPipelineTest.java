@@ -43,7 +43,7 @@ public class DomainPipelineTest {
                 .build()
                 .start();
 
-        return new TranslatorTester<T, V>(translatorAsProducer, accumulatingConsumer);
+        return new TranslatorTester<>(translatorAsProducer, accumulatingConsumer);
     }
 
     /**

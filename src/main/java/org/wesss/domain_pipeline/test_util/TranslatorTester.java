@@ -2,7 +2,9 @@ package org.wesss.domain_pipeline.test_util;
 
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.util.AccumulatingConsumer;
+import org.wesss.domain_pipeline.workers.Translator;
 import org.wesss.domain_pipeline.workers.composable.TranslatorAsProducer;
+import org.wesss.general_utils.exceptions.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,5 +37,10 @@ public class TranslatorTester<T extends DomainObj, V extends DomainObj> {
             typedEmissions.add((V) obj);
         }
         return typedEmissions;
+    }
+
+    public Translator<T, V> getTestedTranslator() {
+        // TODO
+        throw new NotImplementedException();
     }
 }
