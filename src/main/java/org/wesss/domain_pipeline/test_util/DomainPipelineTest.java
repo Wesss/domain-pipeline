@@ -2,11 +2,15 @@ package org.wesss.domain_pipeline.test_util;
 
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.DomainPipeline;
+import org.wesss.domain_pipeline.node_wrappers.ConsumerNode;
+import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
+import org.wesss.domain_pipeline.node_wrappers.TranslatorNode;
 import org.wesss.domain_pipeline.util.AccumulatingConsumer;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Producer;
 import org.wesss.domain_pipeline.workers.Translator;
 import org.wesss.domain_pipeline.workers.composable.TranslatorAsProducer;
+import org.wesss.general_utils.language.Reference;
 
 /**
  * Interface for generating test instances of domain pipeline workers
@@ -21,7 +25,7 @@ public class DomainPipelineTest {
     public static <T extends DomainObj> ProducerTester<T> testProducer(Producer<T> producer) {
         AccumulatingConsumer<DomainObj> accumulatingConsumer = new AccumulatingConsumer<>(DomainObj.class);
 
-        Reference<Producer<T>> producerReference = new Reference<>();
+        Reference<ProducerNode<T>> producerReference = new Reference<>();
         DomainPipeline.createPipeline()
                 .startingWith(producer).savingNodeIn(producerReference)
                 .thenConsumedBy(accumulatingConsumer)
@@ -39,7 +43,7 @@ public class DomainPipelineTest {
         TranslatorAsProducer<T> translatorAsProducer = new TranslatorAsProducer<>(translator.getAcceptedClass());
         AccumulatingConsumer<DomainObj> accumulatingConsumer = new AccumulatingConsumer<>(DomainObj.class);
 
-        Reference<Translator<T, V>> translatorReference = new Reference<>();
+        Reference<TranslatorNode<T, V>> translatorReference = new Reference<>();
         DomainPipeline.createPipeline()
                 .startingWith(translatorAsProducer)
                 .thenTranslatedBy(translator).savingNodeIn(translatorReference)
@@ -56,7 +60,7 @@ public class DomainPipelineTest {
     public static <T extends DomainObj> ConsumerTester<T> testConsumer(Consumer<T> consumer) {
         TranslatorAsProducer<T> translatorAsProducer = new TranslatorAsProducer<>(consumer.getAcceptedClass());
 
-        Reference<Consumer<T>> consumerReference = new Reference<>();
+        Reference<ConsumerNode<T>> consumerReference = new Reference<>();
         DomainPipeline.createPipeline()
                 .startingWith(translatorAsProducer)
                 .thenConsumedBy(consumer).savingNodeIn(consumerReference)
