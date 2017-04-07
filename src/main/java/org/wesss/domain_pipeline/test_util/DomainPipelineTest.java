@@ -20,13 +20,15 @@ public class DomainPipelineTest {
      */
     public static <T extends DomainObj> ProducerTester<T> testProducer(Producer<T> producer) {
         AccumulatingConsumer<DomainObj> accumulatingConsumer = new AccumulatingConsumer<>(DomainObj.class);
+
+        Reference<Producer<T>> producerReference = new Reference<>();
         DomainPipeline.createPipeline()
-                .startingWith(producer)
+                .startingWith(producer).savingNodeIn(producerReference)
                 .thenConsumedBy(accumulatingConsumer)
                 .build()
                 .start();
 
-        return new ProducerTester<>(accumulatingConsumer);
+        return new ProducerTester<>(producerReference.dereference(), accumulatingConsumer);
     }
 
     /**
@@ -36,14 +38,16 @@ public class DomainPipelineTest {
     TranslatorTester<T, V> testTranslator(Translator<T, V> translator) {
         TranslatorAsProducer<T> translatorAsProducer = new TranslatorAsProducer<>(translator.getAcceptedClass());
         AccumulatingConsumer<DomainObj> accumulatingConsumer = new AccumulatingConsumer<>(DomainObj.class);
+
+        Reference<Translator<T, V>> translatorReference = new Reference<>();
         DomainPipeline.createPipeline()
                 .startingWith(translatorAsProducer)
-                .thenTranslatedBy(translator)
+                .thenTranslatedBy(translator).savingNodeIn(translatorReference)
                 .thenConsumedBy(accumulatingConsumer)
                 .build()
                 .start();
 
-        return new TranslatorTester<>(translatorAsProducer, accumulatingConsumer);
+        return new TranslatorTester<>(translatorAsProducer, translatorReference.dereference(), accumulatingConsumer);
     }
 
     /**
@@ -51,12 +55,14 @@ public class DomainPipelineTest {
      */
     public static <T extends DomainObj> ConsumerTester<T> testConsumer(Consumer<T> consumer) {
         TranslatorAsProducer<T> translatorAsProducer = new TranslatorAsProducer<>(consumer.getAcceptedClass());
+
+        Reference<Consumer<T>> consumerReference = new Reference<>();
         DomainPipeline.createPipeline()
                 .startingWith(translatorAsProducer)
-                .thenConsumedBy(consumer)
+                .thenConsumedBy(consumer).savingNodeIn(consumerReference)
                 .build()
                 .start();
 
-        return new ConsumerTester<>(translatorAsProducer);
+        return new ConsumerTester<>(translatorAsProducer, consumerReference.dereference());
     }
 }

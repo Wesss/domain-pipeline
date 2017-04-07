@@ -1,16 +1,21 @@
 package org.wesss.domain_pipeline.test_util;
 
 import org.wesss.domain_pipeline.DomainObj;
+import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 import org.wesss.domain_pipeline.util.AccumulatingConsumer;
+import org.wesss.domain_pipeline.workers.Producer;
+import org.wesss.domain_pipeline.workers.Translator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProducerTester<T extends DomainObj> {
 
-    AccumulatingConsumer<DomainObj> accumulatingConsumer;
+    private ProducerNode<T> producerNode;
+    private AccumulatingConsumer<DomainObj> accumulatingConsumer;
 
-    ProducerTester(AccumulatingConsumer<DomainObj> accumulatingConsumer) {
+    ProducerTester(ProducerNode<T> producerNode, AccumulatingConsumer<DomainObj> accumulatingConsumer) {
+        this.producerNode = producerNode;
         this.accumulatingConsumer = accumulatingConsumer;
     }
 
@@ -25,5 +30,13 @@ public class ProducerTester<T extends DomainObj> {
             typedEmissions.add((T) obj);
         }
         return typedEmissions;
+    }
+
+    /**
+     * @return the producer currently under test. This may change if given worker swapped itself with a new
+     * worker.
+     */
+    public Producer<T> getTestedProducer() {
+        return producerNode.getProducer();
     }
 }

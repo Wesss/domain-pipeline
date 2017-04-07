@@ -1,6 +1,7 @@
 package org.wesss.domain_pipeline.test_util;
 
 import org.wesss.domain_pipeline.DomainObj;
+import org.wesss.domain_pipeline.node_wrappers.TranslatorNode;
 import org.wesss.domain_pipeline.util.AccumulatingConsumer;
 import org.wesss.domain_pipeline.workers.Translator;
 import org.wesss.domain_pipeline.workers.composable.TranslatorAsProducer;
@@ -11,11 +12,15 @@ import java.util.List;
 
 public class TranslatorTester<T extends DomainObj, V extends DomainObj> {
 
-    TranslatorAsProducer<T> translatorAsProducer;
-    AccumulatingConsumer<DomainObj> accumulatingConsumer;
+    private TranslatorAsProducer<T> producer;
+    private TranslatorNode<T, V> translatorNode;
+    private AccumulatingConsumer<DomainObj> accumulatingConsumer;
 
-    TranslatorTester(TranslatorAsProducer<T> translatorAsProducer, AccumulatingConsumer<DomainObj> accumulatingConsumer) {
-        this.translatorAsProducer = translatorAsProducer;
+    TranslatorTester(TranslatorAsProducer<T> producer,
+                     TranslatorNode<T, V> translatorNode,
+                     AccumulatingConsumer<DomainObj> accumulatingConsumer) {
+        this.producer = producer;
+        this.translatorNode = translatorNode;
         this.accumulatingConsumer = accumulatingConsumer;
     }
 
@@ -23,7 +28,7 @@ public class TranslatorTester<T extends DomainObj, V extends DomainObj> {
      * Passes given domain obj to the pipeline worker under test
      */
     public void passIn(T domainObj) {
-        translatorAsProducer.acceptDomain(domainObj);
+        producer.acceptDomain(domainObj);
     }
 
     /**
@@ -39,8 +44,11 @@ public class TranslatorTester<T extends DomainObj, V extends DomainObj> {
         return typedEmissions;
     }
 
+    /**
+     * @return the translator currently under test. This may change if given worker swapped itself with a new
+     * worker.
+     */
     public Translator<T, V> getTestedTranslator() {
-        // TODO
-        throw new NotImplementedException();
+        return translatorNode.getTranslator();
     }
 }
