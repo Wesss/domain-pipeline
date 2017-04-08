@@ -43,7 +43,7 @@ public class DomainPipelineTest {
         TranslatorAsProducer<T> translatorAsProducer = new TranslatorAsProducer<>(translator.getAcceptedClass());
         AccumulatingConsumer<DomainObj> accumulatingConsumer = new AccumulatingConsumer<>(DomainObj.class);
 
-        Reference<TranslatorNode<T, V>> translatorReference = new Reference<>();
+        Reference<TranslatorNode<? super T, V>> translatorReference = new Reference<>();
         DomainPipeline.createPipeline()
                 .startingWith(translatorAsProducer)
                 .thenTranslatedBy(translator).savingNodeIn(translatorReference)
@@ -51,7 +51,11 @@ public class DomainPipelineTest {
                 .build()
                 .start();
 
-        return new TranslatorTester<>(translatorAsProducer, translatorReference.dereference(), accumulatingConsumer);
+        return new TranslatorTester<>(
+                translatorAsProducer,
+                (TranslatorNode<T, V>) translatorReference.dereference(),
+                accumulatingConsumer
+        );
     }
 
     /**

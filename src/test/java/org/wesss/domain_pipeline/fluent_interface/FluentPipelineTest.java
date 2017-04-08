@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.DomainPipeline;
+import org.wesss.domain_pipeline.node_wrappers.ProducerNode;
 import org.wesss.domain_pipeline.util.interdomain.IntDomain;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Producer;
@@ -100,7 +101,8 @@ public class FluentPipelineTest {
 
     @Test
     public void callingThenConsumedByTwiceThrowsError() {
-        FluentPipelineAddWorkerStage<IntDomain> preConsumerStage = DomainPipeline.createPipeline()
+        FluentPipelineAddWorkerStage<ProducerNode<IntDomain>, IntDomain> preConsumerStage =
+                DomainPipeline.createPipeline()
                 .startingWith(mockIntProducer);
         preConsumerStage.thenConsumedBy(mockIntConsumer);
         try {

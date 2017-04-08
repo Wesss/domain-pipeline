@@ -16,7 +16,7 @@ public class FluentPipelineInitProducerStage {
         useToken = new OneTimeUseToken();
     }
 
-    public <T extends DomainObj> FluentPipelineAddWorkerStage<T>
+    public <T extends DomainObj> FluentPipelineAddWorkerStage<ProducerNode<T>, T>
     startingWith(Producer<T> producer) {
         Objects.requireNonNull(producer);
         useToken.use();

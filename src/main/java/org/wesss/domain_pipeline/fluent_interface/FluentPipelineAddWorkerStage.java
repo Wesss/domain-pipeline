@@ -2,12 +2,11 @@ package org.wesss.domain_pipeline.fluent_interface;
 
 import org.wesss.domain_pipeline.DomainObj;
 import org.wesss.domain_pipeline.compiler.FluentPipelineCompiler;
-import org.wesss.domain_pipeline.node_wrappers.ConsumerNode;
-import org.wesss.domain_pipeline.node_wrappers.DomainPasserNode;
-import org.wesss.domain_pipeline.node_wrappers.TranslatorNode;
+import org.wesss.domain_pipeline.node_wrappers.*;
 import org.wesss.domain_pipeline.workers.Consumer;
 import org.wesss.domain_pipeline.workers.Translator;
 import org.wesss.general_utils.fluentstyle.OneTimeUseToken;
+import org.wesss.general_utils.language.Reference;
 
 import java.util.Objects;
 
@@ -16,20 +15,24 @@ import java.util.Objects;
  *
  * @param <T> the domain type currently being emitted at the end of the building pipeline
  */
-public class FluentPipelineAddWorkerStage<T extends DomainObj> {
+public class FluentPipelineAddWorkerStage<P extends DomainPasserNode<T>, T extends DomainObj> {
 
     private FluentPipelineCompiler compiler;
-    private DomainPasserNode<T> passerNode;
+    private P passerNode;
     private OneTimeUseToken useToken;
 
     FluentPipelineAddWorkerStage(FluentPipelineCompiler compiler,
-                                 DomainPasserNode<T> passerNode) {
+                                 P passerNode) {
         this.compiler = compiler;
         this.passerNode = passerNode;
         useToken = new OneTimeUseToken();
     }
 
-    public <V extends DomainObj> FluentPipelineAddWorkerStage<V> thenTranslatedBy(Translator<? super T, V> translator) {
+    /**
+     * @param <V> the domain type being emitted by given translator
+     */
+    public <V extends DomainObj> FluentPipelineAddWorkerStage<TranslatorNode<? super T, V>, V>
+    thenTranslatedBy(Translator<? super T, V> translator) {
         Objects.requireNonNull(translator);
         useToken.use();
 
@@ -46,6 +49,14 @@ public class FluentPipelineAddWorkerStage<T extends DomainObj> {
         ConsumerNode<? super T> consumerNode = new ConsumerNode<>(consumer);
         passerNode.addChildAcceptor(consumerNode);
 
-        return new FluentPipelineFinalizeStage(compiler);
+        return new FluentPipelineFinalizeStage(consumerNode, compiler);
+    }
+
+    /**
+     * Saves the last added pipelineworker in the given reference. This should only be called internally.
+     */
+    public FluentPipelineAddWorkerStage<P, T> savingNodeIn(Reference<P> producerReference) {
+        producerReference.setReference(passerNode);
+        return this;
     }
 }
